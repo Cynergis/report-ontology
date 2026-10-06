@@ -1,0 +1,4454 @@
+{
+  "_about": "The fund-profile-balanced fixture of the report-ontology repository, an invented report type, compiled from its semantic/ files and converted by tools/oto_port.py. Replace it.",
+  "nodes": [
+    {
+      "id": "component.bar_chart",
+      "type": "Component",
+      "label": "bar_chart",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.bullets",
+      "type": "Component",
+      "label": "bullets",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.footer",
+      "type": "Component",
+      "label": "footer",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.grouped_allocation",
+      "type": "Component",
+      "label": "grouped_allocation",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.header",
+      "type": "Component",
+      "label": "header",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.holdings",
+      "type": "Component",
+      "label": "holdings",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.key_value_grid",
+      "type": "Component",
+      "label": "key_value_grid",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.key_value_list",
+      "type": "Component",
+      "label": "key_value_list",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.line_chart",
+      "type": "Component",
+      "label": "line_chart",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.managers",
+      "type": "Component",
+      "label": "managers",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.returns_table",
+      "type": "Component",
+      "label": "returns_table",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.risk_scale",
+      "type": "Component",
+      "label": "risk_scale",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "component.two_column_allocation",
+      "type": "Component",
+      "label": "two_column_allocation",
+      "aliases": [],
+      "summary": "",
+      "attributes": {},
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "datasource.warehouse",
+      "type": "DataSource",
+      "label": "warehouse",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "sourceKind": "bigquery",
+        "database": "<gcp-project>"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced",
+      "type": "ReportType",
+      "label": "Fund Profile (Balanced)",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "reportId": "fund-profile-balanced",
+        "version": "1.0.0",
+        "kind": "fund-fact-sheet",
+        "purpose": "Monthly one-page summary of a mutual fund for investors and advisors: performance, allocation, holdings, costs, codes and risk. Published on the fund company's website, one per fund, series and language, and retrievable by fund and month.",
+        "owner": "example-analyst",
+        "cadence": "monthly",
+        "audience": [
+          "advisors",
+          "compliance",
+          "investors"
+        ],
+        "locale": [
+          "en",
+          "fr"
+        ],
+        "layout": "balanced",
+        "lifecycleStatus": "in_validation",
+        "ontologyVersion": "2.1.0"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.benchmark",
+      "type": "Field",
+      "label": "benchmark",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "benchmark",
+        "fieldType": "text",
+        "order": 7,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.benchmark.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Composition of the blended benchmark index, with weights (footnote **).",
+      "attributes": {
+        "locale": "en",
+        "definition": "Composition of the blended benchmark index, with weights (footnote **)."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.calendar_as_of",
+      "type": "Field",
+      "label": "calendar_as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "calendar_as_of",
+        "fieldType": "date",
+        "order": 2,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.calendar_as_of.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Month-end the calendar-year returns are computed at.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Month-end the calendar-year returns are computed at."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.calendar_returns",
+      "type": "Field",
+      "label": "calendar_returns",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "calendar_returns",
+        "fieldType": "series",
+        "order": 1,
+        "rowStructure": "{\"year\": {\"type\": \"text\", \"meaning\": \"Two-digit year label (e.g. 16) or YTD\"}, \"value\": {\"type\": \"percent\"}}",
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.calendar_returns.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Total return of the series for each calendar year of the last ten, plus year-to-date, in percent.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Total return of the series for each calendar year of the last ten, plus year-to-date, in percent."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.category",
+      "type": "Field",
+      "label": "category",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "category",
+        "fieldType": "enum",
+        "order": 3,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.category.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Fund category shown in the band under the title (Balanced, Canadian Equity, Fixed Income).",
+      "attributes": {
+        "locale": "en",
+        "definition": "Fund category shown in the band under the title (Balanced, Canadian Equity, Fixed Income)."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.credit_allocation",
+      "type": "Field",
+      "label": "credit_allocation",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "credit_allocation",
+        "fieldType": "list",
+        "order": 1,
+        "rowStructure": "{\"label\": {\"type\": \"text\"}, \"value\": {\"type\": \"percent\"}}",
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.credit_allocation.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Share of net assets by credit rating category (AAA … CCC & Below, NR), plus Cash & Equivalents and Equities so the list sums to 100%.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Share of net assets by credit rating category (AAA … CCC & Below, NR), plus Cash & Equivalents and Equities so the list sums to 100%."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.credit_allocation.rule.1",
+      "type": "Rule",
+      "label": "1",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "ruleText": "Ratings follow a designated rating organization (footnote ‡‡).",
+        "regulatory": true
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.credit_as_of",
+      "type": "Field",
+      "label": "credit_as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "credit_as_of",
+        "fieldType": "date",
+        "order": 2,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.credit_as_of.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Portfolio date of the credit allocation.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Portfolio date of the credit allocation."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.disclaimers",
+      "type": "Field",
+      "label": "disclaimers",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "disclaimers",
+        "fieldType": "list_of_text",
+        "order": 1,
+        "lineageStatus": "unmapped",
+        "lineageNote": "static per report type; owner compliance; as_of substituted"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.disclaimers.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Regulatory and footnote text; static per report type, parameterized by as_of.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Regulatory and footnote text; static per report type, parameterized by as_of."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.distributions",
+      "type": "Field",
+      "label": "distributions",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "distributions",
+        "fieldType": "list",
+        "order": 8,
+        "rowStructure": "{\"series\": {\"type\": \"text\"}, \"frequency\": {\"type\": \"enum\", \"meaning\": \"Annually, Monthly, Quarterly\"}, \"amount\": {\"type\": \"number\", \"meaning\": \"Per security\"}, \"date\": {\"type\": \"date\"}}",
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.distributions.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Last distribution paid, per series.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Last distribution paid, per series."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.fund_codes",
+      "type": "Field",
+      "label": "fund_codes",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "fund_codes",
+        "fieldType": "list",
+        "order": 9,
+        "rowStructure": "{\"series\": {\"type\": \"text\"}, \"prefix\": {\"type\": \"text\"}, \"fe\": {\"type\": \"text\", \"meaning\": \"Front-end code\"}, \"be\": {\"type\": \"text\", \"meaning\": \"Back-end code, dash when not offered\"}}",
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.fund_codes.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Purchase codes per series and purchase option.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Purchase codes per series and purchase option."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.fund_name",
+      "type": "Field",
+      "label": "fund_name",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "fund_name",
+        "fieldType": "text",
+        "order": 1,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.fund_name.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Legal marketing name of the fund, shown as the title.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Legal marketing name of the fund, shown as the title."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.growth_as_of",
+      "type": "Field",
+      "label": "growth_as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "growth_as_of",
+        "fieldType": "date",
+        "order": 3,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.growth_as_of.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Month-end of the last point in the growth series.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Month-end of the last point in the growth series."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.growth_end_value",
+      "type": "Field",
+      "label": "growth_end_value",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "growth_end_value",
+        "fieldType": "currency",
+        "order": 2,
+        "lineageStatus": "proposed",
+        "lineageNote": "computed upstream: last value of the growth series"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.growth_end_value.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Final value of the growth series, called out on the chart.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Final value of the growth series, called out on the chart."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.growth_series",
+      "type": "Field",
+      "label": "growth_series",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "growth_series",
+        "fieldType": "series",
+        "order": 1,
+        "rowStructure": "{\"date\": {\"type\": \"date\"}, \"value\": {\"type\": \"currency\"}}",
+        "lineageStatus": "unmapped",
+        "lineageNote": "computed upstream from monthly NAV and distributions"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.growth_series.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Month-end value of a hypothetical $10,000 invested ten years before as_of, distributions reinvested.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Month-end value of a hypothetical $10,000 invested ten years before as_of, distributions reinvested."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.holdings",
+      "type": "Field",
+      "label": "holdings",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "holdings",
+        "fieldType": "grouped_list",
+        "order": 1,
+        "rowStructure": "{\"group\": {\"type\": \"text\", \"meaning\": \"Equity or Fixed Income\"}, \"name\": {\"type\": \"text\", \"meaning\": \"Security name, for bonds including coupon and maturity\"}, \"value\": {\"type\": \"percent\"}}",
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.holdings.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Major holdings by asset class with their weight in net assets. Selected for significance, not necessarily the largest (footnote ‡).",
+      "attributes": {
+        "locale": "en",
+        "definition": "Major holdings by asset class with their weight in net assets. Selected for significance, not necessarily the largest (footnote ‡)."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.holdings_as_of",
+      "type": "Field",
+      "label": "holdings_as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "holdings_as_of",
+        "fieldType": "date",
+        "order": 4,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.holdings_as_of.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Portfolio date of the holdings list.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Portfolio date of the holdings list."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.holdings_counts",
+      "type": "Field",
+      "label": "holdings_counts",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "holdings_counts",
+        "fieldType": "list",
+        "order": 3,
+        "rowStructure": "{\"label\": {\"type\": \"text\"}, \"count\": {\"type\": \"integer\"}}",
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.holdings_counts.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Total number of holdings by asset class.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Total number of holdings by asset class."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.holdings_top_pct",
+      "type": "Field",
+      "label": "holdings_top_pct",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "holdings_top_pct",
+        "fieldType": "percent",
+        "order": 2,
+        "lineageStatus": "proposed",
+        "lineageNote": "computed upstream: sum of the listed weights"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.holdings_top_pct.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Combined weight of the listed major holdings.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Combined weight of the listed major holdings."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.management_fee",
+      "type": "Field",
+      "label": "management_fee",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "management_fee",
+        "fieldType": "percent_by_series",
+        "order": 6,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.management_fee.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Annual management fee rate per series shown.",
+      "attributes": {
+        "locale": "en",
+        "label": "Management Fee",
+        "definition": "Annual management fee rate per series shown."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.management_fee.meaning.fr",
+      "type": "FieldMeaning",
+      "label": "fr",
+      "aliases": [],
+      "summary": "Annual management fee rate per series shown.",
+      "attributes": {
+        "locale": "fr",
+        "label": "Frais de gestion",
+        "definition": "Annual management fee rate per series shown."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.managers",
+      "type": "Field",
+      "label": "managers",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "managers",
+        "fieldType": "list",
+        "order": 1,
+        "rowStructure": "{\"team\": {\"type\": \"text\"}, \"people\": {\"type\": \"list_of_text\"}}",
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.managers.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Portfolio management teams and the named managers in each.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Portfolio management teams and the named managers in each."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.mer",
+      "type": "Field",
+      "label": "mer",
+      "aliases": [
+        "management expense ratio",
+        "ratio des frais de gestion"
+      ],
+      "summary": "",
+      "attributes": {
+        "fieldId": "mer",
+        "fieldType": "percent_by_series",
+        "order": 4,
+        "alias": [
+          "management expense ratio",
+          "ratio des frais de gestion"
+        ],
+        "lineageStatus": "proposed"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.mer.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Management expense ratio, per series shown, as of the last audited or interim statement.",
+      "attributes": {
+        "locale": "en",
+        "label": "MER",
+        "definition": "Management expense ratio, per series shown, as of the last audited or interim statement."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.mer.meaning.fr",
+      "type": "FieldMeaning",
+      "label": "fr",
+      "aliases": [],
+      "summary": "Ratio des frais de gestion, par série affichée, selon le dernier état financier audité ou intermédiaire.",
+      "attributes": {
+        "locale": "fr",
+        "label": "RFG",
+        "definition": "Ratio des frais de gestion, par série affichée, selon le dernier état financier audité ou intermédiaire."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.mer_as_of",
+      "type": "Field",
+      "label": "mer_as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "mer_as_of",
+        "fieldType": "date",
+        "order": 5,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.mer_as_of.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Statement date the MER is taken from (month and year).",
+      "attributes": {
+        "locale": "en",
+        "definition": "Statement date the MER is taken from (month and year)."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.navps",
+      "type": "Field",
+      "label": "navps",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "navps",
+        "fieldType": "currency_pair",
+        "order": 2,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.navps.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Net asset value per security of the series in CAD and, where offered, USD.",
+      "attributes": {
+        "locale": "en",
+        "label": "NAVPS",
+        "definition": "Net asset value per security of the series in CAD and, where offered, USD."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.navps.meaning.fr",
+      "type": "FieldMeaning",
+      "label": "fr",
+      "aliases": [],
+      "summary": "Net asset value per security of the series in CAD and, where offered, USD.",
+      "attributes": {
+        "locale": "fr",
+        "label": "VLPP",
+        "definition": "Net asset value per security of the series in CAD and, where offered, USD."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.navps_as_of",
+      "type": "Field",
+      "label": "navps_as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "navps_as_of",
+        "fieldType": "date",
+        "order": 3,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.navps_as_of.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Valuation date of the NAVPS shown.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Valuation date of the NAVPS shown."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.regional_allocation",
+      "type": "Field",
+      "label": "regional_allocation",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "regional_allocation",
+        "fieldType": "grouped_list",
+        "order": 1,
+        "rowStructure": "{\"group\": {\"type\": \"text\"}, \"label\": {\"type\": \"text\", \"meaning\": \"Country or 'Other'\"}, \"value\": {\"type\": \"percent\"}}",
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.regional_allocation.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Share of net assets by asset class (Cash & Equivalents, Equities, Fixed Income) and within each by country.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Share of net assets by asset class (Cash & Equivalents, Equities, Fixed Income) and within each by country."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.regional_allocation.rule.1",
+      "type": "Rule",
+      "label": "1",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "ruleText": "All values sum to 100% ± 0.5.",
+        "regulatory": false
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.regional_as_of",
+      "type": "Field",
+      "label": "regional_as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "regional_as_of",
+        "fieldType": "date",
+        "order": 2,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.regional_as_of.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Portfolio date of the allocation.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Portfolio date of the allocation."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.returns",
+      "type": "Field",
+      "label": "returns",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "returns",
+        "fieldType": "list",
+        "order": 1,
+        "rowStructure": "{\"period\": {\"type\": \"text\", \"meaning\": \"Period label: 1 Month, 3 Months, Year-to-date, 1 Year, 2 Years, 3 Years, 5 Years, 10 Years, Since inception (with inception month)\"}, \"value\": {\"type\": \"percent\", \"meaning\": \"Annualized return for the period\"}}",
+        "lineageStatus": "proposed",
+        "lineageNote": "ILLUSTRATIVE placeholder, to be confirmed by the analyst"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.returns.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Annualized total return of the series for each standard period, in percent, net of fees, distributions reinvested.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Annualized total return of the series for each standard period, in percent, net of fees, distributions reinvested."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.returns.rule.1",
+      "type": "Rule",
+      "label": "1",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "ruleText": "Periods shorter than one year are not annualized.",
+        "regulatory": false
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.returns.rule.2",
+      "type": "Rule",
+      "label": "2",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "ruleText": "Since-inception label carries the inception month and year.",
+        "regulatory": false
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.returns_as_of",
+      "type": "Field",
+      "label": "returns_as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "returns_as_of",
+        "fieldType": "date",
+        "order": 2,
+        "lineageStatus": "unmapped",
+        "lineageNote": "parameter as_of"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.returns_as_of.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Month-end the returns are computed at.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Month-end the returns are computed at."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.risk_as_of",
+      "type": "Field",
+      "label": "risk_as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "risk_as_of",
+        "fieldType": "date",
+        "order": 2,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.risk_as_of.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Month-end the three-year risk statistics are computed at.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Month-end the three-year risk statistics are computed at."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.risk_level",
+      "type": "Field",
+      "label": "risk_level",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "risk_level",
+        "fieldType": "enum",
+        "order": 1,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.risk_level.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Position on the five-level scale Low, Low-to-Medium, Medium, Medium-to-High, High.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Position on the five-level scale Low, Low-to-Medium, Medium, Medium-to-High, High."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.risk_measures",
+      "type": "Field",
+      "label": "risk_measures",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "risk_measures",
+        "fieldType": "list",
+        "order": 1,
+        "rowStructure": "{\"label\": {\"type\": \"text\"}, \"value\": {\"type\": \"number\"}}",
+        "members": "{\"annual_std_dev\": \"Annualized standard deviation of monthly returns over three years.\", \"benchmark_annual_std_dev\": \"Same statistic for the benchmark.\", \"beta\": \"Sensitivity of the series' returns to the benchmark's.\", \"r_squared\": \"Share of the series' return variance explained by the benchmark.\", \"alpha\": \"Annualized excess return versus what beta would predict.\", \"sharpe_ratio\": \"Excess return over the risk-free rate per unit of standard deviation.\"}",
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.risk_measures.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Three-year risk statistics of the series.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Three-year risk statistics of the series."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.sector_allocation",
+      "type": "Field",
+      "label": "sector_allocation",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "sector_allocation",
+        "fieldType": "list",
+        "order": 1,
+        "rowStructure": "{\"label\": {\"type\": \"text\"}, \"value\": {\"type\": \"percent\"}}",
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.sector_allocation.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Share of net assets by economic sector; Fixed Income and Cash & Equivalents appear as sectors so the list sums to 100%.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Share of net assets by economic sector; Fixed Income and Cash & Equivalents appear as sectors so the list sums to 100%."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.sector_allocation.rule.1",
+      "type": "Rule",
+      "label": "1",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "ruleText": "Sorted descending by value",
+        "regulatory": false
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.sector_allocation.rule.2",
+      "type": "Rule",
+      "label": "2",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "ruleText": "Cash and Other last.",
+        "regulatory": false
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.sector_as_of",
+      "type": "Field",
+      "label": "sector_as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "sector_as_of",
+        "fieldType": "date",
+        "order": 2,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.sector_as_of.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Portfolio date of the sector allocation.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Portfolio date of the sector allocation."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.series",
+      "type": "Field",
+      "label": "series",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "series",
+        "fieldType": "text",
+        "order": 2,
+        "lineageStatus": "proposed",
+        "lineageNote": "parameter"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.series.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Fund series code (A, F, T5, PW…) the document is for.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Fund series code (A, F, T5, PW…) the document is for."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.total_fund_assets",
+      "type": "Field",
+      "label": "total_fund_assets",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "total_fund_assets",
+        "fieldType": "currency",
+        "order": 1,
+        "lineageStatus": "unmapped"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.total_fund_assets.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Net assets of the whole fund (all series) at as_of, rounded for display.",
+      "attributes": {
+        "locale": "en",
+        "label": "Total Fund Assets",
+        "definition": "Net assets of the whole fund (all series) at as_of, rounded for display."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.total_fund_assets.meaning.fr",
+      "type": "FieldMeaning",
+      "label": "fr",
+      "aliases": [],
+      "summary": "Net assets of the whole fund (all series) at as_of, rounded for display.",
+      "attributes": {
+        "locale": "fr",
+        "label": "Actif total du fonds",
+        "definition": "Net assets of the whole fund (all series) at as_of, rounded for display."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.why_invest",
+      "type": "Field",
+      "label": "why_invest",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fieldId": "why_invest",
+        "fieldType": "list_of_text",
+        "order": 1,
+        "lineageStatus": "unmapped",
+        "lineageNote": "static content per fund; owner compliance"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.field.why_invest.meaning.en",
+      "type": "FieldMeaning",
+      "label": "en",
+      "aliases": [],
+      "summary": "Compliance-approved marketing statements for the fund.",
+      "attributes": {
+        "locale": "en",
+        "definition": "Compliance-approved marketing statements for the fund."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.parameter.as_of",
+      "type": "Parameter",
+      "label": "as_of",
+      "aliases": [],
+      "summary": "Month-end the performance figures are computed at",
+      "attributes": {
+        "definition": "Month-end the performance figures are computed at",
+        "label": "as_of",
+        "boundBy": "schedule"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.parameter.fund_id",
+      "type": "Parameter",
+      "label": "fund_id",
+      "aliases": [],
+      "summary": "Identifier of the fund the document describes",
+      "attributes": {
+        "definition": "Identifier of the fund the document describes",
+        "label": "fund_id"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.parameter.lang",
+      "type": "Parameter",
+      "label": "lang",
+      "aliases": [],
+      "summary": "en or fr; decides labels, number and date formats",
+      "attributes": {
+        "definition": "en or fr; decides labels, number and date formats",
+        "label": "lang",
+        "allowedValue": [
+          "en",
+          "fr"
+        ]
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.parameter.series",
+      "type": "Parameter",
+      "label": "series",
+      "aliases": [],
+      "summary": "Fund series shown in the title and used for fees, NAVPS and codes",
+      "attributes": {
+        "definition": "Fund series shown in the title and used for fees, NAVPS and codes",
+        "label": "series",
+        "allowedValue": [
+          "A",
+          "F"
+        ]
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.query.active_funds",
+      "type": "UniverseQuery",
+      "label": "active_funds",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "returnsParameter": "fund_id",
+        "sql": "SELECT fund_id FROM ref.funds WHERE status = 'active' AND has_series('A','F') ORDER BY fund_id   -- ILLUSTRATIVE",
+        "note": [
+          "to be confirmed by the data team"
+        ]
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.release.1.0.0",
+      "type": "TemplateRelease",
+      "label": "0",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "repoUrl": "https://github.com/<org>/report-templates/tree/main/fund-profile-balanced",
+        "version": "1.0.0",
+        "frozen": false,
+        "engineVersion": "0.1.0",
+        "ontologyVersion": "2.1.0",
+        "libraryVersion": "0.1.0",
+        "sha256": [
+          "cacc2f7888f341aabc3d3140a645dd1a46ca00611f7348db099ac4f1f6ea2002"
+        ],
+        "fileHash": [
+          "{}"
+        ],
+        "font": [
+          "[{\"family\": \"Caladea\", \"file\": \"shared/fonts/Caladea-Regular.ttf\", \"license\": \"SIL OFL\", \"sha256\": \"0000000000000000000000000000000000000000000000000000000000000000\"}, {\"family\": \"DejaVu Sans\", \"file\": \"shared/fonts/DejaVuSans.ttf\", \"license\": \"DejaVu\", \"sha256\": \"0000000000000000000000000000000000000000000000000000000000000000\"}]"
+        ],
+        "assetPending": [
+          "licensed brand fonts",
+          "logo",
+          "qr_code"
+        ]
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.release.1.0.0.approval",
+      "type": "ApprovalPolicy",
+      "label": "approval",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "sampleRate": 0.03,
+        "sampleMin": 5,
+        "fullReviewAfterRelease": true,
+        "reviewerRole": "compliance"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.release.1.0.0.observability",
+      "type": "ObservabilityPolicy",
+      "label": "observability",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "deliverWithinHours": 24,
+        "maxFailureRate": 0.02,
+        "alertRecipient": [
+          "operations",
+          "report-owner"
+        ],
+        "runLog": "ops.report_runs"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.release.1.0.0.publish",
+      "type": "PublishPolicy",
+      "label": "publish",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "pathPattern": "reports/{fund_id}/{as_of:%Y-%m}/{template_id}_{series}_{lang}.pdf",
+        "publishFormat": [
+          "pdf"
+        ],
+        "retentionDays": 2555
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.release.1.0.0.schedule",
+      "type": "Schedule",
+      "label": "schedule",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "cadence": "monthly",
+        "runOn": "business_day:3",
+        "asOfRule": "prev_month_end",
+        "calendar": "TSX",
+        "timezone": "America/Toronto"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.release.1.0.0.verify",
+      "type": "VerificationPolicy",
+      "label": "verify",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "goldenStaticSsimMin": 0.98,
+        "overflowBlocking": true,
+        "fidelityMin": 1.0
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.1",
+      "type": "Revision",
+      "label": "1",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 1,
+        "changedBy": "example-analyst",
+        "at": "2026-10-02T19:30:00+00:00",
+        "reason": "definition drafted from the sample PDF and saved to the catalogue",
+        "effectiveFrom": "2026-10-02"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2",
+      "type": "Revision",
+      "label": "2",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 2,
+        "changedBy": "example-analyst",
+        "at": "2026-10-04T14:00:00+00:00",
+        "reason": "the agent proposed a column of the report's table for five fields; the analyst still has to verify them",
+        "effectiveFrom": "2026-10-04"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2.change.1",
+      "type": "Change",
+      "label": "1",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fact": "semantic/lineage.yaml → fields.growth_end_value.column",
+        "changeKind": "added",
+        "newValue": "growth_end_value"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2.change.10",
+      "type": "Change",
+      "label": "10",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fact": "semantic/lineage.yaml → fields.series.status",
+        "changeKind": "changed",
+        "previousValue": "unmapped",
+        "newValue": "proposed"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2.change.2",
+      "type": "Change",
+      "label": "2",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fact": "semantic/lineage.yaml → fields.growth_end_value.status",
+        "changeKind": "changed",
+        "previousValue": "unmapped",
+        "newValue": "proposed"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2.change.3",
+      "type": "Change",
+      "label": "3",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fact": "semantic/lineage.yaml → fields.holdings_top_pct.column",
+        "changeKind": "added",
+        "newValue": "holdings_top_pct"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2.change.4",
+      "type": "Change",
+      "label": "4",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fact": "semantic/lineage.yaml → fields.holdings_top_pct.status",
+        "changeKind": "changed",
+        "previousValue": "unmapped",
+        "newValue": "proposed"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2.change.5",
+      "type": "Change",
+      "label": "5",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fact": "semantic/lineage.yaml → fields.mer.column",
+        "changeKind": "added",
+        "newValue": "mer"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2.change.6",
+      "type": "Change",
+      "label": "6",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fact": "semantic/lineage.yaml → fields.mer.status",
+        "changeKind": "changed",
+        "previousValue": "unmapped",
+        "newValue": "proposed"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2.change.7",
+      "type": "Change",
+      "label": "7",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fact": "semantic/lineage.yaml → fields.returns.column",
+        "changeKind": "added",
+        "newValue": "returns"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2.change.8",
+      "type": "Change",
+      "label": "8",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fact": "semantic/lineage.yaml → fields.returns.status",
+        "changeKind": "changed",
+        "previousValue": "unmapped",
+        "newValue": "proposed"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.revision.2.change.9",
+      "type": "Change",
+      "label": "9",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "fact": "semantic/lineage.yaml → fields.series.column",
+        "changeKind": "added",
+        "newValue": "series"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.rule.report-1",
+      "type": "Rule",
+      "label": "report-1",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "ruleText": "Performance figures are historical annual compounded total returns and must carry the standard disclaimer.",
+        "regulatory": true
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.rule.report-2",
+      "type": "Rule",
+      "label": "report-2",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "ruleText": "Any figure shown must be traceable to its source table and computation (lineage.yaml).",
+        "regulatory": true
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.run.run-2026-10-02-001",
+      "type": "Run",
+      "label": "run-2026-10-02-001",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "flow": "pdf-to-template",
+        "flowVersion": "1.1.0",
+        "engineVersion": "0.1.0",
+        "startedAt": "2026-10-02 15:10:00-04:00",
+        "result": "draft",
+        "step": [
+          "[{\"step\": \"B01_inspect\", \"tool\": \"scripts/inspect_pdf.py\", \"outputs\": [\"work/report.json\", \"work/page_0_img_0.png\"]}, {\"step\": \"B04_layout\", \"tool\": \"scripts/sample_colors.py\", \"outputs\": [\"work/palette.json\"], \"notes\": \"colors sampled per element\"}, {\"step\": \"B05_decompose\", \"executor\": \"claude\", \"prompt\": \"decompose.md@1.0.0\", \"outputs\": [\"work/blueprint.json\"], \"note\": \"performed interactively in this first run; cached output to be regenerated through the engine\"}, {\"step\": \"B08_generate\", \"executor\": \"claude\", \"prompt\": \"generate.md@1.0.0\", \"outputs\": [\"template/\"]}, {\"step\": \"B09_render\", \"tool\": \"scripts/render.py\", \"outputs\": [\"out/bluewater_A_en.pdf\"]}, {\"step\": \"B10_verify\", \"tool\": \"scripts/diff.py\", \"outputs\": [\"out/comparison.png\"], \"metrics\": {\"layout_ssim\": 0.44, \"overflow\": 0}}]"
+        ]
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.run.run-2026-10-02-001.approval.1",
+      "type": "Approval",
+      "label": "1",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "gate": "B06_blueprint_review",
+        "decision": "approve",
+        "reviewer": "example-reviewer",
+        "at": "2026-10-02 16:00:00-04:00"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.calendar",
+      "type": "Section",
+      "label": "Calendar Year Returns",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 7,
+        "purpose": "Total return for each of the last ten calendar years plus year-to-date, as a bar chart."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.credit",
+      "type": "Section",
+      "label": "Credit Allocation",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 5,
+        "purpose": "Share of the portfolio by credit rating of fixed-income holdings; equities and cash shown as their own lines.",
+        "presentWhen": "layout in [balanced, fixed_income]"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.footer",
+      "type": "Section",
+      "label": "Disclaimers",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 14,
+        "purpose": "Regulatory disclaimers, footnote definitions and the link to further commentary."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.growth",
+      "type": "Section",
+      "label": "Value of $10,000 invested",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 8,
+        "purpose": "Growth of a hypothetical $10,000 investment over ten years, as a line chart with the end value called out."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.header",
+      "type": "Section",
+      "label": "Header",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 1,
+        "purpose": "Identifies the fund, series and category; carries the brand."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.holdings",
+      "type": "Section",
+      "label": "Major Holdings",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 9,
+        "purpose": "The holdings selected as most significant for understanding the portfolio, by asset class, with their weights; plus the total count of holdings."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.key_data",
+      "type": "Section",
+      "label": "Key Fund Data",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 11,
+        "purpose": "Size, price, costs, benchmark, last distribution and purchase codes of the fund and series."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.managers",
+      "type": "Section",
+      "label": "Portfolio Managers",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 6,
+        "purpose": "The teams and named individuals responsible for the portfolio."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.regional",
+      "type": "Section",
+      "label": "Regional Allocation",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 3,
+        "purpose": "Where the portfolio's assets sit, by asset class then country; sums to 100%."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.returns",
+      "type": "Section",
+      "label": "Compound Annualized Returns",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 2,
+        "purpose": "Annualized total return of the series over standard periods ending at as_of; the primary performance table."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.risk_measures",
+      "type": "Section",
+      "label": "Fund Risk Measures (3 year)",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 10,
+        "purpose": "Standard three-year risk statistics of the series against its benchmark."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.risk_tolerance",
+      "type": "Section",
+      "label": "Risk Tolerance",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 13,
+        "purpose": "The fund's risk rating on the five-level scale required by the prospectus."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.sector",
+      "type": "Section",
+      "label": "Sector Allocation",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 4,
+        "purpose": "Share of the portfolio by economic sector (fixed income counted as one sector); sums to 100%."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.section.why_invest",
+      "type": "Section",
+      "label": "Why Invest in this fund?",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 12,
+        "purpose": "Marketing bullets approved by compliance describing the investment approach."
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.source.src-001",
+      "type": "SourceDocument",
+      "label": "Mackenzie Bluewater Canadian Growth Balanced Fund — Series A — Fund Profile",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "repoUrl": "https://github.com/<org>/report-sources/blob/main/fund-profile/MP2-Fund_Profile-230926-194524.pdf",
+        "sha256": [
+          "cacc2f7888f341aabc3d3140a645dd1a46ca00611f7348db099ac4f1f6ea2002"
+        ],
+        "role": "primary",
+        "receivedOn": "2026-10-02",
+        "referenceKind": "raster",
+        "pageKind": [
+          "raster",
+          "vector"
+        ],
+        "note": [
+          "Spec document with red annotation boxes; production PDF requested for the vector reference."
+        ]
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.status.1",
+      "type": "StatusChange",
+      "label": "1",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 1,
+        "lifecycleStatus": "inception",
+        "changedBy": "example-analyst",
+        "at": "2026-10-02",
+        "note": [
+          "definition started from the sample PDF"
+        ]
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.status.2",
+      "type": "StatusChange",
+      "label": "2",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 2,
+        "lifecycleStatus": "saved",
+        "changedBy": "example-analyst",
+        "at": "2026-10-02"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "report.fund-profile-balanced.status.3",
+      "type": "StatusChange",
+      "label": "3",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "order": 3,
+        "lifecycleStatus": "in_validation",
+        "changedBy": "example-reviewer",
+        "at": "2026-10-05",
+        "note": [
+          "blueprint approved; template under visual verification"
+        ]
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "table.warehouse.reports.fund_profile_balanced",
+      "type": "Table",
+      "label": "fund_profile_balanced",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "dataset": "reports",
+        "tableName": "fund_profile_balanced"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "table.warehouse.reports.fund_profile_balanced.as_of",
+      "type": "Column",
+      "label": "as_of",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "columnName": "as_of"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "table.warehouse.reports.fund_profile_balanced.fund_id",
+      "type": "Column",
+      "label": "fund_id",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "columnName": "fund_id"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "table.warehouse.reports.fund_profile_balanced.growth_end_value",
+      "type": "Column",
+      "label": "growth_end_value",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "columnName": "growth_end_value"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "table.warehouse.reports.fund_profile_balanced.holdings_top_pct",
+      "type": "Column",
+      "label": "holdings_top_pct",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "columnName": "holdings_top_pct"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "table.warehouse.reports.fund_profile_balanced.mer",
+      "type": "Column",
+      "label": "mer",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "columnName": "mer"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "table.warehouse.reports.fund_profile_balanced.returns",
+      "type": "Column",
+      "label": "returns",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "columnName": "returns"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    },
+    {
+      "id": "table.warehouse.reports.fund_profile_balanced.series",
+      "type": "Column",
+      "label": "series",
+      "aliases": [],
+      "summary": "",
+      "attributes": {
+        "columnName": "series"
+      },
+      "tags": [
+        "fund-profile-balanced"
+      ],
+      "as_of": "2026-10-05",
+      "valid_from": "2026-10-05",
+      "source_doc": "fund-profile-balanced",
+      "status": "current",
+      "sources": [
+        "fund-profile-balanced"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "derivedFrom",
+      "to": "report.fund-profile-balanced.source.src-001"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasParameter",
+      "to": "report.fund-profile-balanced.parameter.as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasParameter",
+      "to": "report.fund-profile-balanced.parameter.fund_id"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasParameter",
+      "to": "report.fund-profile-balanced.parameter.lang"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasParameter",
+      "to": "report.fund-profile-balanced.parameter.series"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasRevision",
+      "to": "report.fund-profile-balanced.revision.1"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasRevision",
+      "to": "report.fund-profile-balanced.revision.2"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasRule",
+      "to": "report.fund-profile-balanced.rule.report-1"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasRule",
+      "to": "report.fund-profile-balanced.rule.report-2"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.calendar"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.credit"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.footer"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.growth"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.header"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.holdings"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.key_data"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.managers"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.regional"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.returns"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.risk_measures"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.risk_tolerance"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.sector"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasSection",
+      "to": "report.fund-profile-balanced.section.why_invest"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasStatusChange",
+      "to": "report.fund-profile-balanced.status.1"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasStatusChange",
+      "to": "report.fund-profile-balanced.status.2"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasStatusChange",
+      "to": "report.fund-profile-balanced.status.3"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "hasUniverseQuery",
+      "to": "report.fund-profile-balanced.query.active_funds"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "readsTable",
+      "to": "table.warehouse.reports.fund_profile_balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "releasedAs",
+      "to": "report.fund-profile-balanced.release.1.0.0"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.benchmark",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.benchmark.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.benchmark",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.benchmark",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.key_data"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.calendar_as_of",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.calendar_as_of.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.calendar_as_of",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.calendar_as_of",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.calendar"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.calendar_returns",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.calendar_returns.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.calendar_returns",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.calendar_returns",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.calendar"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.category",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.category.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.category",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.category",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.header"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.credit_allocation",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.credit_allocation.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.credit_allocation",
+      "rel": "hasRule",
+      "to": "report.fund-profile-balanced.field.credit_allocation.rule.1"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.credit_allocation",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.credit_allocation",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.credit"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.credit_as_of",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.credit_as_of.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.credit_as_of",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.credit_as_of",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.credit"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.disclaimers",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.disclaimers.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.disclaimers",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.disclaimers",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.footer"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.distributions",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.distributions.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.distributions",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.distributions",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.key_data"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.fund_codes",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.fund_codes.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.fund_codes",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.fund_codes",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.key_data"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.fund_name",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.fund_name.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.fund_name",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.fund_name",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.header"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.growth_as_of",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.growth_as_of.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.growth_as_of",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.growth_as_of",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.growth"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.growth_end_value",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.growth_end_value.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.growth_end_value",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.growth_end_value",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.growth"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.growth_end_value",
+      "rel": "sourcedFrom",
+      "to": "table.warehouse.reports.fund_profile_balanced.growth_end_value"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.growth_series",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.growth_series.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.growth_series",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.growth_series",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.growth"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.holdings.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.holdings"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings_as_of",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.holdings_as_of.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings_as_of",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings_as_of",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.holdings"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings_counts",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.holdings_counts.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings_counts",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings_counts",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.holdings"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings_top_pct",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.holdings_top_pct.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings_top_pct",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings_top_pct",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.holdings"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.holdings_top_pct",
+      "rel": "sourcedFrom",
+      "to": "table.warehouse.reports.fund_profile_balanced.holdings_top_pct"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.management_fee",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.management_fee.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.management_fee",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.management_fee.meaning.fr"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.management_fee",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.management_fee",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.key_data"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.managers",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.managers.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.managers",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.managers",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.managers"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.mer",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.mer.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.mer",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.mer.meaning.fr"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.mer",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.mer",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.key_data"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.mer",
+      "rel": "sourcedFrom",
+      "to": "table.warehouse.reports.fund_profile_balanced.mer"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.mer_as_of",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.mer_as_of.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.mer_as_of",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.mer_as_of",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.key_data"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.navps",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.navps.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.navps",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.navps.meaning.fr"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.navps",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.navps",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.key_data"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.navps_as_of",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.navps_as_of.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.navps_as_of",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.navps_as_of",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.key_data"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.regional_allocation",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.regional_allocation.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.regional_allocation",
+      "rel": "hasRule",
+      "to": "report.fund-profile-balanced.field.regional_allocation.rule.1"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.regional_allocation",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.regional_allocation",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.regional"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.regional_as_of",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.regional_as_of.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.regional_as_of",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.regional_as_of",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.regional"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.returns",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.returns.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.returns",
+      "rel": "hasRule",
+      "to": "report.fund-profile-balanced.field.returns.rule.1"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.returns",
+      "rel": "hasRule",
+      "to": "report.fund-profile-balanced.field.returns.rule.2"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.returns",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.returns",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.returns"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.returns",
+      "rel": "sourcedFrom",
+      "to": "table.warehouse.reports.fund_profile_balanced.returns"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.returns_as_of",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.returns_as_of.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.returns_as_of",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.returns_as_of",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.returns"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.risk_as_of",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.risk_as_of.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.risk_as_of",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.risk_as_of",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.risk_measures"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.risk_level",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.risk_level.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.risk_level",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.risk_level",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.risk_tolerance"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.risk_measures",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.risk_measures.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.risk_measures",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.risk_measures",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.risk_measures"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.sector_allocation",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.sector_allocation.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.sector_allocation",
+      "rel": "hasRule",
+      "to": "report.fund-profile-balanced.field.sector_allocation.rule.1"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.sector_allocation",
+      "rel": "hasRule",
+      "to": "report.fund-profile-balanced.field.sector_allocation.rule.2"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.sector_allocation",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.sector_allocation",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.sector"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.sector_as_of",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.sector_as_of.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.sector_as_of",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.sector_as_of",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.sector"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.series",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.series.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.series",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.series",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.header"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.series",
+      "rel": "sourcedFrom",
+      "to": "table.warehouse.reports.fund_profile_balanced.series"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.total_fund_assets",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.total_fund_assets.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.total_fund_assets",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.total_fund_assets.meaning.fr"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.total_fund_assets",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.total_fund_assets",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.key_data"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.why_invest",
+      "rel": "hasMeaning",
+      "to": "report.fund-profile-balanced.field.why_invest.meaning.en"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.why_invest",
+      "rel": "inReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.field.why_invest",
+      "rel": "inSection",
+      "to": "report.fund-profile-balanced.section.why_invest"
+    },
+    {
+      "from": "report.fund-profile-balanced.parameter.as_of",
+      "rel": "boundToColumn",
+      "to": "table.warehouse.reports.fund_profile_balanced.as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.parameter.fund_id",
+      "rel": "boundToColumn",
+      "to": "table.warehouse.reports.fund_profile_balanced.fund_id"
+    },
+    {
+      "from": "report.fund-profile-balanced.parameter.fund_id",
+      "rel": "universeQuery",
+      "to": "report.fund-profile-balanced.query.active_funds"
+    },
+    {
+      "from": "report.fund-profile-balanced.parameter.series",
+      "rel": "boundToColumn",
+      "to": "table.warehouse.reports.fund_profile_balanced.series"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "hasApprovalPolicy",
+      "to": "report.fund-profile-balanced.release.1.0.0.approval"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "hasObservabilityPolicy",
+      "to": "report.fund-profile-balanced.release.1.0.0.observability"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "hasParameter",
+      "to": "report.fund-profile-balanced.parameter.as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "hasParameter",
+      "to": "report.fund-profile-balanced.parameter.fund_id"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "hasParameter",
+      "to": "report.fund-profile-balanced.parameter.lang"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "hasParameter",
+      "to": "report.fund-profile-balanced.parameter.series"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "hasPublishPolicy",
+      "to": "report.fund-profile-balanced.release.1.0.0.publish"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "hasSchedule",
+      "to": "report.fund-profile-balanced.release.1.0.0.schedule"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "hasVerificationPolicy",
+      "to": "report.fund-profile-balanced.release.1.0.0.verify"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "ofReport",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "report.fund-profile-balanced.release.1.0.0",
+      "rel": "producedBy",
+      "to": "report.fund-profile-balanced.run.run-2026-10-02-001"
+    },
+    {
+      "from": "report.fund-profile-balanced.revision.2",
+      "rel": "hasChange",
+      "to": "report.fund-profile-balanced.revision.2.change.1"
+    },
+    {
+      "from": "report.fund-profile-balanced.revision.2",
+      "rel": "hasChange",
+      "to": "report.fund-profile-balanced.revision.2.change.10"
+    },
+    {
+      "from": "report.fund-profile-balanced.revision.2",
+      "rel": "hasChange",
+      "to": "report.fund-profile-balanced.revision.2.change.2"
+    },
+    {
+      "from": "report.fund-profile-balanced.revision.2",
+      "rel": "hasChange",
+      "to": "report.fund-profile-balanced.revision.2.change.3"
+    },
+    {
+      "from": "report.fund-profile-balanced.revision.2",
+      "rel": "hasChange",
+      "to": "report.fund-profile-balanced.revision.2.change.4"
+    },
+    {
+      "from": "report.fund-profile-balanced.revision.2",
+      "rel": "hasChange",
+      "to": "report.fund-profile-balanced.revision.2.change.5"
+    },
+    {
+      "from": "report.fund-profile-balanced.revision.2",
+      "rel": "hasChange",
+      "to": "report.fund-profile-balanced.revision.2.change.6"
+    },
+    {
+      "from": "report.fund-profile-balanced.revision.2",
+      "rel": "hasChange",
+      "to": "report.fund-profile-balanced.revision.2.change.7"
+    },
+    {
+      "from": "report.fund-profile-balanced.revision.2",
+      "rel": "hasChange",
+      "to": "report.fund-profile-balanced.revision.2.change.8"
+    },
+    {
+      "from": "report.fund-profile-balanced.revision.2",
+      "rel": "hasChange",
+      "to": "report.fund-profile-balanced.revision.2.change.9"
+    },
+    {
+      "from": "report.fund-profile-balanced.run.run-2026-10-02-001",
+      "rel": "hasApproval",
+      "to": "report.fund-profile-balanced.run.run-2026-10-02-001.approval.1"
+    },
+    {
+      "from": "report.fund-profile-balanced.run.run-2026-10-02-001",
+      "rel": "usedSource",
+      "to": "report.fund-profile-balanced.source.src-001"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.calendar",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.calendar_as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.calendar",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.calendar_returns"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.calendar",
+      "rel": "renderedBy",
+      "to": "component.bar_chart"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.credit",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.credit_allocation"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.credit",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.credit_as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.credit",
+      "rel": "renderedBy",
+      "to": "component.two_column_allocation"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.footer",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.disclaimers"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.footer",
+      "rel": "renderedBy",
+      "to": "component.footer"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.growth",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.growth_as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.growth",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.growth_end_value"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.growth",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.growth_series"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.growth",
+      "rel": "renderedBy",
+      "to": "component.line_chart"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.header",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.category"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.header",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.fund_name"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.header",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.series"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.header",
+      "rel": "renderedBy",
+      "to": "component.header"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.holdings",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.holdings"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.holdings",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.holdings_as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.holdings",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.holdings_counts"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.holdings",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.holdings_top_pct"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.holdings",
+      "rel": "renderedBy",
+      "to": "component.holdings"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.key_data",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.benchmark"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.key_data",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.distributions"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.key_data",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.fund_codes"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.key_data",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.management_fee"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.key_data",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.mer"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.key_data",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.mer_as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.key_data",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.navps"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.key_data",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.navps_as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.key_data",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.total_fund_assets"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.key_data",
+      "rel": "renderedBy",
+      "to": "component.key_value_list"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.managers",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.managers"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.managers",
+      "rel": "renderedBy",
+      "to": "component.managers"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.regional",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.regional_allocation"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.regional",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.regional_as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.regional",
+      "rel": "renderedBy",
+      "to": "component.grouped_allocation"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.returns",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.returns"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.returns",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.returns_as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.returns",
+      "rel": "renderedBy",
+      "to": "component.returns_table"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.risk_measures",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.risk_as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.risk_measures",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.risk_measures"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.risk_measures",
+      "rel": "renderedBy",
+      "to": "component.key_value_grid"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.risk_tolerance",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.risk_level"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.risk_tolerance",
+      "rel": "renderedBy",
+      "to": "component.risk_scale"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.sector",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.sector_allocation"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.sector",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.sector_as_of"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.sector",
+      "rel": "renderedBy",
+      "to": "component.two_column_allocation"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.why_invest",
+      "rel": "hasField",
+      "to": "report.fund-profile-balanced.field.why_invest"
+    },
+    {
+      "from": "report.fund-profile-balanced.section.why_invest",
+      "rel": "renderedBy",
+      "to": "component.bullets"
+    },
+    {
+      "from": "table.warehouse.reports.fund_profile_balanced",
+      "rel": "inDataSource",
+      "to": "datasource.warehouse"
+    },
+    {
+      "from": "table.warehouse.reports.fund_profile_balanced.as_of",
+      "rel": "inTable",
+      "to": "table.warehouse.reports.fund_profile_balanced"
+    },
+    {
+      "from": "table.warehouse.reports.fund_profile_balanced.fund_id",
+      "rel": "inTable",
+      "to": "table.warehouse.reports.fund_profile_balanced"
+    },
+    {
+      "from": "table.warehouse.reports.fund_profile_balanced.growth_end_value",
+      "rel": "inTable",
+      "to": "table.warehouse.reports.fund_profile_balanced"
+    },
+    {
+      "from": "table.warehouse.reports.fund_profile_balanced.holdings_top_pct",
+      "rel": "inTable",
+      "to": "table.warehouse.reports.fund_profile_balanced"
+    },
+    {
+      "from": "table.warehouse.reports.fund_profile_balanced.mer",
+      "rel": "inTable",
+      "to": "table.warehouse.reports.fund_profile_balanced"
+    },
+    {
+      "from": "table.warehouse.reports.fund_profile_balanced.returns",
+      "rel": "inTable",
+      "to": "table.warehouse.reports.fund_profile_balanced"
+    },
+    {
+      "from": "table.warehouse.reports.fund_profile_balanced.series",
+      "rel": "inTable",
+      "to": "table.warehouse.reports.fund_profile_balanced"
+    }
+  ]
+}

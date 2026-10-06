@@ -1,0 +1,107 @@
+@prefix flow: <https://cynergis.ai/ont/flow#> .
+@prefix rpt:  <https://cynergis.ai/ont/report#> .
+@prefix dt:   <https://cynergis.ai/ont/doctemplate#> .
+@prefix a:    <https://cynergis.ai/kg/pdf-to-template/artifact/> .
+@prefix s:    <https://cynergis.ai/kg/pdf-to-template/step/> .
+@prefix inv:  <https://cynergis.ai/kg/pdf-to-template/invariant/> .
+
+# Authored by a person (not generated): the bridge between the flow and the domain.
+# 1) What domain concept each artifact carries.
+# 2) The domain invariants, and which checks enforce them.
+
+a:source_pdf        flow:carries dt:SourceDocument .
+a:intake_manifest   flow:carries dt:IntakeRecord .
+a:inspect_report    flow:carries dt:InspectionReport , dt:Page .
+a:page_images       flow:carries dt:PageImage .
+a:page_spans        flow:carries dt:TextSpan .
+a:page_drawings     flow:carries dt:Drawing .
+a:embedded_fonts    flow:carries dt:FontFile .
+a:raster_images     flow:carries dt:PageImage .
+a:ocr_words         flow:carries dt:OcrWord .
+a:ocr_low_conf      flow:carries dt:OcrWord .
+a:text_corrections  flow:carries dt:TextCorrection .
+a:unified_text      flow:carries dt:TextSpan .
+a:regions           flow:carries dt:Region .
+a:regions_overlay   flow:carries dt:PageImage , dt:Region .
+a:tokens_draft      flow:carries dt:DesignToken .
+a:component_library flow:carries dt:Component .
+a:authoring_rules   flow:carries dt:AuthoringRule .
+a:blueprint         flow:carries dt:Blueprint , dt:Component , dt:Slot , dt:StaticText .
+a:blueprint_overlay flow:carries dt:PageImage , dt:Blueprint .
+a:data_schema       flow:carries dt:DataSchema .
+a:sample_data       flow:carries dt:SampleData .
+a:data_gaps         flow:carries dt:DataGap .
+a:template_project  flow:carries dt:TemplateProject , dt:Layout , dt:Locale .
+a:render_outputs    flow:carries dt:RenderedDocument .
+a:verify_report     flow:carries dt:VerificationResult .
+a:region_crops      flow:carries dt:RegionCrop .
+a:repair_log        flow:carries dt:RepairRecord .
+a:stress_cases      flow:carries dt:StressCase .
+a:stress_report     flow:carries dt:StressResult .
+a:review_pages      flow:carries dt:ReviewPage .
+a:release_manifest  flow:carries dt:TemplateRelease , rpt:Schedule , rpt:Parameter , rpt:VerificationPolicy , rpt:ApprovalPolicy , rpt:PublishPolicy , rpt:ObservabilityPolicy .
+a:semantic_layer    flow:carries rpt:ReportType , rpt:Section , rpt:Field , rpt:FieldMeaning , rpt:Rule , rpt:DataSource , rpt:Table , rpt:Column , rpt:UniverseQuery , rpt:Run , rpt:Approval , dt:SourceDocument .
+a:report_graph      flow:carries rpt:ReportType , dt:TemplateRelease .
+a:golden_images     flow:carries dt:GoldenImage .
+a:batch_spec        flow:carries dt:Batch .
+a:batch_data        flow:carries dt:DataDocument .
+a:batch_outputs     flow:carries dt:RenderedDocument .
+a:batch_verify      flow:carries dt:VerificationResult .
+a:publish_receipt   flow:carries dt:PublishReceipt .
+
+# ─────────────── Invariants: what must always be true, and who checks it ───────────────
+inv:INV01 a flow:Invariant ; flow:concerns dt:TextSpan , dt:Slot , dt:StaticText ;
+    flow:statement "Every source text span is either static text or the source of exactly one slot — never both, never neither." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B05_decompose/check/spans_covered> .
+
+inv:INV02 a flow:Invariant ; flow:concerns dt:Region , dt:Component ;
+    flow:statement "Every region is labeled with exactly one component." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B05_decompose/check/regions_covered> .
+
+inv:INV03 a flow:Invariant ; flow:concerns dt:DataSchema , dt:TemplateProject ;
+    flow:statement "Every data-schema field is used by at least one template." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B08_generate/check/slot_coverage> .
+
+inv:INV04 a flow:Invariant ; flow:concerns dt:SampleData , dt:TemplateProject ;
+    flow:statement "No sample data value appears literally in a template (data never hard-coded)." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B08_generate/check/no_hardcoding> .
+
+inv:INV05 a flow:Invariant ; flow:concerns dt:TemplateProject ;
+    flow:statement "A Claude step writes only inside its declared write scope; data, schema, config thresholds and verification code are never modified by Claude." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B08_generate/check/writes_scoped> ,
+                    <https://cynergis.ai/kg/pdf-to-template/step/B11_repair/check/scoped> .
+
+inv:INV06 a flow:Invariant ; flow:concerns dt:RenderedDocument , dt:Slot ;
+    flow:statement "Every slot value of a rendered document appears in the PDF text layer inside its region." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B10_verify/check/fidelity> ,
+                    <https://cynergis.ai/kg/pdf-to-template/step/R03_verify/check/fidelity> .
+
+inv:INV07 a flow:Invariant ; flow:concerns dt:RenderedDocument , dt:Slot ;
+    flow:statement "Every slot value is visible on the rendered image (OCR finds it), so clipped text cannot pass." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B10_verify/check/visibility> ,
+                    <https://cynergis.ai/kg/pdf-to-template/step/R03_verify/check/visibility> .
+
+inv:INV08 a flow:Invariant ; flow:concerns dt:Region , dt:RenderedDocument ;
+    flow:statement "No region's content exceeds its box or the page." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B10_verify/check/overflow> ,
+                    <https://cynergis.ai/kg/pdf-to-template/step/B14_stress_verify/check/all_pass> ,
+                    <https://cynergis.ai/kg/pdf-to-template/step/R03_verify/check/overflow> .
+
+inv:INV09 a flow:Invariant ; flow:concerns dt:TemplateRelease ;
+    flow:statement "A released template's hash equals the hash the human signed off." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B16_freeze/check/unchanged_since_signoff> .
+
+inv:INV10 a flow:Invariant ; flow:concerns dt:GoldenImage , dt:RenderedDocument ;
+    flow:statement "Static regions of every production render match the golden image." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/R03_verify/check/static_stable> .
+
+inv:INV11 a flow:Invariant ; flow:concerns dt:StressCase ;
+    flow:statement "The same schema and seed always generate byte-identical stress cases." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B13_stress_data/check/deterministic> .
+
+inv:INV12 a flow:Invariant ; flow:concerns dt:TemplateProject , dt:Component ;
+    flow:statement "An onboarding run never produces code: no step writes under the plugin, a template project holds only templates, CSS and JSON config, and components come from the shared library, which changes only through its own release." ;
+    flow:enforcedBy <https://cynergis.ai/kg/pdf-to-template/step/B08_generate/check/no_project_code> ,
+                    <https://cynergis.ai/kg/pdf-to-template/step/B05_decompose/check/no_new_components> ,
+                    <https://cynergis.ai/kg/pdf-to-template/step/B08_generate/check/writes_scoped> ,
+                    <https://cynergis.ai/kg/pdf-to-template/step/B11_repair/check/scoped> .

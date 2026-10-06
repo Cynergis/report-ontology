@@ -1,0 +1,296 @@
+# Competency questions for the REPORT ontology (meaning, provenance, data mapping, operating contract).
+# CQ1-9 validated 2026-10-04; CQ10-13 added 2026-10-05 (release manifest: schedule, parameters, policies, needs).
+# 2.0.0 (2026-10-05): CQ5-6 now read the field → column mapping; CQ7 asks for the report's data source, table and
+# parameter columns (it used to ask for computed fields, which are now produced upstream); CQ14-17 added
+# (catalogue, reports sharing fields, component usage, observability); CQ18 added (the fields the catalogue already
+# defines, so a new report reuses a field id instead of inventing a second name for the same information);
+# CQ19 added (lifecycle of a report type: inception, saved to the graph, in validation, in production, with who
+# recorded each step and when); CQ14 now shows each report's current status.
+# 2.1.0 (2026-10-05): CQ20-21 added (the accepted history of a definition: what changed, from what, who accepted it,
+# when, from when it applies and why); CQ18 also returns the aliases readers use for each field.
+# A question may say why it exists and who confirmed it: why, validated_by, validated_on (kgctl rationale counts them;
+# validated_by stays empty until a person who asks the question has confirmed it).
+# A question may list `terms:` — ontology terms its answer rows carry that the query does not filter on.
+# `kgctl terms` fails if an ontology term is cited by no question (query text or terms list).
+# Each has an answer query and, where a silent empty answer would mislead, a gaps query.
+# Run: python tools/semantic.py ask <report>/semantic CQ1 --field mer   (params: $REPORT $FIELD $COLUMN $COMPONENT)
+# Point at a folder of report folders instead to ask across the whole catalogue (CQ6, CQ9, CQ14-16).
+
+ontology: https://cynergis.ai/ont/report
+version: "2.1.0"
+prefixes: |
+  PREFIX rpt: <https://cynergis.ai/ont/report#>
+  PREFIX dt: <https://cynergis.ai/ont/doctemplate#>
+  PREFIX prov: <http://www.w3.org/ns/prov#>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+questions:
+  CQ1:
+    who: analyst
+    question: "What does field $FIELD mean, and what is its label in each locale?"
+    answer: |
+      SELECT ?locale ?label ?definition WHERE {
+        ?f rpt:fieldId $FIELD ; rpt:hasMeaning ?m . ?m rpt:locale ?locale ; rpt:definition ?definition .
+        OPTIONAL { ?m rpt:label ?label } } ORDER BY ?locale
+    gaps: |
+      SELECT ?locale ?why WHERE {
+        ?f rpt:fieldId $FIELD ; rpt:inReport ?r . ?r rpt:locale ?locale .
+        FILTER NOT EXISTS { ?f rpt:hasMeaning ?m . ?m rpt:locale ?locale }
+        BIND("no meaning in a locale the report is offered in" AS ?why) }
+    terms: [rpt:fieldType]
+
+  CQ2:
+    who: analyst
+    question: "Which sections and fields make up report $REPORT, in order, and which are layout-dependent?"
+    answer: |
+      SELECT ?order ?section ?purpose ?presentWhen (GROUP_CONCAT(?fid; separator=", ") AS ?fields) WHERE {
+        ?r rpt:reportId $REPORT ; rpt:hasSection ?s . ?s rpt:order ?order ; rpt:purpose ?purpose ; rpt:hasField ?f .
+        ?f rpt:fieldId ?fid . BIND(STRAFTER(STR(?s), "section/") AS ?section)
+        OPTIONAL { ?s rpt:presentWhen ?presentWhen } } GROUP BY ?order ?section ?purpose ?presentWhen ORDER BY ?order
+
+  CQ3:
+    who: compliance
+    question: "Which source document, run and approvals produced the template of report $REPORT?"
+    answer: |
+      SELECT ?source ?sha256 ?role ?referenceKind ?run ?flow ?flowVersion ?engineVersion ?startedAt ?result ?gate ?decision ?reviewer ?at WHERE {
+        ?r rpt:reportId $REPORT ; rpt:derivedFrom ?src . ?src rpt:repoUrl ?source ; rpt:sha256 ?sha256 .
+        OPTIONAL { ?src rpt:role ?role } OPTIONAL { ?src rpt:referenceKind ?referenceKind }
+        ?run a rpt:Run ; rpt:usedSource ?src ; rpt:flowVersion ?flowVersion ; rpt:engineVersion ?engineVersion ; rpt:result ?result .
+        OPTIONAL { ?run rpt:flow ?flow } OPTIONAL { ?run rpt:startedAt ?startedAt }
+        OPTIONAL { ?run rpt:hasApproval ?a . ?a rpt:gate ?gate ; rpt:decision ?decision ; rpt:reviewer ?reviewer . OPTIONAL { ?a rpt:at ?at } } }
+    terms: [rpt:pageKind, rpt:receivedOn, rpt:note, rpt:step, rpt:reviewedHash, rpt:producedBy]
+    gaps: |
+      SELECT ?why WHERE {
+        ?r rpt:reportId $REPORT . FILTER NOT EXISTS { ?r rpt:derivedFrom ?src }
+        BIND("report has no source document" AS ?why) }
+
+  CQ4:
+    who: compliance
+    question: "Which fields of report $REPORT carry rules, and which rules are regulatory?"
+    answer: |
+      SELECT ?fid ?rule ?regulatory WHERE {
+        ?r rpt:reportId $REPORT . ?f rpt:inReport ?r ; rpt:fieldId ?fid ; rpt:hasRule ?ru .
+        ?ru rpt:ruleText ?rule . OPTIONAL { ?ru rpt:regulatory ?regulatory } } ORDER BY ?fid
+
+  CQ5:
+    who: data team
+    question: "Which column of which table supplies each field of report $REPORT, is the column a single value or JSON, and which fields are still unmapped?"
+    answer: |
+      SELECT ?fid ?status ?dataset ?table ?column ?type ?stored ?note WHERE {
+        ?r rpt:reportId $REPORT . ?f rpt:inReport ?r ; rpt:fieldId ?fid ; rpt:lineageStatus ?status ; rpt:fieldType ?type .
+        BIND(IF(?type IN ("list", "grouped_list", "series", "list_of_text", "currency_pair", "percent_by_series"), "json", "value") AS ?stored)
+        OPTIONAL { ?f rpt:sourcedFrom ?c . ?c rpt:columnName ?column ; rpt:inTable ?t . ?t rpt:dataset ?dataset ; rpt:tableName ?table }
+        OPTIONAL { ?f rpt:lineageNote ?note } } ORDER BY ?status ?fid
+    gaps: |
+      SELECT ?fid ?why WHERE {
+        ?r rpt:reportId $REPORT . ?f rpt:inReport ?r ; rpt:fieldId ?fid ; rpt:lineageStatus "unmapped" .
+        BIND("field not mapped to a column" AS ?why) }
+
+  CQ6:
+    who: data team
+    question: "If column $COLUMN changes, which reports and fields are affected?"
+    answer: |
+      SELECT ?report ?fid ?status ?dataset ?table WHERE {
+        ?c rpt:columnName $COLUMN ; rpt:inTable ?t . ?t rpt:dataset ?dataset ; rpt:tableName ?table .
+        ?f rpt:sourcedFrom ?c ; rpt:fieldId ?fid ; rpt:lineageStatus ?status ; rpt:inReport ?r .
+        ?r rpt:reportId ?report } ORDER BY ?report ?fid
+
+  CQ7:
+    who: data team
+    question: "Which data source and table does report $REPORT read, and which column carries each parameter?"
+    answer: |
+      SELECT ?source ?kind ?database ?dataset ?table ?param ?column WHERE {
+        ?r rpt:reportId $REPORT ; rpt:readsTable ?t . ?t rpt:dataset ?dataset ; rpt:tableName ?table .
+        OPTIONAL { ?t rpt:inDataSource ?s . ?s rdfs:label ?source . OPTIONAL { ?s rpt:sourceKind ?kind } OPTIONAL { ?s rpt:database ?database } }
+        OPTIONAL { ?r rpt:hasParameter ?p . ?p rdfs:label ?param ; rpt:boundToColumn ?c . ?c rpt:columnName ?column } } ORDER BY ?param
+    gaps: |
+      SELECT ?why WHERE {
+        ?r rpt:reportId $REPORT .
+        { FILTER NOT EXISTS { ?r rpt:readsTable ?t } BIND("report names no table" AS ?why) }
+        UNION { ?r rpt:readsTable ?t . FILTER NOT EXISTS { ?t rpt:inDataSource ?s } BIND("table is not attached to a data source" AS ?why) } }
+
+  CQ8:
+    who: engineer
+    question: "Which component renders field $FIELD, in which template release?"
+    answer: |
+      SELECT ?section ?component ?release ?version ?frozen WHERE {
+        ?f rpt:fieldId $FIELD ; rpt:inSection ?s ; rpt:inReport ?r . ?s rpt:renderedBy ?c . BIND(STRAFTER(STR(?c), "component/") AS ?component)
+        BIND(STRAFTER(STR(?s), "section/") AS ?section)
+        OPTIONAL { ?r rpt:releasedAs ?release . ?release rpt:version ?version . OPTIONAL { ?release rpt:frozen ?frozen } } }
+    terms: [rpt:rowStructure, rpt:members, rpt:regulatory, rpt:kind, rpt:audience, rpt:layout]
+
+  CQ9:
+    who: engineer
+    question: "Which reports share the field $FIELD?"
+    answer: |
+      SELECT ?report ?section WHERE {
+        ?f rpt:fieldId $FIELD ; rpt:inReport ?r ; rpt:inSection ?s . ?r rpt:reportId ?report .
+        BIND(STRAFTER(STR(?s), "section/") AS ?section) } ORDER BY ?report
+
+  # ─── operating contract of a release (manifest.json) ───
+  CQ10:
+    who: operations
+    question: "When does report $REPORT run — cadence, day, as-of rule, calendar, timezone — and at which template version?"
+    answer: |
+      SELECT ?version ?frozen ?cadence ?runOn ?asOf ?calendar ?timezone WHERE {
+        ?r rpt:reportId $REPORT ; rpt:releasedAs ?rel . ?rel rpt:version ?version ; rpt:hasSchedule ?s .
+        ?s rpt:cadence ?cadence ; rpt:runOn ?runOn ; rpt:asOfRule ?asOf ; rpt:timezone ?timezone .
+        OPTIONAL { ?s rpt:calendar ?calendar } OPTIONAL { ?rel rpt:frozen ?frozen } } ORDER BY DESC(?version)
+    gaps: |
+      SELECT ?version ?why WHERE {
+        ?r rpt:reportId $REPORT ; rpt:releasedAs ?rel . ?rel rpt:version ?version .
+        FILTER NOT EXISTS { ?rel rpt:hasSchedule ?s } BIND("release declares no schedule" AS ?why) }
+    terms: [rpt:ofReport, rpt:frozenAt]
+
+  CQ11:
+    who: compliance
+    question: "What verification thresholds and approval policy govern production runs of report $REPORT?"
+    answer: |
+      SELECT ?version ?ssimMin ?overflowBlocking ?fidelityMin ?sampleRate ?sampleMin ?fullReview ?reviewerRole WHERE {
+        ?r rpt:reportId $REPORT ; rpt:releasedAs ?rel . ?rel rpt:version ?version .
+        OPTIONAL { ?rel rpt:hasVerificationPolicy ?v . ?v rpt:goldenStaticSsimMin ?ssimMin ; rpt:overflowBlocking ?overflowBlocking . OPTIONAL { ?v rpt:fidelityMin ?fidelityMin } }
+        OPTIONAL { ?rel rpt:hasApprovalPolicy ?a . ?a rpt:sampleRate ?sampleRate ; rpt:sampleMin ?sampleMin .
+                   OPTIONAL { ?a rpt:fullReviewAfterRelease ?fullReview } OPTIONAL { ?a rpt:reviewerRole ?reviewerRole } } } ORDER BY DESC(?version)
+    gaps: |
+      SELECT ?version ?why WHERE {
+        ?r rpt:reportId $REPORT ; rpt:releasedAs ?rel . ?rel rpt:version ?version .
+        { FILTER NOT EXISTS { ?rel rpt:hasVerificationPolicy ?v } BIND("no verification policy" AS ?why) }
+        UNION { FILTER NOT EXISTS { ?rel rpt:hasApprovalPolicy ?a } BIND("no approval policy" AS ?why) } }
+
+  CQ12:
+    who: operations
+    question: "What identifies one document of report $REPORT, where do the allowed values of each parameter come from, and where is the document published?"
+    answer: |
+      SELECT ?param ?definition ?universe ?sql (GROUP_CONCAT(?val; separator="|") AS ?values) ?boundBy ?path ?format ?retention WHERE {
+        ?r rpt:reportId $REPORT ; rpt:releasedAs ?rel . ?rel rpt:hasParameter ?p . ?p rdfs:label ?param .
+        OPTIONAL { ?p rpt:definition ?definition } OPTIONAL { ?p rpt:allowedValue ?val } OPTIONAL { ?p rpt:boundBy ?boundBy }
+        OPTIONAL { ?p rpt:universeQuery ?u . ?u rdfs:label ?universe . OPTIONAL { ?u rpt:sql ?sql } }
+        OPTIONAL { ?rel rpt:hasPublishPolicy ?pub . ?pub rpt:pathPattern ?path . OPTIONAL { ?pub rpt:publishFormat ?format } OPTIONAL { ?pub rpt:retentionDays ?retention } } }
+      GROUP BY ?param ?definition ?universe ?sql ?boundBy ?path ?format ?retention ORDER BY ?param
+    gaps: |
+      SELECT ?param ?why WHERE {
+        ?r rpt:reportId $REPORT ; rpt:releasedAs ?rel . ?rel rpt:hasParameter ?p . ?p rdfs:label ?param .
+        FILTER NOT EXISTS { ?p rpt:universeQuery ?u } FILTER NOT EXISTS { ?p rpt:allowedValue ?v } FILTER NOT EXISTS { ?p rpt:boundBy ?b }
+        BIND("parameter has no universe: dispatcher cannot expand the batch" AS ?why) }
+    terms: [rpt:hasUniverseQuery, rpt:returnsParameter]
+
+  CQ13:
+    who: engineer
+    question: "What does the release of report $REPORT need to render — engine, ontology and library versions, fonts, files, pending assets, waivers?"
+    answer: |
+      SELECT ?version ?engine ?ontology ?library ?fonts ?files ?assetPending ?waiver WHERE {
+        ?r rpt:reportId $REPORT ; rpt:releasedAs ?rel . ?rel rpt:version ?version .
+        OPTIONAL { ?rel rpt:engineVersion ?engine } OPTIONAL { ?rel rpt:ontologyVersion ?ontology } OPTIONAL { ?rel rpt:libraryVersion ?library }
+        OPTIONAL { ?rel rpt:font ?fonts } OPTIONAL { ?rel rpt:fileHash ?files } OPTIONAL { ?rel rpt:assetPending ?assetPending } OPTIONAL { ?rel rpt:waiver ?waiver } }
+    gaps: |
+      SELECT ?version ?why WHERE {
+        ?r rpt:reportId $REPORT ; rpt:releasedAs ?rel . ?rel rpt:version ?version ; rpt:frozen true .
+        { FILTER NOT EXISTS { ?rel rpt:engineVersion ?e } BIND("frozen release pins no engine version" AS ?why) }
+        UNION { FILTER NOT EXISTS { ?rel rpt:ontologyVersion ?o } BIND("frozen release pins no ontology version" AS ?why) }
+        UNION { ?rel rpt:assetPending ?a BIND(CONCAT("asset still pending: ", ?a) AS ?why) } }
+    terms: [rpt:compiledAt, rpt:fileHash]
+
+  # ─── the catalogue: questions across report types ───
+  CQ14:
+    who: analyst
+    question: "Which report types exist — what is each for, where is it in its lifecycle, how often does it run, who owns it, and which template version is released?"
+    answer: |
+      SELECT ?report ?title ?status ?kind ?cadence ?owner ?version ?frozen ?purpose WHERE {
+        ?r a rpt:ReportType ; rpt:reportId ?report ; rdfs:label ?title ; rpt:kind ?kind ; rpt:purpose ?purpose .
+        OPTIONAL { ?r rpt:lifecycleStatus ?status }
+        OPTIONAL { ?r rpt:cadence ?declared } OPTIONAL { ?r rpt:owner ?owner }
+        OPTIONAL { ?r rpt:releasedAs ?rel . ?rel rpt:version ?version . OPTIONAL { ?rel rpt:frozen ?frozen }
+                   OPTIONAL { ?rel rpt:hasSchedule ?s . ?s rpt:cadence ?scheduled } }
+        BIND(COALESCE(?scheduled, ?declared) AS ?cadence) } ORDER BY ?report
+    gaps: |
+      SELECT ?report ?why WHERE {
+        ?r a rpt:ReportType ; rpt:reportId ?report . FILTER NOT EXISTS { ?r rpt:owner ?o }
+        BIND("report names no owner" AS ?why) }
+
+  CQ15:
+    who: analyst
+    question: "Which other reports show the same fields as report $REPORT, and which fields do they share?"
+    answer: |
+      SELECT ?other (COUNT(DISTINCT ?fid) AS ?shared) (GROUP_CONCAT(DISTINCT ?fid; separator=", ") AS ?fields) WHERE {
+        ?r rpt:reportId $REPORT . ?f rpt:inReport ?r ; rpt:fieldId ?fid .
+        ?g rpt:fieldId ?fid ; rpt:inReport ?o . ?o rpt:reportId ?other . FILTER(?o != ?r) }
+      GROUP BY ?other ORDER BY DESC(?shared) ?other
+
+  CQ16:
+    who: engineer
+    question: "Which report types use component $COMPONENT, and in which sections?"
+    answer: |
+      SELECT ?report ?section WHERE {
+        ?c a dt:Component ; rdfs:label $COMPONENT . ?s rpt:renderedBy ?c . ?r rpt:hasSection ?s ; rpt:reportId ?report .
+        BIND(STRAFTER(STR(?s), "section/") AS ?section) } ORDER BY ?report ?section
+
+  CQ17:
+    who: operations
+    question: "What is expected of each run of report $REPORT — delivery deadline and tolerated failures — who is alerted, and where is the run history?"
+    answer: |
+      SELECT ?version ?deliverWithinHours ?maxFailureRate (GROUP_CONCAT(DISTINCT ?alert; separator="|") AS ?alerts) ?runLog WHERE {
+        ?r rpt:reportId $REPORT ; rpt:releasedAs ?rel . ?rel rpt:version ?version ; rpt:hasObservabilityPolicy ?o .
+        ?o rpt:deliverWithinHours ?deliverWithinHours ; rpt:maxFailureRate ?maxFailureRate ; rpt:runLog ?runLog .
+        OPTIONAL { ?o rpt:alertRecipient ?alert } }
+      GROUP BY ?version ?deliverWithinHours ?maxFailureRate ?runLog ORDER BY DESC(?version)
+    gaps: |
+      SELECT ?version ?why WHERE {
+        ?r rpt:reportId $REPORT ; rpt:releasedAs ?rel . ?rel rpt:version ?version .
+        FILTER NOT EXISTS { ?rel rpt:hasObservabilityPolicy ?o } BIND("release declares no observability policy" AS ?why) }
+
+  CQ18:
+    who: analyst
+    question: "Which fields does the catalogue already define — id, type, English label, definition and the other names readers use — and how many reports use each?"
+    answer: |
+      SELECT ?fid ?type (COUNT(DISTINCT ?r) AS ?reports) (SAMPLE(?lab) AS ?label) (SAMPLE(?def) AS ?definition) ?aliases WHERE {
+        ?f rpt:fieldId ?fid ; rpt:fieldType ?type ; rpt:inReport ?r ; rpt:hasMeaning ?m . ?m rpt:locale "en" ; rpt:definition ?def .
+        OPTIONAL { ?m rpt:label ?lab }
+        OPTIONAL { SELECT ?fid (GROUP_CONCAT(DISTINCT ?alias; separator="|") AS ?aliases) WHERE { ?a rpt:fieldId ?fid ; rpt:alias ?alias } GROUP BY ?fid } }
+      GROUP BY ?fid ?type ?aliases ORDER BY DESC(?reports) ?fid
+
+  # ─── lifecycle of a report type ───
+  CQ19:
+    who: operations
+    question: "Where is report $REPORT in its lifecycle — inception, saved to the graph, in validation, in production — and who recorded each step, when?"
+    answer: |
+      SELECT ?step ?status ?by ?at ?note ?current WHERE {
+        ?r rpt:reportId $REPORT ; rpt:lifecycleStatus ?now ; rpt:hasStatusChange ?c .
+        ?c rpt:order ?step ; rpt:lifecycleStatus ?status ; rpt:changedBy ?by ; rpt:at ?at .
+        OPTIONAL { ?c rpt:note ?note }
+        OPTIONAL { FILTER NOT EXISTS { ?r rpt:hasStatusChange ?later . ?later rpt:order ?n . FILTER(?n > ?step) } BIND("yes" AS ?current) } }
+      ORDER BY ?step
+    gaps: |
+      SELECT ?why WHERE {
+        ?r rpt:reportId $REPORT . FILTER NOT EXISTS { ?r rpt:hasStatusChange ?c }
+        BIND("report records no lifecycle status" AS ?why) }
+
+  # ─── the accepted history of a definition ───
+  CQ20:
+    who: compliance
+    question: "How has the definition of report $REPORT changed — each accepted revision, who accepted it, when, from which date it applies, why, and which facts it added, changed or removed?"
+    why: "A definition that is corrected in place loses what was true when earlier documents were produced; compliance must be able to show it, with who decided and why."
+    answer: |
+      SELECT ?revision ?at ?by ?effective ?why ?fact ?kind ?from ?to WHERE {
+        ?r rpt:reportId $REPORT ; rpt:hasRevision ?v . ?v rpt:order ?revision ; rpt:changedBy ?by ; rpt:at ?at ; rpt:reason ?why .
+        OPTIONAL { ?v rpt:effectiveFrom ?effective }
+        OPTIONAL { ?v rpt:hasChange ?c . ?c rpt:fact ?fact ; rpt:changeKind ?kind .
+                   OPTIONAL { ?c rpt:previousValue ?from } OPTIONAL { ?c rpt:newValue ?to } } } ORDER BY ?revision ?fact
+    gaps: |
+      SELECT ?why WHERE {
+        ?r rpt:reportId $REPORT . FILTER NOT EXISTS { ?r rpt:hasRevision ?v }
+        BIND("report has no accepted revision: its definition can change without a record" AS ?why) }
+
+  CQ21:
+    who: analyst
+    question: "Has anything about field $FIELD changed in any report — its meaning, label, type or column — what was it before, when, who accepted the change, and why?"
+    why: "Before reusing a field or trusting a figure, an analyst needs to know whether its meaning or its column moved, and since when."
+    answer: |
+      SELECT ?report ?revision ?at ?effective ?by ?why ?fact ?kind ?from ?to WHERE {
+        ?r rpt:reportId ?report ; rpt:hasRevision ?v . ?v rpt:order ?revision ; rpt:changedBy ?by ; rpt:at ?at ; rpt:reason ?why ; rpt:hasChange ?c .
+        OPTIONAL { ?v rpt:effectiveFrom ?effective }
+        ?c rpt:fact ?fact ; rpt:changeKind ?kind . FILTER(CONTAINS(?fact, CONCAT("fields.", $FIELD, ".")) || STRENDS(?fact, CONCAT("fields.", $FIELD)))
+        OPTIONAL { ?c rpt:previousValue ?from } OPTIONAL { ?c rpt:newValue ?to } } ORDER BY ?report ?revision ?fact
+    gaps: |
+      SELECT ?report ?why WHERE {
+        ?f rpt:fieldId $FIELD ; rpt:inReport ?r . ?r rpt:reportId ?report . FILTER NOT EXISTS { ?r rpt:hasRevision ?v }
+        BIND("report has no accepted history: earlier changes to this field were not recorded" AS ?why) }

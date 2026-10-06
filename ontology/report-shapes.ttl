@@ -1,0 +1,177 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rpt:  <https://cynergis.ai/ont/report#> .
+@prefix dt:   <https://cynergis.ai/ont/doctemplate#> .
+@prefix shp:  <https://cynergis.ai/ont/report/shapes#> .
+@prefix meta: <https://cynergis.ai/ont/meta#> .
+
+# Conformance of a compiled report graph. Violation = the graph cannot answer a required competency
+# question. Warning = it answers with a gap the user must see (missing locale, unmapped field, no owner).
+
+shp:ReportType a sh:NodeShape ; sh:targetClass rpt:ReportType ;
+    sh:property [ sh:path rpt:reportId ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rpt:version ; sh:minCount 1 ] ;
+    sh:property [ sh:path rpt:purpose ; sh:minCount 1 ; sh:minLength 20 ; sh:message "Report has no purpose statement" ] ;
+    sh:property [ sh:path rpt:hasParameter ; sh:minCount 1 ; sh:message "Report declares no identifying parameters (CQ2)" ] ;
+    sh:property [ sh:path rpt:hasSection ; sh:minCount 1 ] ;
+    sh:property [ sh:path rpt:locale ; sh:minCount 1 ] ;
+    sh:property [ sh:path rpt:derivedFrom ; sh:minCount 1 ; sh:message "Report has no source document (CQ3)" ] ;
+    sh:property [ sh:path rpt:lifecycleStatus ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("inception" "saved" "in_validation" "in_production") ; sh:message "Report does not carry exactly one lifecycle status (CQ19)" ] ;
+    sh:property [ sh:path rpt:hasStatusChange ; sh:minCount 1 ; sh:message "Report records no status change (CQ19)" ] ;
+    sh:sparql [ sh:message "Report is in production but its release is not frozen: only a frozen release produces documents (CQ19)" ;
+        sh:select """PREFIX rpt: <https://cynergis.ai/ont/report#>
+            SELECT $this WHERE { $this rpt:lifecycleStatus "in_production" .
+              FILTER NOT EXISTS { $this rpt:releasedAs ?rel . ?rel rpt:frozen true } }""" ] .
+
+shp:StatusChange a sh:NodeShape ; sh:targetClass rpt:StatusChange ;
+    sh:property [ sh:path rpt:lifecycleStatus ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("inception" "saved" "in_validation" "in_production") ] ;
+    sh:property [ sh:path rpt:changedBy ; sh:minCount 1 ; sh:pattern "^[^<]" ; sh:message "Status change does not say who recorded it (CQ19)" ] ;
+    sh:property [ sh:path rpt:at ; sh:minCount 1 ; sh:message "Status change does not say when it was recorded (CQ19)" ] ;
+    sh:property [ sh:path rpt:order ; sh:minCount 1 ] .
+
+shp:Section a sh:NodeShape ; sh:targetClass rpt:Section ;
+    sh:property [ sh:path rpt:purpose ; sh:minCount 1 ; sh:message "Section has no purpose" ] ;
+    sh:property [ sh:path rpt:renderedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "Section not bound to a component (CQ8)" ] ;
+    sh:property [ sh:path rpt:hasField ; sh:minCount 1 ; sh:message "Section has no fields" ] ;
+    sh:property [ sh:path rpt:order ; sh:minCount 1 ] .
+
+shp:Field a sh:NodeShape ; sh:targetClass rpt:Field ;
+    sh:property [ sh:path rpt:fieldId ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rpt:fieldType ; sh:minCount 1 ;
+                  sh:in ("text" "enum" "number" "integer" "percent" "currency" "currency_pair" "percent_by_series" "date" "list" "grouped_list" "series" "list_of_text" "boolean") ] ;
+    sh:property [ sh:path rpt:inSection ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "Field must sit in exactly one section" ] ;
+    sh:property [ sh:path rpt:inReport ; sh:minCount 1 ] ;
+    sh:property [ sh:path rpt:hasMeaning ; sh:minCount 1 ; sh:message "Field has no meaning in any locale (CQ1)" ] ;
+    sh:property [ sh:path rpt:lineageStatus ; sh:minCount 1 ; sh:in ("unmapped" "proposed" "verified") ; sh:message "Field has no lineage entry (CQ5)" ] ;
+    sh:sparql [ sh:message "Field has no English meaning" ;
+        sh:select """PREFIX rpt: <https://cynergis.ai/ont/report#>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rpt:hasMeaning ?m . ?m rpt:locale "en" ; rpt:definition ?d } }""" ] ;
+    sh:property [ sh:path rpt:sourcedFrom ; sh:maxCount 1 ; sh:message "Field is mapped to more than one column (CQ5)" ] ;
+    sh:sparql [ sh:message "Mapping says proposed/verified but no column is attached (CQ5)" ;
+        sh:select """PREFIX rpt: <https://cynergis.ai/ont/report#>
+            SELECT $this WHERE { $this rpt:lineageStatus ?s . FILTER(?s IN ("proposed","verified"))
+              FILTER NOT EXISTS { $this rpt:sourcedFrom ?x } }""" ] ;
+    sh:sparql [ sh:message "Field is mapped to a column outside the report's table (CQ5, CQ7)" ;
+        sh:select """PREFIX rpt: <https://cynergis.ai/ont/report#>
+            SELECT $this WHERE { $this rpt:sourcedFrom ?c ; rpt:inReport ?r . ?c rpt:inTable ?t .
+              FILTER NOT EXISTS { ?r rpt:readsTable ?t } }""" ] .
+
+shp:FieldMeaning a sh:NodeShape ; sh:targetClass rpt:FieldMeaning ;
+    sh:property [ sh:path rpt:locale ; sh:minCount 1 ; sh:in ("en" "fr") ] ;
+    sh:property [ sh:path rpt:definition ; sh:minCount 1 ; sh:minLength 8 ] .
+
+shp:Column a sh:NodeShape ; sh:targetClass rpt:Column ;
+    sh:property [ sh:path rpt:columnName ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rpt:inTable ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "Column not attached to exactly one table (CQ6)" ] .
+
+shp:DataSource a sh:NodeShape ; sh:targetClass rpt:DataSource ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:message "Data source has no name (CQ7)" ] ;
+    sh:property [ sh:path rpt:sourceKind ; sh:minCount 1 ; sh:message "Data source has no kind: the loader cannot choose a connection (CQ7)" ] .
+
+shp:Table a sh:NodeShape ; sh:targetClass rpt:Table ;
+    sh:property [ sh:path rpt:dataset ; sh:minCount 1 ] ;
+    sh:property [ sh:path rpt:tableName ; sh:minCount 1 ] .
+
+shp:Run a sh:NodeShape ; sh:targetClass rpt:Run ;
+    sh:property [ sh:path rpt:usedSource ; sh:minCount 1 ; sh:message "Run used no source document (CQ3)" ] ;
+    sh:property [ sh:path rpt:flowVersion ; sh:minCount 1 ] ;
+    sh:property [ sh:path rpt:engineVersion ; sh:minCount 1 ] ;
+    sh:property [ sh:path rpt:result ; sh:minCount 1 ; sh:in ("draft" "signed_off" "frozen") ] .
+
+shp:Approval a sh:NodeShape ; sh:targetClass rpt:Approval ;
+    sh:property [ sh:path rpt:gate ; sh:minCount 1 ] ;
+    sh:property [ sh:path rpt:decision ; sh:minCount 1 ] ;
+    sh:property [ sh:path rpt:reviewer ; sh:minCount 1 ; sh:pattern "^[^<]" ; sh:message "Approval reviewer is a placeholder" ] .
+
+shp:SourceDocument a sh:NodeShape ; sh:targetClass dt:SourceDocument ;
+    sh:property [ sh:path rpt:repoUrl ; sh:minCount 1 ] ;
+    sh:property [ sh:path rpt:sha256 ; sh:minCount 1 ; sh:pattern "^[0-9a-f]{64}$" ; sh:message "Source document has no real sha256" ] .
+
+# ─────────────── Release operating contract (manifest.json; CQ10-13, CQ17) ───────────────
+shp:Schedule a sh:NodeShape ; sh:targetClass rpt:Schedule ;
+    sh:property [ sh:path rpt:cadence ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("daily" "weekly" "monthly" "quarterly" "semi_annual" "annual" "on_demand") ] ;
+    sh:property [ sh:path rpt:runOn ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^(business_day:[0-9]{1,2}|calendar_day:[0-9]{1,2}|weekday:[1-7]|on_demand)$" ] ;
+    sh:property [ sh:path rpt:asOfRule ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rpt:timezone ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+shp:VerificationPolicy a sh:NodeShape ; sh:targetClass rpt:VerificationPolicy ;
+    sh:property [ sh:path rpt:goldenStaticSsimMin ; sh:minCount 1 ; sh:minInclusive 0.9 ; sh:message "Static-region SSIM threshold below 0.9 defeats the golden check" ] ;
+    sh:property [ sh:path rpt:overflowBlocking ; sh:minCount 1 ] .
+
+shp:ApprovalPolicy a sh:NodeShape ; sh:targetClass rpt:ApprovalPolicy ;
+    sh:property [ sh:path rpt:sampleRate ; sh:minCount 1 ; sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ] ;
+    sh:property [ sh:path rpt:sampleMin ; sh:minCount 1 ; sh:minInclusive 1 ; sh:message "Approval policy samples nothing" ] .
+
+shp:PublishPolicy a sh:NodeShape ; sh:targetClass rpt:PublishPolicy ;
+    sh:property [ sh:path rpt:pathPattern ; sh:minCount 1 ; sh:pattern "\\{template_id\\}" ; sh:message "Publish path must carry {template_id} (CQ12)" ] .
+
+shp:ObservabilityPolicy a sh:NodeShape ; sh:targetClass rpt:ObservabilityPolicy ;
+    sh:property [ sh:path rpt:deliverWithinHours ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 1 ; sh:message "Observability policy has no delivery deadline (CQ17)" ] ;
+    sh:property [ sh:path rpt:maxFailureRate ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ; sh:message "Observability policy has no failure rate between 0 and 1 (CQ17)" ] ;
+    sh:property [ sh:path rpt:alertRecipient ; sh:minCount 1 ; sh:message "Observability policy alerts nobody (CQ17)" ] ;
+    sh:property [ sh:path rpt:runLog ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "Observability policy does not say where the run history is recorded (CQ17)" ] .
+
+shp:UniverseQuery a sh:NodeShape ; sh:targetClass rpt:UniverseQuery ;
+    sh:property [ sh:path rpt:sql ; sh:minCount 1 ] .
+
+shp:FrozenRelease a sh:NodeShape ; sh:targetClass dt:TemplateRelease ;
+    sh:sparql [ sh:message "Frozen release lacks part of its operating contract (schedule, policies, observability, parameters, engine/ontology/library version)" ;
+        sh:select """PREFIX rpt: <https://cynergis.ai/ont/report#>
+            SELECT $this WHERE { $this rpt:frozen true .
+              FILTER( NOT EXISTS { $this rpt:hasSchedule ?s } || NOT EXISTS { $this rpt:hasVerificationPolicy ?v } || NOT EXISTS { $this rpt:hasApprovalPolicy ?a }
+                   || NOT EXISTS { $this rpt:hasPublishPolicy ?p } || NOT EXISTS { $this rpt:hasObservabilityPolicy ?ob } || NOT EXISTS { $this rpt:hasParameter ?q } || NOT EXISTS { $this rpt:engineVersion ?e }
+                   || NOT EXISTS { $this rpt:ontologyVersion ?o } || NOT EXISTS { $this rpt:libraryVersion ?l } ) }""" ] .
+
+# ─────────────── Gaps (Warning) ───────────────
+shp:ReleaseContract a sh:NodeShape ; sh:targetClass dt:TemplateRelease ; sh:severity sh:Warning ;
+    sh:property [ sh:path rpt:hasSchedule ; sh:severity sh:Warning ; sh:minCount 1 ; sh:message "Release declares no schedule (CQ10; blocks production)" ] ;
+    sh:property [ sh:path rpt:hasApprovalPolicy ; sh:severity sh:Warning ; sh:minCount 1 ; sh:message "Release declares no approval policy (CQ11)" ] ;
+    sh:property [ sh:path rpt:hasVerificationPolicy ; sh:severity sh:Warning ; sh:minCount 1 ; sh:message "Release declares no verification policy (CQ11)" ] ;
+    sh:property [ sh:path rpt:hasPublishPolicy ; sh:severity sh:Warning ; sh:minCount 1 ; sh:message "Release declares no publish policy (CQ12)" ] ;
+    sh:property [ sh:path rpt:hasObservabilityPolicy ; sh:severity sh:Warning ; sh:minCount 1 ; sh:message "Release declares no observability policy (CQ17; blocks production)" ] .
+
+shp:ParameterUniverse a sh:NodeShape ; sh:targetClass rpt:Parameter ; sh:severity sh:Warning ;
+    sh:sparql [ sh:message "Parameter has no universe (query, values or run-time binding): the dispatcher cannot expand a batch (CQ12)" ;
+        sh:select """PREFIX rpt: <https://cynergis.ai/ont/report#>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rpt:universeQuery ?u } FILTER NOT EXISTS { $this rpt:allowedValue ?v } FILTER NOT EXISTS { $this rpt:boundBy ?b } }""" ] .
+
+shp:FieldFrench a sh:NodeShape ; sh:targetClass rpt:Field ; sh:severity sh:Warning ;
+    sh:sparql [ sh:message "Field has no French meaning although the report is offered in fr" ;
+        sh:select """PREFIX rpt: <https://cynergis.ai/ont/report#>
+            SELECT $this WHERE { $this rpt:inReport ?r . ?r rpt:locale "fr" .
+              FILTER NOT EXISTS { $this rpt:hasMeaning ?m . ?m rpt:locale "fr" } }""" ] .
+
+shp:FieldUnmapped a sh:NodeShape ; sh:targetClass rpt:Field ; sh:severity sh:Warning ;
+    sh:property [ sh:path rpt:lineageStatus ; sh:severity sh:Warning ; sh:not [ sh:hasValue "unmapped" ] ; sh:message "Field not mapped to a column (blocks production release)" ] .
+
+shp:ReportData a sh:NodeShape ; sh:targetClass rpt:ReportType ; sh:severity sh:Warning ;
+    sh:property [ sh:path rpt:readsTable ; sh:severity sh:Warning ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "Report does not name exactly one table (CQ7; blocks production release)" ] ;
+    sh:property [ sh:path rpt:owner ; sh:severity sh:Warning ; sh:minCount 1 ; sh:message "Report names no owner (CQ14)" ] .
+
+shp:TableSource a sh:NodeShape ; sh:targetClass rpt:Table ; sh:severity sh:Warning ;
+    sh:property [ sh:path rpt:inDataSource ; sh:severity sh:Warning ; sh:minCount 1 ; sh:message "Table is not attached to a data source (CQ7)" ] .
+
+shp:ReleaseFrozen a sh:NodeShape ; sh:targetClass dt:TemplateRelease ; sh:severity sh:Warning ;
+    sh:property [ sh:path rpt:frozen ; sh:severity sh:Warning ; sh:hasValue true ; sh:message "Template release not frozen" ] .
+
+# ─── the accepted history of a definition (CQ20, CQ21) ───
+shp:Revision a sh:NodeShape ; sh:targetClass rpt:Revision ;
+    sh:property [ sh:path rpt:order ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rpt:changedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[^<]" ; sh:message "Revision does not say who accepted it (CQ20)" ] ;
+    sh:property [ sh:path rpt:at ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "Revision does not say when it was recorded (CQ20)" ] ;
+    sh:property [ sh:path rpt:reason ; sh:minCount 1 ; sh:message "Revision does not say why it was accepted (CQ20)" ] ;
+    meta:rationale "A revision nobody can attribute or explain is an overwrite with extra steps." .
+
+shp:Change a sh:NodeShape ; sh:targetClass rpt:Change ;
+    sh:property [ sh:path rpt:fact ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rpt:changeKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "added" "changed" "removed" ) ] ;
+    sh:sparql [ sh:message "A changed or removed fact does not keep the value it had before (CQ21)" ;
+        sh:select """PREFIX rpt: <https://cynergis.ai/ont/report#>
+            SELECT $this WHERE { $this rpt:changeKind ?k . FILTER(?k IN ("changed", "removed")) FILTER NOT EXISTS { $this rpt:previousValue ?v } }""" ] ;
+    meta:rationale "The value before is the whole point of supersession: without it the history says that a fact changed but not what was true." .
+
+shp:ReportHistory a sh:NodeShape ; sh:targetClass rpt:ReportType ; sh:severity sh:Warning ;
+    sh:property [ sh:path rpt:hasRevision ; sh:severity sh:Warning ; sh:minCount 1 ;
+                  sh:message "Report has no accepted revision: its definition can change without a record (CQ20; blocks production)" ] ;
+    meta:rationale "A warning, not a violation: reports written before 2.1.0 have no history yet and must keep compiling until someone accepts their definition." .

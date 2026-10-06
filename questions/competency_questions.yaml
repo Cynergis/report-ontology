@@ -1,0 +1,257 @@
+# Competency questions — the contract between the graph and the agents that build the flow code.
+# An agent asks the questions for its task type; required questions must be answered with no gaps,
+# otherwise the brief is BLOCKED and names the missing facts. Absent is not "none".
+#
+# Each question has:
+#   answer:  SPARQL returning the facts (with graph IRIs, so code can cite them)
+#   gaps:    SPARQL returning what SHOULD exist but doesn't. Any row = gap.
+#   gate:    non_empty (answer must return rows) | gaps_only (only the gaps query decides)
+# Parameters: $STEP, $PARAM, $ARTIFACT are replaced with IRIs before execution.
+
+ontology_version: "0.1.1"
+
+task_types:
+  implement-step:
+    description: "An agent is about to write the script for one flow step (e.g. verify.py for B10_verify)."
+    params: [STEP]
+    required: [CQ01, CQ02, CQ03, CQ04, CQ05, CQ06, CQ08, CQ10, CQ11]
+    optional: [CQ07, CQ09]
+  write-tests:
+    description: "An agent writes the tests a step's implementation must pass, before the implementation exists."
+    params: [STEP]
+    required: [CQ04, CQ11, CQ12]
+    optional: [CQ07, CQ03]
+  build-engine:
+    description: "An agent writes the runner that executes the flow graph (state, guards, effects, human pauses)."
+    params: []
+    required: [CQ13, CQ14, CQ15]
+    optional: []
+  impact-parameter:
+    description: "A threshold or config value is about to change: what is affected?"
+    params: [PARAM]
+    required: [CQ16]
+    optional: []
+  impact-artifact:
+    description: "An artifact's structure is about to change: who reads it, who writes it, what checks depend on it?"
+    params: [ARTIFACT]
+    required: [CQ17]
+    optional: []
+
+questions:
+  CQ01:
+    question: "What is this step for, and what kind of executor runs it?"
+    gate: non_empty
+    answer: |
+      SELECT ?step ?stepId ?name ?type ?description ?usesOcr ?foreach WHERE {
+        BIND($STEP AS ?step)
+        ?step flow:stepId ?stepId ; rdfs:label ?name ; a ?type ; dct:description ?description .
+        ?type rdfs:subClassOf flow:Step .
+        OPTIONAL { ?step flow:usesOcr ?usesOcr }
+        OPTIONAL { ?step flow:foreach ?foreach }
+      }
+
+  CQ02:
+    question: "Which artifacts does it read and write, where, in what format?"
+    gate: non_empty
+    answer: |
+      SELECT ?direction ?artifact ?path ?format WHERE {
+        { $STEP flow:reads ?artifact BIND("input" AS ?direction) }
+        UNION { $STEP flow:readsOptional ?artifact BIND("input (optional)" AS ?direction) }
+        UNION { $STEP flow:writes ?artifact BIND("output" AS ?direction) }
+        ?artifact flow:path ?path ; flow:format ?format .
+      } ORDER BY ?direction
+
+  CQ03:
+    question: "What structure (fields) must each JSON artifact it writes have?"
+    gate: gaps_only
+    answer: |
+      SELECT ?artifact ?fieldPath WHERE {
+        $STEP flow:writes ?artifact . ?artifact flow:hasField ?f . ?f flow:fieldPath ?fieldPath .
+      } ORDER BY ?artifact ?fieldPath
+    gaps: |
+      SELECT ?artifact ?why WHERE {
+        $STEP flow:writes ?artifact . ?artifact flow:format ?format .
+        FILTER(?format IN ("json", "json-schema"))
+        FILTER NOT EXISTS { ?artifact flow:hasField ?f }
+        BIND("JSON output has no field specification" AS ?why)
+      }
+
+  CQ04:
+    question: "Which checks gate this step: what does each measure, against which threshold, and what happens on failure?"
+    gate: gaps_only
+    answer: |
+      SELECT ?check ?checkId ?kind ?expression ?metric ?parameter ?paramValue ?blocking ?onFail WHERE {
+        $STEP flow:hasCheck ?check .
+        ?check flow:checkId ?checkId ; flow:checkKind ?kind ; flow:expression ?expression ;
+               flow:blocking ?blocking ; flow:onFail ?o . ?o flow:outcomeName ?onFail .
+        OPTIONAL { ?check flow:measures ?m . ?m flow:metricName ?metric }
+        OPTIONAL { ?check flow:comparedTo ?p . ?p flow:paramName ?parameter ; flow:value ?paramValue }
+      } ORDER BY ?checkId
+    gaps: |
+      SELECT ?check ?why WHERE {
+        $STEP flow:hasCheck ?check . ?check flow:checkKind "metric" .
+        FILTER NOT EXISTS { ?check flow:measures ?m }
+        BIND("metric check measures no metric" AS ?why)
+      }
+
+  CQ05:
+    question: "Which metrics must the step record in state (and are all checked metrics recorded)?"
+    gate: gaps_only
+    answer: |
+      SELECT ?metric WHERE { $STEP flow:records ?m . ?m flow:metricName ?metric } ORDER BY ?metric
+    gaps: |
+      SELECT DISTINCT ?metric ?why WHERE {
+        $STEP flow:hasCheck ?c . ?c flow:measures ?m . ?m flow:metricName ?metric .
+        FILTER NOT EXISTS { $STEP flow:records ?m }
+        BIND("a check reads this metric but the step does not declare it as recorded" AS ?why)
+      }
+
+  CQ06:
+    question: "Which configuration parameters does the step depend on, and their current values?"
+    gate: gaps_only
+    answer: |
+      SELECT DISTINCT ?parameter ?value ?via WHERE {
+        { $STEP flow:hasCheck ?c . ?c flow:comparedTo ?p BIND("check" AS ?via) }
+        UNION { ?t flow:from $STEP ; flow:usesParameter ?p BIND("transition guard" AS ?via) }
+        UNION { $STEP flow:usesParameter ?p BIND("command/action" AS ?via) }
+        ?p flow:paramName ?parameter ; flow:value ?value .
+      } ORDER BY ?parameter
+    gaps: |
+      SELECT ?parameter ?why WHERE {
+        { $STEP flow:usesParameter ?p } UNION { $STEP flow:hasCheck ?c . ?c flow:comparedTo ?p }
+        ?p flow:paramName ?parameter .
+        FILTER NOT EXISTS { ?p flow:value ?v }
+        BIND("parameter referenced but has no value in config" AS ?why)
+      }
+
+  CQ07:
+    question: "Which domain invariants does this step enforce?"
+    gate: non_empty
+    answer: |
+      SELECT ?invariant ?statement ?check WHERE {
+        $STEP flow:hasCheck ?check . ?invariant flow:enforcedBy ?check ; flow:statement ?statement .
+      }
+
+  CQ08:
+    question: "How is the step executed (command, Claude prompt, or human review), and does an implementation exist?"
+    gate: gaps_only
+    answer: |
+      SELECT ?mode ?spec ?implPath ?implExists WHERE {
+        { $STEP flow:command ?spec BIND("command" AS ?mode) }
+        UNION { $STEP flow:promptRef ?spec BIND("claude prompt" AS ?mode) }
+        UNION { $STEP flow:reviewPage ?spec BIND("human review page" AS ?mode) }
+        OPTIONAL { $STEP flow:implementedBy ?i . ?i flow:path ?implPath ; flow:exists ?implExists }
+      }
+    gaps: |
+      SELECT ?why WHERE {
+        BIND($STEP AS ?s)
+        FILTER NOT EXISTS { ?s flow:command ?c } FILTER NOT EXISTS { ?s flow:promptRef ?p }
+        FILTER NOT EXISTS { ?s flow:reviewPage ?r } FILTER NOT EXISTS { ?s a flow:TerminalStep }
+        BIND("no execution spec (command, prompt or review page)" AS ?why)
+      }
+
+  CQ09:
+    question: "Which later steps consume what this step writes (field names must match)?"
+    gate: non_empty
+    answer: |
+      SELECT ?artifact ?consumer WHERE {
+        $STEP flow:writes ?artifact .
+        { ?c flow:reads ?artifact } UNION { ?c flow:readsOptional ?artifact }
+        ?c flow:stepId ?consumer . FILTER(?c != $STEP)
+      } ORDER BY ?artifact ?consumer
+
+  CQ10:
+    question: "Which domain concepts do its inputs and outputs carry, and what do they mean?"
+    gate: gaps_only
+    answer: |
+      SELECT DISTINCT ?artifact ?concept ?label ?definition WHERE {
+        { $STEP flow:reads ?artifact } UNION { $STEP flow:readsOptional ?artifact } UNION { $STEP flow:writes ?artifact }
+        ?artifact flow:carries ?concept . ?concept rdfs:label ?label ; skos:definition ?definition .
+      } ORDER BY ?artifact
+    gaps: |
+      SELECT DISTINCT ?artifact ?why WHERE {
+        { $STEP flow:reads ?artifact } UNION { $STEP flow:readsOptional ?artifact } UNION { $STEP flow:writes ?artifact }
+        FILTER NOT EXISTS { ?artifact flow:carries ?c }
+        BIND("artifact not bound to any domain concept" AS ?why)
+      }
+
+  CQ11:
+    question: "For each outcome, which transition fires, under which guard, and where does it go?"
+    gate: gaps_only
+    answer: |
+      SELECT ?outcome ?transition ?priority ?guard ?to WHERE {
+        $STEP flow:hasOutcome ?o . ?o flow:outcomeName ?outcome .
+        ?transition flow:from $STEP ; flow:onOutcome ?o .
+        OPTIONAL { ?transition flow:priority ?priority }
+        OPTIONAL { ?transition flow:guard ?guard }
+        OPTIONAL { ?transition flow:to ?t . ?t flow:stepId ?toId }
+        OPTIONAL { ?transition flow:toDynamic ?dyn }
+        BIND(COALESCE(?toId, ?dyn) AS ?to)
+      } ORDER BY ?outcome ?priority
+    gaps: |
+      SELECT ?outcome ?why WHERE {
+        $STEP flow:hasOutcome ?o . ?o flow:outcomeName ?outcome .
+        FILTER NOT EXISTS { ?t flow:onOutcome ?o }
+        BIND("outcome has no transition" AS ?why)
+      }
+
+  CQ12:
+    question: "Which tests must exist for this step (derived mechanically from checks, transitions and invariants)?"
+    gate: non_empty
+    answer: |
+      SELECT ?test ?kind ?description WHERE {
+        ?test a flow:TestObligation ; flow:forStep $STEP ; flow:obligationKind ?kind ; dct:description ?description .
+      } ORDER BY ?kind ?test
+
+  CQ13:
+    question: "Which state paths and config parameters do transition guards read?"
+    gate: non_empty
+    answer: |
+      SELECT ?transition ?guard ?statePath WHERE {
+        ?transition flow:guard ?guard ; flow:readsStatePath ?statePath .
+      } ORDER BY ?transition
+
+  CQ14:
+    question: "What must every human step record before the flow can continue?"
+    gate: non_empty
+    answer: |
+      SELECT ?step ?option ?requiredField WHERE {
+        ?s a flow:HumanStep ; flow:stepId ?step ; flow:decisionOption ?option ; flow:requiredField ?requiredField .
+      } ORDER BY ?step
+
+  CQ15:
+    question: "Which steps have no implementation yet?"
+    gate: gaps_only
+    answer: |
+      SELECT ?step ?type ?implemented WHERE {
+        ?s flow:stepId ?step ; a ?type ; flow:isImplemented ?implemented .
+        ?type rdfs:subClassOf flow:Step . FILTER(?type NOT IN (flow:HumanStep, flow:TerminalStep))
+      } ORDER BY ?implemented ?step
+    gaps: |
+      SELECT ?step ?why WHERE {
+        ?s flow:stepId ?step ; flow:isImplemented true ; flow:implementedBy ?i . ?i flow:exists false .
+        BIND("marked implemented but script missing" AS ?why)
+      }
+
+  CQ16:
+    question: "If this parameter changes, which checks, transitions and tests are affected?"
+    gate: non_empty
+    answer: |
+      SELECT ?kind ?element ?step WHERE {
+        { ?element flow:comparedTo $PARAM . ?s flow:hasCheck ?element BIND("check" AS ?kind) }
+        UNION { ?element flow:usesParameter $PARAM ; flow:from ?s BIND("transition" AS ?kind) }
+        UNION { ?element flow:usesParameter $PARAM ; a flow:Step . BIND(?element AS ?s) BIND("step action" AS ?kind) }
+        UNION { ?c flow:comparedTo $PARAM . ?element flow:tests ?c ; flow:forStep ?s BIND("test" AS ?kind) }
+        ?s flow:stepId ?step .
+      } ORDER BY ?kind ?step
+
+  CQ17:
+    question: "If this artifact's structure changes, who writes it, who reads it, which checks touch it?"
+    gate: non_empty
+    answer: |
+      SELECT ?role ?step WHERE {
+        { ?s flow:writes $ARTIFACT BIND("writer" AS ?role) }
+        UNION { ?s flow:reads $ARTIFACT BIND("reader" AS ?role) }
+        UNION { ?s flow:readsOptional $ARTIFACT BIND("reader (optional)" AS ?role) }
+        ?s flow:stepId ?step .
+      } ORDER BY ?role ?step

@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cynergis.ai/schema/docgen/provenance/2.1.0",
+  "title": "semantic/provenance.yaml — what led to this template",
+  "x-ontology": "https://cynergis.ai/ont/report",
+  "x-ontology-version": "2.1.0",
+  "x-provided-by": "flow",
+  "type": "object", "additionalProperties": false, "required": ["source_reports", "lifecycle"],
+  "properties": {
+    "lifecycle": {
+      "type": "array", "minItems": 1, "x-term": "rpt:hasStatusChange", "x-provided-by": "agent",
+      "description": "the report's status history: one entry appended each time it reaches a status, never rewritten; the last entry is the current status. Starts with inception when the definition is started.",
+      "items": {
+        "type": "object", "additionalProperties": false, "x-class": "rpt:StatusChange",
+        "required": ["status", "by", "at"],
+        "properties": {
+          "status": {"type": "string", "enum": ["inception", "saved", "in_validation", "in_production"], "x-term": "rpt:lifecycleStatus"},
+          "by":     {"type": "string", "pattern": "^[^<]", "x-term": "rpt:changedBy"},
+          "at":     {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}", "x-term": "rpt:at"},
+          "note":   {"type": "string", "x-term": "rpt:note"}
+        }
+      }
+    },
+    "source_reports": {
+      "type": "array", "minItems": 1, "x-term": "rpt:derivedFrom", "x-provided-by": "analyst",
+      "items": {
+        "type": "object", "additionalProperties": false, "x-class": "dt:SourceDocument",
+        "required": ["id", "role", "repo_url", "sha256"],
+        "properties": {
+          "id":             {"type": "string", "x-structural": true, "x-provided-by": "flow"},
+          "role":           {"type": "string", "enum": ["primary", "alternate", "reference"], "x-term": "rpt:role"},
+          "title":          {"type": "string", "x-term": "rdfs:label"},
+          "repo_url":       {"type": "string", "x-term": "rpt:repoUrl"},
+          "sha256":         {"type": "string", "x-term": "rpt:sha256", "x-provided-by": "flow"},
+          "received":       {"type": ["string", "object"], "x-term": "rpt:receivedOn"},
+          "page_kinds":     {"type": "array", "items": {"type": "string", "enum": ["vector", "raster", "mixed"]}, "x-term": "rpt:pageKind", "x-provided-by": "flow"},
+          "reference_kind": {"type": "string", "enum": ["vector", "raster"], "x-term": "rpt:referenceKind", "x-provided-by": "flow"},
+          "notes":          {"type": "string", "x-term": "rpt:note"}
+        }
+      }
+    },
+    "runs": {
+      "type": "array", "minItems": 1, "x-term": "rpt:producedBy",
+      "description": "absent while the report is only defined; the first build run of the flow adds the first entry",
+      "items": {
+        "type": "object", "additionalProperties": false, "x-class": "rpt:Run",
+        "required": ["id", "flow", "flow_version", "engine_version", "started", "inputs", "result"],
+        "properties": {
+          "id":             {"type": "string", "x-term": "rdfs:label"},
+          "flow":           {"type": "string", "x-term": "rpt:flow"},
+          "flow_version":   {"type": "string", "x-term": "rpt:flowVersion"},
+          "engine_version": {"type": "string", "x-term": "rpt:engineVersion"},
+          "started":        {"type": ["string", "object"], "x-term": "rpt:startedAt"},
+          "inputs":         {"type": "array", "items": {"type": "string"}, "x-term": "rpt:usedSource"},
+          "result":         {"type": "string", "enum": ["draft", "signed_off", "frozen"], "x-term": "rpt:result"},
+          "steps": {
+            "type": "array", "x-term": "rpt:step", "x-emit": "json",
+            "items": {"type": "object", "additionalProperties": false, "required": ["step"],
+                      "properties": {"step": {"type": "string"}, "tool": {"type": "string"}, "executor": {"type": "string"}, "prompt": {"type": "string"},
+                                     "outputs": {"type": "array", "items": {"type": "string"}}, "metrics": {"type": "object"}, "note": {"type": "string"}, "notes": {"type": "string"}}}
+          },
+          "decisions": {
+            "type": "array", "x-term": "rpt:hasApproval",
+            "items": {"type": "object", "additionalProperties": false, "x-class": "rpt:Approval", "required": ["gate", "decision", "reviewer", "at"],
+                      "properties": {"gate": {"type": "string", "x-term": "rpt:gate"}, "decision": {"type": "string", "enum": ["approve", "reject", "waive"], "x-term": "rpt:decision"},
+                                     "reviewer": {"type": "string", "x-term": "rpt:reviewer"}, "at": {"type": ["string", "object"], "x-term": "rpt:at"},
+                                     "hashes": {"type": "object", "additionalProperties": {"type": "string"}, "x-term": "rpt:reviewedHash", "x-emit": "json"}}}
+          }
+        }
+      }
+    },
+    "template": {
+      "type": "object", "additionalProperties": false, "x-term": "rpt:releasedAs", "x-class": "dt:TemplateRelease",
+      "required": ["repo_url", "version", "frozen"],
+      "properties": {
+        "repo_url":       {"type": "string", "x-term": "rpt:repoUrl"},
+        "version":        {"type": "string", "x-term": "rpt:version"},
+        "frozen":         {"type": "boolean", "x-term": "rpt:frozen"},
+        "derived_from":   {"type": "array", "items": {"type": "string"}, "x-structural": true, "description": "source ids; the link is emitted on the ReportType (rpt:derivedFrom)"},
+        "fonts":          {"type": "array", "x-term": "rpt:font", "x-emit": "json",
+                           "items": {"type": "object", "additionalProperties": false, "required": ["family", "file", "license"],
+                                     "properties": {"family": {"type": "string"}, "role": {"type": "string"}, "file": {"type": "string"}, "license": {"type": "string"}, "stand_in_for": {"type": "string"}, "sha256": {"type": "string"}}}},
+        "assets_pending": {"type": "array", "items": {"type": "string"}, "x-term": "rpt:assetPending"}
+      }
+    }
+  }
+}

@@ -1,0 +1,103 @@
+# Accepted changes to the vocabularies, their shapes and their questions. Appended by `kgctl.py ontology accept`,
+# never rewritten: who accepted each change, when, and how severe it was. The lock (ontology.lock.json) holds the
+# contract as last accepted; `kgctl.py ontology check` compares the files with it.
+accepted:
+- at: '2026-10-05T20:34:58+00:00'
+  by: 'claude: first lock of the files as found'
+  versions:
+    report: 2.0.0
+    flow: 0.1.1
+    doctemplate: 0.1.1
+    meta: 0.1.0
+  note: 'first lock: 258 terms, 38 shapes, 36 questions'
+- at: '2026-10-05T20:45:20+00:00'
+  by: 'claude: report 2.1.0 — history of definitions, aliases, recorded rationale'
+  versions:
+    report: 2.1.0
+    flow: 0.1.1
+    doctemplate: 0.1.1
+    meta: 0.1.0
+  changes:
+  - severity: additive
+    kind: answer columns added
+    subject: CQ18
+    detail: aliases
+  - severity: additive
+    kind: class added
+    subject: rpt:Change
+  - severity: additive
+    kind: class added
+    subject: rpt:Revision
+  - severity: additive
+    kind: datatype property added
+    subject: rpt:alias
+  - severity: additive
+    kind: datatype property added
+    subject: rpt:changeKind
+  - severity: additive
+    kind: datatype property added
+    subject: rpt:effectiveFrom
+  - severity: additive
+    kind: datatype property added
+    subject: rpt:fact
+  - severity: additive
+    kind: datatype property added
+    subject: rpt:newValue
+  - severity: additive
+    kind: datatype property added
+    subject: rpt:previousValue
+  - severity: additive
+    kind: datatype property added
+    subject: rpt:reason
+  - severity: additive
+    kind: domain widened
+    subject: rpt:at
+    detail: rpt:Approval | rpt:StatusChange → rpt:Approval | rpt:Revision | rpt:StatusChange
+  - severity: additive
+    kind: domain widened
+    subject: rpt:changedBy
+    detail: rpt:StatusChange → rpt:Revision | rpt:StatusChange
+  - severity: additive
+    kind: domain widened
+    subject: rpt:order
+    detail: rpt:Field | rpt:Section | rpt:StatusChange → rpt:Field | rpt:Revision | rpt:Section | rpt:StatusChange
+  - severity: additive
+    kind: object property added
+    subject: rpt:hasChange
+  - severity: additive
+    kind: object property added
+    subject: rpt:hasRevision
+  - severity: additive
+    kind: question added
+    subject: CQ20
+    detail: How has the definition of report $REPORT changed — each accepted revision, who accepted it, when, from which date
+      it applies, why, and which facts it added, changed or removed?
+  - severity: additive
+    kind: question added
+    subject: CQ21
+    detail: Has anything about field $FIELD changed in any report — its meaning, label, type or column — what was it before,
+      when, who accepted the change, and why?
+  - severity: additive
+    kind: shape added
+    subject: report-shapes.ttl#Change
+    detail: applies to new classes, or warns only
+  - severity: additive
+    kind: shape added
+    subject: report-shapes.ttl#ReportHistory
+    detail: applies to new classes, or warns only
+  - severity: additive
+    kind: shape added
+    subject: report-shapes.ttl#Revision
+    detail: applies to new classes, or warns only
+  - severity: cosmetic
+    kind: definition changed
+    subject: rpt:at
+  - severity: cosmetic
+    kind: definition changed
+    subject: rpt:changedBy
+  - severity: cosmetic
+    kind: definition changed
+    subject: rpt:order
+  - severity: cosmetic
+    kind: question reworded
+    subject: CQ18

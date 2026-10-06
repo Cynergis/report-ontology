@@ -1,0 +1,62 @@
+# Which column of which table supplies each field. One entry per field in report.yaml.
+# The analyst names the data source and the table; the agent proposes a column per field (by convention the
+# field id, which is the snake_case form of the English label); the analyst verifies.
+# One field, one column: a single-valued field reads the column's value; a structured field (list, grouped_list,
+# series, list_of_text, currency_pair, percent_by_series) reads JSON text from its column, shaped by its row structure.
+# status: unmapped (no column known) | proposed (suggested, not confirmed) | verified (confirmed by the analyst)
+# How the table itself is populated belongs to the data team's medallion module, not to this file.
+
+source:                  # the data source the analyst named; endpoints and credentials are environment config
+  name: warehouse
+  kind: bigquery
+  database: "<gcp-project>"
+
+table: {dataset: reports, name: fund_profile_balanced}     # ILLUSTRATIVE: holds every column of this report
+
+parameters:              # which column carries each parameter, to select one document's rows
+  fund_id: fund_id
+  series: series
+  as_of: as_of
+
+queries:                 # universes a manifest parameter may point at (manifest.parameters.<p>.universe: lineage:queries.<name>)
+  active_funds:
+    returns: fund_id
+    sql: "SELECT fund_id FROM ref.funds WHERE status = 'active' AND has_series('A','F') ORDER BY fund_id   -- ILLUSTRATIVE"
+    note: to be confirmed by the data team
+
+fields:
+  fund_name:          {status: unmapped}
+  series:             {status: proposed, column: series, note: parameter}
+  category:           {status: unmapped}
+  returns:            {status: proposed, column: returns, note: "ILLUSTRATIVE placeholder, to be confirmed by the analyst"}
+  returns_as_of:      {status: unmapped, note: parameter as_of}
+  regional_allocation: {status: unmapped}
+  regional_as_of:     {status: unmapped}
+  sector_allocation:  {status: unmapped}
+  sector_as_of:       {status: unmapped}
+  credit_allocation:  {status: unmapped}
+  credit_as_of:       {status: unmapped}
+  managers:           {status: unmapped}
+  calendar_returns:   {status: unmapped}
+  calendar_as_of:     {status: unmapped}
+  growth_series:      {status: unmapped, note: "computed upstream from monthly NAV and distributions"}
+  growth_end_value:   {status: proposed, column: growth_end_value, note: "computed upstream: last value of the growth series"}
+  growth_as_of:       {status: unmapped}
+  holdings:           {status: unmapped}
+  holdings_top_pct:   {status: proposed, column: holdings_top_pct, note: "computed upstream: sum of the listed weights"}
+  holdings_counts:    {status: unmapped}
+  holdings_as_of:     {status: unmapped}
+  risk_measures:      {status: unmapped}
+  risk_as_of:         {status: unmapped}
+  total_fund_assets:  {status: unmapped}
+  navps:              {status: unmapped}
+  navps_as_of:        {status: unmapped}
+  mer:                {status: proposed, column: mer}
+  mer_as_of:          {status: unmapped}
+  management_fee:     {status: unmapped}
+  benchmark:          {status: unmapped}
+  distributions:      {status: unmapped}
+  fund_codes:         {status: unmapped}
+  why_invest:         {status: unmapped, note: "static content per fund; owner compliance"}
+  risk_level:         {status: unmapped}
+  disclaimers:        {status: unmapped, note: "static per report type; owner compliance; as_of substituted"}

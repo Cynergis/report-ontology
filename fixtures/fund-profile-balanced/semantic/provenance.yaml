@@ -1,0 +1,45 @@
+# Everything that led to this template. Appended, never rewritten: each onboarding or revision adds a run.
+
+lifecycle:               # one entry appended each time the report reaches a status; the last entry is the current status
+  - {status: inception,     by: example-analyst,  at: 2026-10-02, note: definition started from the sample PDF}
+  - {status: saved,         by: example-analyst,  at: 2026-10-02}
+  - {status: in_validation, by: example-reviewer, at: 2026-10-05, note: blueprint approved; template under visual verification}
+
+source_reports:
+  - id: src-001
+    role: primary          # the report the template reproduces
+    title: Mackenzie Bluewater Canadian Growth Balanced Fund — Series A — Fund Profile
+    repo_url: https://github.com/<org>/report-sources/blob/main/fund-profile/MP2-Fund_Profile-230926-194524.pdf
+    sha256: "cacc2f7888f341aabc3d3140a645dd1a46ca00611f7348db099ac4f1f6ea2002"
+    received: 2026-10-02
+    page_kinds: [raster, vector]      # page 1 is a screenshot inside a spec document, page 2 vector
+    reference_kind: raster
+    notes: Spec document with red annotation boxes; production PDF requested for the vector reference.
+
+runs:
+  - id: run-2026-10-02-001
+    flow: pdf-to-template
+    flow_version: 1.1.0
+    engine_version: 0.1.0
+    started: 2026-10-02T15:10:00-04:00
+    inputs: [src-001]
+    steps:                 # what produced what; ids match the flow definition
+      - {step: B01_inspect, tool: scripts/inspect_pdf.py, outputs: [work/report.json, work/page_0_img_0.png]}
+      - {step: B04_layout,  tool: scripts/sample_colors.py, outputs: [work/palette.json], notes: colors sampled per element}
+      - {step: B05_decompose, executor: claude, prompt: decompose.md@1.0.0, outputs: [work/blueprint.json], note: "performed interactively in this first run; cached output to be regenerated through the engine"}
+      - {step: B08_generate, executor: claude, prompt: generate.md@1.0.0, outputs: [template/]}
+      - {step: B09_render,  tool: scripts/render.py, outputs: [out/bluewater_A_en.pdf]}
+      - {step: B10_verify,  tool: scripts/diff.py, outputs: [out/comparison.png], metrics: {layout_ssim: 0.44, overflow: 0}}
+    decisions:
+      - {gate: B06_blueprint_review, decision: approve, reviewer: "example-reviewer", at: 2026-10-02T16:00:00-04:00}
+    result: draft           # draft | signed_off | frozen
+
+template:
+  repo_url: https://github.com/<org>/report-templates/tree/main/fund-profile-balanced
+  version: 1.0.0
+  frozen: false
+  derived_from: [src-001]
+  fonts:
+    - {family: Caladea, role: serif, file: shared/fonts/Caladea-Regular.ttf, license: SIL OFL, stand_in_for: "Garamond-style serif in source"}
+    - {family: DejaVu Sans, role: sans, file: shared/fonts/DejaVuSans.ttf, license: DejaVu, stand_in_for: "Condensed sans in source (Frutiger-like)"}
+  assets_pending: [logo, qr_code, licensed brand fonts]

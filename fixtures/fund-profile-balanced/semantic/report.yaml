@@ -1,0 +1,198 @@
+# Semantic layer for one report type. Human-readable, lives in the report repo, source of truth
+# for "what this report is, what each section is for, what each field means".
+# Compiled by `semantic.py compile` into report.graph.json (JSON-LD) for the knowledge graph.
+# Rules: every field in schema/data.schema.json must appear here with a definition; every section must
+# state its purpose; every field must have a lineage entry (lineage.yaml), even if status: unmapped.
+
+report:
+  id: fund-profile-balanced
+  version: 1.0.0
+  title: Fund Profile (Balanced)
+  kind: fund-fact-sheet
+  purpose: >
+    Monthly one-page summary of a mutual fund for investors and advisors: performance, allocation,
+    holdings, costs, codes and risk. Published on the fund company's website, one per fund, series
+    and language, and retrievable by fund and month.
+  owner: example-analyst      # the report analyst responsible for the definition and the mapping
+  audience: [investors, advisors, compliance]
+  cadence: monthly
+  parameters:              # what identifies one document
+    - {name: fund_id, meaning: "Identifier of the fund the document describes"}
+    - {name: series, meaning: "Fund series shown in the title and used for fees, NAVPS and codes"}
+    - {name: as_of, meaning: "Month-end the performance figures are computed at"}
+    - {name: lang, meaning: "en or fr; decides labels, number and date formats"}
+  locales: [en, fr]
+  layout: balanced          # which component arrangement; see template/layouts.json
+  regulatory_notes:
+    - Performance figures are historical annual compounded total returns and must carry the standard disclaimer.
+    - Any figure shown must be traceable to its source table and computation (lineage.yaml).
+
+sections:
+  - id: header
+    title: {en: Header, fr: En-tête}
+    purpose: Identifies the fund, series and category; carries the brand.
+    component: header
+    fields: [fund_name, series, category]
+
+  - id: returns
+    title: {en: Compound Annualized Returns, fr: Rendements annuels composés}
+    purpose: Annualized total return of the series over standard periods ending at as_of; the primary performance table.
+    component: returns_table
+    fields: [returns, returns_as_of]
+
+  - id: regional
+    title: {en: Regional Allocation, fr: Répartition régionale}
+    purpose: Where the portfolio's assets sit, by asset class then country; sums to 100%.
+    component: grouped_allocation
+    fields: [regional_allocation, regional_as_of]
+
+  - id: sector
+    title: {en: Sector Allocation, fr: Répartition sectorielle}
+    purpose: Share of the portfolio by economic sector (fixed income counted as one sector); sums to 100%.
+    component: two_column_allocation
+    fields: [sector_allocation, sector_as_of]
+
+  - id: credit
+    title: {en: Credit Allocation, fr: Répartition par cote de crédit}
+    purpose: Share of the portfolio by credit rating of fixed-income holdings; equities and cash shown as their own lines.
+    component: two_column_allocation
+    fields: [credit_allocation, credit_as_of]
+    present_when: layout in [balanced, fixed_income]
+
+  - id: managers
+    title: {en: Portfolio Managers, fr: Gestionnaires de portefeuille}
+    purpose: The teams and named individuals responsible for the portfolio.
+    component: managers
+    fields: [managers]
+
+  - id: calendar
+    title: {en: Calendar Year Returns, fr: Rendements par année civile}
+    purpose: Total return for each of the last ten calendar years plus year-to-date, as a bar chart.
+    component: bar_chart
+    fields: [calendar_returns, calendar_as_of]
+
+  - id: growth
+    title: {en: "Value of $10,000 invested", fr: "Valeur d'un placement de 10 000 $"}
+    purpose: Growth of a hypothetical $10,000 investment over ten years, as a line chart with the end value called out.
+    component: line_chart
+    fields: [growth_series, growth_end_value, growth_as_of]
+
+  - id: holdings
+    title: {en: Major Holdings, fr: Principaux titres}
+    purpose: The holdings selected as most significant for understanding the portfolio, by asset class, with their weights; plus the total count of holdings.
+    component: holdings
+    fields: [holdings, holdings_top_pct, holdings_counts, holdings_as_of]
+
+  - id: risk_measures
+    title: {en: "Fund Risk Measures (3 year)", fr: "Mesures du risque (3 ans)"}
+    purpose: Standard three-year risk statistics of the series against its benchmark.
+    component: key_value_grid
+    fields: [risk_measures, risk_as_of]
+
+  - id: key_data
+    title: {en: Key Fund Data, fr: Données clés du fonds}
+    purpose: Size, price, costs, benchmark, last distribution and purchase codes of the fund and series.
+    component: key_value_list
+    fields: [total_fund_assets, navps, navps_as_of, mer, mer_as_of, management_fee, benchmark, distributions, fund_codes]
+
+  - id: why_invest
+    title: {en: "Why Invest in this fund?", fr: "Pourquoi investir dans ce fonds?"}
+    purpose: Marketing bullets approved by compliance describing the investment approach.
+    component: bullets
+    fields: [why_invest]
+
+  - id: risk_tolerance
+    title: {en: Risk Tolerance, fr: Tolérance au risque}
+    purpose: The fund's risk rating on the five-level scale required by the prospectus.
+    component: risk_scale
+    fields: [risk_level]
+
+  - id: footer
+    title: {en: Disclaimers, fr: Avis}
+    purpose: Regulatory disclaimers, footnote definitions and the link to further commentary.
+    component: footer
+    fields: [disclaimers]
+
+fields:
+  fund_name:        {type: text,    meaning: "Legal marketing name of the fund, shown as the title."}
+  series:           {type: text,    meaning: "Fund series code (A, F, T5, PW…) the document is for."}
+  category:         {type: enum,    meaning: "Fund category shown in the band under the title (Balanced, Canadian Equity, Fixed Income)."}
+  returns:
+    type: list
+    meaning: Annualized total return of the series for each standard period, in percent, net of fees, distributions reinvested.
+    row: {period: {type: text, meaning: "Period label: 1 Month, 3 Months, Year-to-date, 1 Year, 2 Years, 3 Years, 5 Years, 10 Years, Since inception (with inception month)"}, value: {type: percent, meaning: "Annualized return for the period"}}
+    rules: [Periods shorter than one year are not annualized., Since-inception label carries the inception month and year.]
+  returns_as_of:    {type: date,    meaning: "Month-end the returns are computed at."}
+  regional_allocation:
+    type: grouped_list
+    meaning: Share of net assets by asset class (Cash & Equivalents, Equities, Fixed Income) and within each by country.
+    row: {group: {type: text}, label: {type: text, meaning: "Country or 'Other'"}, value: {type: percent}}
+    rules: [All values sum to 100% ± 0.5.]
+  regional_as_of:   {type: date,    meaning: "Portfolio date of the allocation."}
+  sector_allocation:
+    type: list
+    meaning: Share of net assets by economic sector; Fixed Income and Cash & Equivalents appear as sectors so the list sums to 100%.
+    row: {label: {type: text}, value: {type: percent}}
+    rules: [Sorted descending by value, Cash and Other last.]
+  sector_as_of:     {type: date, meaning: "Portfolio date of the sector allocation."}
+  credit_allocation:
+    type: list
+    meaning: Share of net assets by credit rating category (AAA … CCC & Below, NR), plus Cash & Equivalents and Equities so the list sums to 100%.
+    row: {label: {type: text}, value: {type: percent}}
+    rules: [Ratings follow a designated rating organization (footnote ‡‡).]
+  credit_as_of:     {type: date, meaning: "Portfolio date of the credit allocation."}
+  managers:
+    type: list
+    meaning: Portfolio management teams and the named managers in each.
+    row: {team: {type: text}, people: {type: list_of_text}}
+  calendar_returns:
+    type: series
+    meaning: Total return of the series for each calendar year of the last ten, plus year-to-date, in percent.
+    row: {year: {type: text, meaning: "Two-digit year label (e.g. 16) or YTD"}, value: {type: percent}}
+  calendar_as_of:   {type: date, meaning: "Month-end the calendar-year returns are computed at."}
+  growth_series:
+    type: series
+    meaning: Month-end value of a hypothetical $10,000 invested ten years before as_of, distributions reinvested.
+    row: {date: {type: date}, value: {type: currency}}
+  growth_end_value: {type: currency, meaning: "Final value of the growth series, called out on the chart."}
+  growth_as_of:     {type: date, meaning: "Month-end of the last point in the growth series."}
+  holdings:
+    type: grouped_list
+    meaning: Major holdings by asset class with their weight in net assets. Selected for significance, not necessarily the largest (footnote ‡).
+    row: {group: {type: text, meaning: "Equity or Fixed Income"}, name: {type: text, meaning: "Security name, for bonds including coupon and maturity"}, value: {type: percent}}
+  holdings_top_pct: {type: percent, meaning: "Combined weight of the listed major holdings."}
+  holdings_counts:
+    type: list
+    meaning: Total number of holdings by asset class.
+    row: {label: {type: text}, count: {type: integer}}
+  holdings_as_of:   {type: date, meaning: "Portfolio date of the holdings list."}
+  risk_measures:
+    type: list
+    meaning: Three-year risk statistics of the series.
+    row: {label: {type: text}, value: {type: number}}
+    members:
+      annual_std_dev: Annualized standard deviation of monthly returns over three years.
+      benchmark_annual_std_dev: Same statistic for the benchmark.
+      beta: Sensitivity of the series' returns to the benchmark's.
+      r_squared: Share of the series' return variance explained by the benchmark.
+      alpha: Annualized excess return versus what beta would predict.
+      sharpe_ratio: Excess return over the risk-free rate per unit of standard deviation.
+  risk_as_of:       {type: date, meaning: "Month-end the three-year risk statistics are computed at."}
+  total_fund_assets: {type: currency, label: {en: "Total Fund Assets", fr: "Actif total du fonds"}, meaning: "Net assets of the whole fund (all series) at as_of, rounded for display."}
+  navps:            {type: currency_pair, label: {en: "NAVPS", fr: "VLPP"}, meaning: "Net asset value per security of the series in CAD and, where offered, USD."}
+  navps_as_of:      {type: date, meaning: "Valuation date of the NAVPS shown."}
+  mer:              {type: percent_by_series, label: {en: "MER", fr: "RFG"}, aliases: [management expense ratio, ratio des frais de gestion], meaning_fr: "Ratio des frais de gestion, par série affichée, selon le dernier état financier audité ou intermédiaire.", meaning: "Management expense ratio, per series shown, as of the last audited or interim statement."}
+  mer_as_of:        {type: date, meaning: "Statement date the MER is taken from (month and year)."}
+  management_fee:   {type: percent_by_series, label: {en: "Management Fee", fr: "Frais de gestion"}, meaning: "Annual management fee rate per series shown."}
+  benchmark:        {type: text, meaning: "Composition of the blended benchmark index, with weights (footnote **)."}
+  distributions:
+    type: list
+    meaning: Last distribution paid, per series.
+    row: {series: {type: text}, frequency: {type: enum, meaning: "Annually, Monthly, Quarterly"}, amount: {type: number, meaning: "Per security"}, date: {type: date}}
+  fund_codes:
+    type: list
+    meaning: Purchase codes per series and purchase option.
+    row: {series: {type: text}, prefix: {type: text}, fe: {type: text, meaning: "Front-end code"}, be: {type: text, meaning: "Back-end code, dash when not offered"}}
+  why_invest:       {type: list_of_text, meaning: "Compliance-approved marketing statements for the fund."}
+  risk_level:       {type: enum, meaning: "Position on the five-level scale Low, Low-to-Medium, Medium, Medium-to-High, High."}
+  disclaimers:      {type: list_of_text, meaning: "Regulatory and footnote text; static per report type, parameterized by as_of."}

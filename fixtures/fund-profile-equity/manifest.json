@@ -1,0 +1,32 @@
+{
+  "template_id": "fund-profile-equity",
+  "version": "1.0.0",
+  "engine_version": "0.1.0",
+  "ontology_version": "2.1.0",
+  "library_version": "0.1.0",
+  "frozen": false,
+  "source_sha256": ["0000000000000000000000000000000000000000000000000000000000000000"],
+  "files": {},
+  "fonts": [
+    {"family": "Caladea", "file": "shared/fonts/Caladea-Regular.ttf", "license": "SIL OFL", "sha256": "0000000000000000000000000000000000000000000000000000000000000000"},
+    {"family": "DejaVu Sans", "file": "shared/fonts/DejaVuSans.ttf", "license": "DejaVu", "sha256": "0000000000000000000000000000000000000000000000000000000000000000"}
+  ],
+  "assets_pending": ["logo", "qr_code", "licensed brand fonts"],
+  "schedule": {
+    "cadence": "monthly",
+    "run_on": "business_day:3",
+    "as_of": "prev_month_end",
+    "calendar": "TSX",
+    "timezone": "America/Toronto"
+  },
+  "parameters": {
+    "fund_id": {"universe": "lineage:queries.active_funds"},
+    "series":  {"values": ["A", "F"]},
+    "as_of":   {"from": "schedule"},
+    "lang":    {"values": ["en", "fr"]}
+  },
+  "verify":   {"golden_static_ssim_min": 0.98, "overflow_blocking": true, "fidelity_min": 1.0},
+  "approval": {"sample_rate": 0.03, "sample_min": 5, "full_review_after_release": true, "reviewer_role": "compliance"},
+  "publish":  {"path": "reports/{fund_id}/{as_of:%Y-%m}/{template_id}_{series}_{lang}.pdf", "formats": ["pdf"], "retention_days": 2555},
+  "observability": {"deliver_within_hours": 24, "max_failure_rate": 0.02, "alert": ["operations", "report-owner"], "run_log": "ops.report_runs"}
+}

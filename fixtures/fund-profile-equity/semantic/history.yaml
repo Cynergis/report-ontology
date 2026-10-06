@@ -1,0 +1,417 @@
+# The accepted history of this report's definition. Written by `semantic.py accept`, never edited by hand:
+# revision 1 holds every fact as first accepted, each later revision the facts it added, changed or removed.
+# Replaying them gives the definition as it stood on any date (`kg.py history --as-of`).
+revisions:
+- revision: 1
+  at: '2026-10-03T10:00:00+00:00'
+  by: example-analyst
+  why: definition derived from the balanced profile (credit section removed) and saved
+  effective: '2026-10-03'
+  facts:
+    manifest.json → approval.full_review_after_release: true
+    manifest.json → approval.reviewer_role: compliance
+    manifest.json → approval.sample_min: 5
+    manifest.json → approval.sample_rate: 0.03
+    manifest.json → assets_pending:
+    - logo
+    - qr_code
+    - licensed brand fonts
+    manifest.json → engine_version: 0.1.0
+    manifest.json → files: {}
+    manifest.json → fonts:
+    - Caladea
+    - DejaVu Sans
+    manifest.json → fonts.Caladea.file: shared/fonts/Caladea-Regular.ttf
+    manifest.json → fonts.Caladea.license: SIL OFL
+    manifest.json → fonts.Caladea.sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+    manifest.json → fonts.DejaVu Sans.file: shared/fonts/DejaVuSans.ttf
+    manifest.json → fonts.DejaVu Sans.license: DejaVu
+    manifest.json → fonts.DejaVu Sans.sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+    manifest.json → frozen: false
+    manifest.json → library_version: 0.1.0
+    manifest.json → observability.alert:
+    - operations
+    - report-owner
+    manifest.json → observability.deliver_within_hours: 24
+    manifest.json → observability.max_failure_rate: 0.02
+    manifest.json → observability.run_log: ops.report_runs
+    manifest.json → ontology_version: 2.1.0
+    manifest.json → parameters.as_of.from: schedule
+    manifest.json → parameters.fund_id.universe: lineage:queries.active_funds
+    manifest.json → parameters.lang.values:
+    - en
+    - fr
+    manifest.json → parameters.series.values:
+    - A
+    - F
+    manifest.json → publish.formats:
+    - pdf
+    manifest.json → publish.path: reports/{fund_id}/{as_of:%Y-%m}/{template_id}_{series}_{lang}.pdf
+    manifest.json → publish.retention_days: 2555
+    manifest.json → schedule.as_of: prev_month_end
+    manifest.json → schedule.cadence: monthly
+    manifest.json → schedule.calendar: TSX
+    manifest.json → schedule.run_on: business_day:3
+    manifest.json → schedule.timezone: America/Toronto
+    manifest.json → source_sha256:
+    - '0000000000000000000000000000000000000000000000000000000000000000'
+    manifest.json → template_id: fund-profile-equity
+    manifest.json → verify.fidelity_min: 1.0
+    manifest.json → verify.golden_static_ssim_min: 0.98
+    manifest.json → verify.overflow_blocking: true
+    manifest.json → version: 1.0.0
+    semantic/lineage.yaml → fields.benchmark.status: unmapped
+    semantic/lineage.yaml → fields.calendar_as_of.status: unmapped
+    semantic/lineage.yaml → fields.calendar_returns.status: unmapped
+    semantic/lineage.yaml → fields.category.status: unmapped
+    semantic/lineage.yaml → fields.disclaimers.note: static per report type; owner compliance; as_of substituted
+    semantic/lineage.yaml → fields.disclaimers.status: unmapped
+    semantic/lineage.yaml → fields.distributions.status: unmapped
+    semantic/lineage.yaml → fields.fund_codes.status: unmapped
+    semantic/lineage.yaml → fields.fund_name.status: unmapped
+    semantic/lineage.yaml → fields.growth_as_of.status: unmapped
+    semantic/lineage.yaml → fields.growth_end_value.column: growth_end_value
+    semantic/lineage.yaml → fields.growth_end_value.note: 'computed upstream: last value of the growth series'
+    semantic/lineage.yaml → fields.growth_end_value.status: proposed
+    semantic/lineage.yaml → fields.growth_series.note: computed upstream from monthly NAV and distributions
+    semantic/lineage.yaml → fields.growth_series.status: unmapped
+    semantic/lineage.yaml → fields.holdings.status: unmapped
+    semantic/lineage.yaml → fields.holdings_as_of.status: unmapped
+    semantic/lineage.yaml → fields.holdings_counts.status: unmapped
+    semantic/lineage.yaml → fields.holdings_top_pct.column: holdings_top_pct
+    semantic/lineage.yaml → fields.holdings_top_pct.note: 'computed upstream: sum of the listed weights'
+    semantic/lineage.yaml → fields.holdings_top_pct.status: proposed
+    semantic/lineage.yaml → fields.management_fee.status: unmapped
+    semantic/lineage.yaml → fields.managers.status: unmapped
+    semantic/lineage.yaml → fields.mer.column: mer
+    semantic/lineage.yaml → fields.mer.status: proposed
+    semantic/lineage.yaml → fields.mer_as_of.status: unmapped
+    semantic/lineage.yaml → fields.navps.status: unmapped
+    semantic/lineage.yaml → fields.navps_as_of.status: unmapped
+    semantic/lineage.yaml → fields.regional_allocation.status: unmapped
+    semantic/lineage.yaml → fields.regional_as_of.status: unmapped
+    semantic/lineage.yaml → fields.returns.column: returns
+    semantic/lineage.yaml → fields.returns.note: ILLUSTRATIVE placeholder, to be confirmed by the analyst
+    semantic/lineage.yaml → fields.returns.status: proposed
+    semantic/lineage.yaml → fields.returns_as_of.note: parameter as_of
+    semantic/lineage.yaml → fields.returns_as_of.status: unmapped
+    semantic/lineage.yaml → fields.risk_as_of.status: unmapped
+    semantic/lineage.yaml → fields.risk_level.status: unmapped
+    semantic/lineage.yaml → fields.risk_measures.status: unmapped
+    semantic/lineage.yaml → fields.sector_allocation.status: unmapped
+    semantic/lineage.yaml → fields.sector_as_of.status: unmapped
+    semantic/lineage.yaml → fields.series.column: series
+    semantic/lineage.yaml → fields.series.note: parameter
+    semantic/lineage.yaml → fields.series.status: proposed
+    semantic/lineage.yaml → fields.total_fund_assets.status: unmapped
+    semantic/lineage.yaml → fields.why_invest.note: static content per fund; owner compliance
+    semantic/lineage.yaml → fields.why_invest.status: unmapped
+    semantic/lineage.yaml → parameters.as_of: as_of
+    semantic/lineage.yaml → parameters.fund_id: fund_id
+    semantic/lineage.yaml → parameters.series: series
+    semantic/lineage.yaml → queries.active_funds.note: to be confirmed by the data team
+    semantic/lineage.yaml → queries.active_funds.returns: fund_id
+    semantic/lineage.yaml → queries.active_funds.sql: SELECT fund_id FROM ref.funds WHERE status = 'active' AND has_series('A','F')
+      ORDER BY fund_id   -- ILLUSTRATIVE
+    semantic/lineage.yaml → source.database: <gcp-project>
+    semantic/lineage.yaml → source.kind: bigquery
+    semantic/lineage.yaml → source.name: warehouse
+    semantic/lineage.yaml → table.dataset: reports
+    semantic/lineage.yaml → table.name: fund_profile_equity
+    semantic/report.yaml → fields.benchmark.meaning: Composition of the blended benchmark index, with weights (footnote **).
+    semantic/report.yaml → fields.benchmark.type: text
+    semantic/report.yaml → fields.calendar_as_of.meaning: Month-end the calendar-year returns are computed at.
+    semantic/report.yaml → fields.calendar_as_of.type: date
+    semantic/report.yaml → fields.calendar_returns.meaning: Total return of the series for each calendar year of the last
+      ten, plus year-to-date, in percent.
+    semantic/report.yaml → fields.calendar_returns.row.value.type: percent
+    semantic/report.yaml → fields.calendar_returns.row.year.meaning: Two-digit year label (e.g. 16) or YTD
+    semantic/report.yaml → fields.calendar_returns.row.year.type: text
+    semantic/report.yaml → fields.calendar_returns.type: series
+    semantic/report.yaml → fields.category.meaning: Fund category shown in the band under the title (Balanced, Canadian Equity,
+      Fixed Income).
+    semantic/report.yaml → fields.category.type: enum
+    semantic/report.yaml → fields.disclaimers.meaning: Regulatory and footnote text; static per report type, parameterized
+      by as_of.
+    semantic/report.yaml → fields.disclaimers.type: list_of_text
+    semantic/report.yaml → fields.distributions.meaning: Last distribution paid, per series.
+    semantic/report.yaml → fields.distributions.row.amount.meaning: Per security
+    semantic/report.yaml → fields.distributions.row.amount.type: number
+    semantic/report.yaml → fields.distributions.row.date.type: date
+    semantic/report.yaml → fields.distributions.row.frequency.meaning: Annually, Monthly, Quarterly
+    semantic/report.yaml → fields.distributions.row.frequency.type: enum
+    semantic/report.yaml → fields.distributions.row.series.type: text
+    semantic/report.yaml → fields.distributions.type: list
+    semantic/report.yaml → fields.fund_codes.meaning: Purchase codes per series and purchase option.
+    semantic/report.yaml → fields.fund_codes.row.be.meaning: Back-end code, dash when not offered
+    semantic/report.yaml → fields.fund_codes.row.be.type: text
+    semantic/report.yaml → fields.fund_codes.row.fe.meaning: Front-end code
+    semantic/report.yaml → fields.fund_codes.row.fe.type: text
+    semantic/report.yaml → fields.fund_codes.row.prefix.type: text
+    semantic/report.yaml → fields.fund_codes.row.series.type: text
+    semantic/report.yaml → fields.fund_codes.type: list
+    semantic/report.yaml → fields.fund_name.meaning: Legal marketing name of the fund, shown as the title.
+    semantic/report.yaml → fields.fund_name.type: text
+    semantic/report.yaml → fields.growth_as_of.meaning: Month-end of the last point in the growth series.
+    semantic/report.yaml → fields.growth_as_of.type: date
+    semantic/report.yaml → fields.growth_end_value.meaning: Final value of the growth series, called out on the chart.
+    semantic/report.yaml → fields.growth_end_value.type: currency
+    semantic/report.yaml → fields.growth_series.meaning: Month-end value of a hypothetical $10,000 invested ten years before
+      as_of, distributions reinvested.
+    semantic/report.yaml → fields.growth_series.row.date.type: date
+    semantic/report.yaml → fields.growth_series.row.value.type: currency
+    semantic/report.yaml → fields.growth_series.type: series
+    semantic/report.yaml → fields.holdings.meaning: Major holdings by asset class with their weight in net assets. Selected
+      for significance, not necessarily the largest (footnote ‡).
+    semantic/report.yaml → fields.holdings.row.group.meaning: Equity or Fixed Income
+    semantic/report.yaml → fields.holdings.row.group.type: text
+    semantic/report.yaml → fields.holdings.row.name.meaning: Security name, for bonds including coupon and maturity
+    semantic/report.yaml → fields.holdings.row.name.type: text
+    semantic/report.yaml → fields.holdings.row.value.type: percent
+    semantic/report.yaml → fields.holdings.type: grouped_list
+    semantic/report.yaml → fields.holdings_as_of.meaning: Portfolio date of the holdings list.
+    semantic/report.yaml → fields.holdings_as_of.type: date
+    semantic/report.yaml → fields.holdings_counts.meaning: Total number of holdings by asset class.
+    semantic/report.yaml → fields.holdings_counts.row.count.type: integer
+    semantic/report.yaml → fields.holdings_counts.row.label.type: text
+    semantic/report.yaml → fields.holdings_counts.type: list
+    semantic/report.yaml → fields.holdings_top_pct.meaning: Combined weight of the listed major holdings.
+    semantic/report.yaml → fields.holdings_top_pct.type: percent
+    semantic/report.yaml → fields.management_fee.label.en: Management Fee
+    semantic/report.yaml → fields.management_fee.label.fr: Frais de gestion
+    semantic/report.yaml → fields.management_fee.meaning: Annual management fee rate per series shown.
+    semantic/report.yaml → fields.management_fee.type: percent_by_series
+    semantic/report.yaml → fields.managers.meaning: Portfolio management teams and the named managers in each.
+    semantic/report.yaml → fields.managers.row.people.type: list_of_text
+    semantic/report.yaml → fields.managers.row.team.type: text
+    semantic/report.yaml → fields.managers.type: list
+    semantic/report.yaml → fields.mer.aliases:
+    - management expense ratio
+    - ratio des frais de gestion
+    semantic/report.yaml → fields.mer.label.en: MER
+    semantic/report.yaml → fields.mer.label.fr: RFG
+    semantic/report.yaml → fields.mer.meaning: Management expense ratio, per series shown, as of the last audited or interim
+      statement.
+    semantic/report.yaml → fields.mer.meaning_fr: Ratio des frais de gestion, par série affichée, selon le dernier état financier
+      audité ou intermédiaire.
+    semantic/report.yaml → fields.mer.type: percent_by_series
+    semantic/report.yaml → fields.mer_as_of.meaning: Statement date the MER is taken from (month and year).
+    semantic/report.yaml → fields.mer_as_of.type: date
+    semantic/report.yaml → fields.navps.label.en: NAVPS
+    semantic/report.yaml → fields.navps.label.fr: VLPP
+    semantic/report.yaml → fields.navps.meaning: Net asset value per security of the series in CAD and, where offered, USD.
+    semantic/report.yaml → fields.navps.type: currency_pair
+    semantic/report.yaml → fields.navps_as_of.meaning: Valuation date of the NAVPS shown.
+    semantic/report.yaml → fields.navps_as_of.type: date
+    semantic/report.yaml → fields.regional_allocation.meaning: Share of net assets by asset class (Cash & Equivalents, Equities,
+      Fixed Income) and within each by country.
+    semantic/report.yaml → fields.regional_allocation.row.group.type: text
+    semantic/report.yaml → fields.regional_allocation.row.label.meaning: Country or 'Other'
+    semantic/report.yaml → fields.regional_allocation.row.label.type: text
+    semantic/report.yaml → fields.regional_allocation.row.value.type: percent
+    semantic/report.yaml → fields.regional_allocation.rules:
+    - All values sum to 100% ± 0.5.
+    semantic/report.yaml → fields.regional_allocation.type: grouped_list
+    semantic/report.yaml → fields.regional_as_of.meaning: Portfolio date of the allocation.
+    semantic/report.yaml → fields.regional_as_of.type: date
+    semantic/report.yaml → fields.returns.meaning: Annualized total return of the series for each standard period, in percent,
+      net of fees, distributions reinvested.
+    semantic/report.yaml → fields.returns.row.period.meaning: 'Period label: 1 Month, 3 Months, Year-to-date, 1 Year, 2 Years,
+      3 Years, 5 Years, 10 Years, Since inception (with inception month)'
+    semantic/report.yaml → fields.returns.row.period.type: text
+    semantic/report.yaml → fields.returns.row.value.meaning: Annualized return for the period
+    semantic/report.yaml → fields.returns.row.value.type: percent
+    semantic/report.yaml → fields.returns.rules:
+    - Periods shorter than one year are not annualized.
+    - Since-inception label carries the inception month and year.
+    semantic/report.yaml → fields.returns.type: list
+    semantic/report.yaml → fields.returns_as_of.meaning: Month-end the returns are computed at.
+    semantic/report.yaml → fields.returns_as_of.type: date
+    semantic/report.yaml → fields.risk_as_of.meaning: Month-end the three-year risk statistics are computed at.
+    semantic/report.yaml → fields.risk_as_of.type: date
+    semantic/report.yaml → fields.risk_level.meaning: Position on the five-level scale Low, Low-to-Medium, Medium, Medium-to-High,
+      High.
+    semantic/report.yaml → fields.risk_level.type: enum
+    semantic/report.yaml → fields.risk_measures.meaning: Three-year risk statistics of the series.
+    semantic/report.yaml → fields.risk_measures.members.alpha: Annualized excess return versus what beta would predict.
+    semantic/report.yaml → fields.risk_measures.members.annual_std_dev: Annualized standard deviation of monthly returns over
+      three years.
+    semantic/report.yaml → fields.risk_measures.members.benchmark_annual_std_dev: Same statistic for the benchmark.
+    semantic/report.yaml → fields.risk_measures.members.beta: Sensitivity of the series' returns to the benchmark's.
+    semantic/report.yaml → fields.risk_measures.members.r_squared: Share of the series' return variance explained by the benchmark.
+    semantic/report.yaml → fields.risk_measures.members.sharpe_ratio: Excess return over the risk-free rate per unit of standard
+      deviation.
+    semantic/report.yaml → fields.risk_measures.row.label.type: text
+    semantic/report.yaml → fields.risk_measures.row.value.type: number
+    semantic/report.yaml → fields.risk_measures.type: list
+    semantic/report.yaml → fields.sector_allocation.meaning: Share of net assets by economic sector; Fixed Income and Cash
+      & Equivalents appear as sectors so the list sums to 100%.
+    semantic/report.yaml → fields.sector_allocation.row.label.type: text
+    semantic/report.yaml → fields.sector_allocation.row.value.type: percent
+    semantic/report.yaml → fields.sector_allocation.rules:
+    - Sorted descending by value
+    - Cash and Other last.
+    semantic/report.yaml → fields.sector_allocation.type: list
+    semantic/report.yaml → fields.sector_as_of.meaning: Portfolio date of the sector allocation.
+    semantic/report.yaml → fields.sector_as_of.type: date
+    semantic/report.yaml → fields.series.meaning: Fund series code (A, F, T5, PW…) the document is for.
+    semantic/report.yaml → fields.series.type: text
+    semantic/report.yaml → fields.total_fund_assets.label.en: Total Fund Assets
+    semantic/report.yaml → fields.total_fund_assets.label.fr: Actif total du fonds
+    semantic/report.yaml → fields.total_fund_assets.meaning: Net assets of the whole fund (all series) at as_of, rounded for
+      display.
+    semantic/report.yaml → fields.total_fund_assets.type: currency
+    semantic/report.yaml → fields.why_invest.meaning: Compliance-approved marketing statements for the fund.
+    semantic/report.yaml → fields.why_invest.type: list_of_text
+    semantic/report.yaml → report.audience:
+    - investors
+    - advisors
+    - compliance
+    semantic/report.yaml → report.cadence: monthly
+    semantic/report.yaml → report.id: fund-profile-equity
+    semantic/report.yaml → report.kind: fund-fact-sheet
+    semantic/report.yaml → report.layout: equity
+    semantic/report.yaml → report.locales:
+    - en
+    - fr
+    semantic/report.yaml → report.owner: example-analyst
+    semantic/report.yaml → report.parameters:
+    - fund_id
+    - series
+    - as_of
+    - lang
+    semantic/report.yaml → report.parameters.as_of.meaning: Month-end the performance figures are computed at
+    semantic/report.yaml → report.parameters.fund_id.meaning: Identifier of the fund the document describes
+    semantic/report.yaml → report.parameters.lang.meaning: en or fr; decides labels, number and date formats
+    semantic/report.yaml → report.parameters.series.meaning: Fund series shown in the title and used for fees, NAVPS and codes
+    semantic/report.yaml → report.purpose: 'Monthly one-page summary of a mutual fund for investors and advisors: performance,
+      allocation, holdings, costs, codes and risk. Published on the fund company''s website, one per fund, series and language,
+      and retrievable by fund and month.
+
+      '
+    semantic/report.yaml → report.regulatory_notes:
+    - Performance figures are historical annual compounded total returns and must carry the standard disclaimer.
+    - Any figure shown must be traceable to its source table and computation (lineage.yaml).
+    semantic/report.yaml → report.title: Fund Profile (Equity)
+    semantic/report.yaml → report.version: 1.0.0
+    semantic/report.yaml → sections:
+    - header
+    - returns
+    - regional
+    - sector
+    - managers
+    - calendar
+    - growth
+    - holdings
+    - risk_measures
+    - key_data
+    - why_invest
+    - risk_tolerance
+    - footer
+    semantic/report.yaml → sections.calendar.component: bar_chart
+    semantic/report.yaml → sections.calendar.fields:
+    - calendar_returns
+    - calendar_as_of
+    semantic/report.yaml → sections.calendar.purpose: Total return for each of the last ten calendar years plus year-to-date,
+      as a bar chart.
+    semantic/report.yaml → sections.calendar.title.en: Calendar Year Returns
+    semantic/report.yaml → sections.calendar.title.fr: Rendements par année civile
+    semantic/report.yaml → sections.footer.component: footer
+    semantic/report.yaml → sections.footer.fields:
+    - disclaimers
+    semantic/report.yaml → sections.footer.purpose: Regulatory disclaimers, footnote definitions and the link to further commentary.
+    semantic/report.yaml → sections.footer.title.en: Disclaimers
+    semantic/report.yaml → sections.footer.title.fr: Avis
+    semantic/report.yaml → sections.growth.component: line_chart
+    semantic/report.yaml → sections.growth.fields:
+    - growth_series
+    - growth_end_value
+    - growth_as_of
+    semantic/report.yaml → sections.growth.purpose: Growth of a hypothetical $10,000 investment over ten years, as a line
+      chart with the end value called out.
+    semantic/report.yaml → sections.growth.title.en: Value of $10,000 invested
+    semantic/report.yaml → sections.growth.title.fr: Valeur d'un placement de 10 000 $
+    semantic/report.yaml → sections.header.component: header
+    semantic/report.yaml → sections.header.fields:
+    - fund_name
+    - series
+    - category
+    semantic/report.yaml → sections.header.purpose: Identifies the fund, series and category; carries the brand.
+    semantic/report.yaml → sections.header.title.en: Header
+    semantic/report.yaml → sections.header.title.fr: En-tête
+    semantic/report.yaml → sections.holdings.component: holdings
+    semantic/report.yaml → sections.holdings.fields:
+    - holdings
+    - holdings_top_pct
+    - holdings_counts
+    - holdings_as_of
+    semantic/report.yaml → sections.holdings.purpose: The holdings selected as most significant for understanding the portfolio,
+      by asset class, with their weights; plus the total count of holdings.
+    semantic/report.yaml → sections.holdings.title.en: Major Holdings
+    semantic/report.yaml → sections.holdings.title.fr: Principaux titres
+    semantic/report.yaml → sections.key_data.component: key_value_list
+    semantic/report.yaml → sections.key_data.fields:
+    - total_fund_assets
+    - navps
+    - navps_as_of
+    - mer
+    - mer_as_of
+    - management_fee
+    - benchmark
+    - distributions
+    - fund_codes
+    semantic/report.yaml → sections.key_data.purpose: Size, price, costs, benchmark, last distribution and purchase codes
+      of the fund and series.
+    semantic/report.yaml → sections.key_data.title.en: Key Fund Data
+    semantic/report.yaml → sections.key_data.title.fr: Données clés du fonds
+    semantic/report.yaml → sections.managers.component: managers
+    semantic/report.yaml → sections.managers.fields:
+    - managers
+    semantic/report.yaml → sections.managers.purpose: The teams and named individuals responsible for the portfolio.
+    semantic/report.yaml → sections.managers.title.en: Portfolio Managers
+    semantic/report.yaml → sections.managers.title.fr: Gestionnaires de portefeuille
+    semantic/report.yaml → sections.regional.component: grouped_allocation
+    semantic/report.yaml → sections.regional.fields:
+    - regional_allocation
+    - regional_as_of
+    semantic/report.yaml → sections.regional.purpose: Where the portfolio's assets sit, by asset class then country; sums
+      to 100%.
+    semantic/report.yaml → sections.regional.title.en: Regional Allocation
+    semantic/report.yaml → sections.regional.title.fr: Répartition régionale
+    semantic/report.yaml → sections.returns.component: returns_table
+    semantic/report.yaml → sections.returns.fields:
+    - returns
+    - returns_as_of
+    semantic/report.yaml → sections.returns.purpose: Annualized total return of the series over standard periods ending at
+      as_of; the primary performance table.
+    semantic/report.yaml → sections.returns.title.en: Compound Annualized Returns
+    semantic/report.yaml → sections.returns.title.fr: Rendements annuels composés
+    semantic/report.yaml → sections.risk_measures.component: key_value_grid
+    semantic/report.yaml → sections.risk_measures.fields:
+    - risk_measures
+    - risk_as_of
+    semantic/report.yaml → sections.risk_measures.purpose: Standard three-year risk statistics of the series against its benchmark.
+    semantic/report.yaml → sections.risk_measures.title.en: Fund Risk Measures (3 year)
+    semantic/report.yaml → sections.risk_measures.title.fr: Mesures du risque (3 ans)
+    semantic/report.yaml → sections.risk_tolerance.component: risk_scale
+    semantic/report.yaml → sections.risk_tolerance.fields:
+    - risk_level
+    semantic/report.yaml → sections.risk_tolerance.purpose: The fund's risk rating on the five-level scale required by the
+      prospectus.
+    semantic/report.yaml → sections.risk_tolerance.title.en: Risk Tolerance
+    semantic/report.yaml → sections.risk_tolerance.title.fr: Tolérance au risque
+    semantic/report.yaml → sections.sector.component: two_column_allocation
+    semantic/report.yaml → sections.sector.fields:
+    - sector_allocation
+    - sector_as_of
+    semantic/report.yaml → sections.sector.purpose: Share of the portfolio by economic sector (fixed income counted as one
+      sector); sums to 100%.
+    semantic/report.yaml → sections.sector.title.en: Sector Allocation
+    semantic/report.yaml → sections.sector.title.fr: Répartition sectorielle
+    semantic/report.yaml → sections.why_invest.component: bullets
+    semantic/report.yaml → sections.why_invest.fields:
+    - why_invest
+    semantic/report.yaml → sections.why_invest.purpose: Marketing bullets approved by compliance describing the investment
+      approach.
+    semantic/report.yaml → sections.why_invest.title.en: Why Invest in this fund?
+    semantic/report.yaml → sections.why_invest.title.fr: Pourquoi investir dans ce fonds?

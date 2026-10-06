@@ -1,0 +1,24 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix meta: <https://cynergis.ai/ont/meta#> .
+
+# Why each term, shape and question exists, and who confirmed it. Written next to the thing it explains, in
+# report.ttl, ontology.ttl and the shapes (the questions carry the same as why / validated_by / validated_on).
+# `kgctl.py rationale` counts what is recorded and what is confirmed, so "validated" is a number, not an opinion.
+# A confirmation covers what was written when it was given: `kgctl.py ontology check` asks for it again when the
+# definition, domain, range or constraint it covered changes.
+
+<https://cynergis.ai/ont/meta> a owl:Ontology ;
+    rdfs:label "Ontology rationale" ; owl:versionInfo "0.1.0" ;
+    dct:description "Annotations recording why a term, a shape or a question exists, what was considered instead, and which person who knows the domain confirmed it." .
+
+meta:rationale a owl:AnnotationProperty ; rdfs:label "rationale" ;
+    skos:definition "Why the term, shape or question exists: which question could not be answered, or what would go wrong, without it." .
+meta:alternatives a owl:AnnotationProperty ; rdfs:label "alternatives" ;
+    skos:definition "What was considered instead, and why it was rejected." .
+meta:validatedBy a owl:AnnotationProperty ; rdfs:label "validated by" ;
+    skos:definition "The person who knows the domain and confirmed the term, shape or question as written. Left absent until a person has; never filled in by an agent." .
+meta:validatedOn a owl:AnnotationProperty ; rdfs:label "validated on" ;
+    skos:definition "The date (YYYY-MM-DD) of the confirmation. It covers the text as it stood that day: a later change to the meaning asks for a new confirmation." .

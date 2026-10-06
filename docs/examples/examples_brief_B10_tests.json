@@ -1,0 +1,306 @@
+{
+ "task": "write-tests",
+ "description": "An agent writes the tests a step's implementation must pass, before the implementation exists.",
+ "params": {
+  "STEP": "pt:step/B10_verify"
+ },
+ "ontology_version": "0.1.0",
+ "graph_sha256": "2eb5d67803300c04",
+ "as_of": "2026-10-03T19:25:03+00:00",
+ "questions": [
+  {
+   "id": "CQ04",
+   "question": "Which checks gate this step: what does each measure, against which threshold, and what happens on failure?",
+   "required": true,
+   "status": "answered",
+   "answer": [
+    {
+     "check": "pt:step/B10_verify/check/fidelity",
+     "checkId": "fidelity",
+     "kind": "metric",
+     "expression": "metrics.fidelity_missing == 0",
+     "metric": "fidelity_missing",
+     "parameter": null,
+     "paramValue": null,
+     "blocking": "true",
+     "onFail": "fail"
+    },
+    {
+     "check": "pt:step/B10_verify/check/overflow",
+     "checkId": "overflow",
+     "kind": "metric",
+     "expression": "metrics.overflow_count == 0",
+     "metric": "overflow_count",
+     "parameter": null,
+     "paramValue": null,
+     "blocking": "true",
+     "onFail": "fail"
+    },
+    {
+     "check": "pt:step/B10_verify/check/similarity",
+     "checkId": "similarity",
+     "kind": "metric",
+     "expression": "metrics.region_ssim_min >= (config.ssim_region_min_vector if state.nodes.B01_inspect.metrics.raster_pages == 0 else config.ssim_region_min_raster)",
+     "metric": "region_ssim_min",
+     "parameter": "ssim_region_min_raster",
+     "paramValue": "0.6",
+     "blocking": "state.nodes.B01_inspect.metrics.raster_pages == 0 or config.ssim_blocking_for_raster",
+     "onFail": "fail"
+    },
+    {
+     "check": "pt:step/B10_verify/check/similarity",
+     "checkId": "similarity",
+     "kind": "metric",
+     "expression": "metrics.region_ssim_min >= (config.ssim_region_min_vector if state.nodes.B01_inspect.metrics.raster_pages == 0 else config.ssim_region_min_raster)",
+     "metric": "region_ssim_min",
+     "parameter": "ssim_region_min_vector",
+     "paramValue": "0.85",
+     "blocking": "state.nodes.B01_inspect.metrics.raster_pages == 0 or config.ssim_blocking_for_raster",
+     "onFail": "fail"
+    },
+    {
+     "check": "pt:step/B10_verify/check/style",
+     "checkId": "style",
+     "kind": "metric",
+     "expression": "metrics.style_deviations == 0",
+     "metric": "style_deviations",
+     "parameter": null,
+     "paramValue": null,
+     "blocking": "true",
+     "onFail": "fail"
+    },
+    {
+     "check": "pt:step/B10_verify/check/visibility",
+     "checkId": "visibility",
+     "kind": "metric",
+     "expression": "metrics.visibility_missing == 0",
+     "metric": "visibility_missing",
+     "parameter": null,
+     "paramValue": null,
+     "blocking": "true",
+     "onFail": "fail"
+    }
+   ],
+   "gaps": []
+  },
+  {
+   "id": "CQ11",
+   "question": "For each outcome, which transition fires, under which guard, and where does it go?",
+   "required": true,
+   "status": "answered",
+   "answer": [
+    {
+     "outcome": "fail",
+     "transition": "pt:edge/e31",
+     "priority": "1",
+     "guard": "state.counters.repair_rounds < config.max_repair_rounds",
+     "to": "B11_repair"
+    },
+    {
+     "outcome": "fail",
+     "transition": "pt:edge/e32",
+     "priority": "2",
+     "guard": null,
+     "to": "B12_escalation"
+    },
+    {
+     "outcome": "pass",
+     "transition": "pt:edge/e30",
+     "priority": "0",
+     "guard": null,
+     "to": "B13_stress_data"
+    }
+   ],
+   "gaps": []
+  },
+  {
+   "id": "CQ12",
+   "question": "Which tests must exist for this step (derived mechanically from checks, transitions and invariants)?",
+   "required": true,
+   "status": "answered",
+   "answer": [
+    {
+     "test": "pt:step/B10_verify/check/fidelity/test/fail",
+     "kind": "fail_case",
+     "description": "Fixture where 'fidelity' is violated → check fails and the step outcome is 'fail'"
+    },
+    {
+     "test": "pt:step/B10_verify/check/overflow/test/fail",
+     "kind": "fail_case",
+     "description": "Fixture where 'overflow' is violated → check fails and the step outcome is 'fail'"
+    },
+    {
+     "test": "pt:step/B10_verify/check/similarity/test/fail",
+     "kind": "fail_case",
+     "description": "Fixture where 'similarity' is violated → check fails and the step outcome is 'fail'"
+    },
+    {
+     "test": "pt:step/B10_verify/check/style/test/fail",
+     "kind": "fail_case",
+     "description": "Fixture where 'style' is violated → check fails and the step outcome is 'fail'"
+    },
+    {
+     "test": "pt:step/B10_verify/check/visibility/test/fail",
+     "kind": "fail_case",
+     "description": "Fixture where 'visibility' is violated → check fails and the step outcome is 'fail'"
+    },
+    {
+     "test": "pt:step/B10_verify/check/fidelity/test/pass",
+     "kind": "pass_case",
+     "description": "Fixture where 'fidelity' holds (metrics.fidelity_missing == 0) → check passes"
+    },
+    {
+     "test": "pt:step/B10_verify/check/overflow/test/pass",
+     "kind": "pass_case",
+     "description": "Fixture where 'overflow' holds (metrics.overflow_count == 0) → check passes"
+    },
+    {
+     "test": "pt:step/B10_verify/check/similarity/test/pass",
+     "kind": "pass_case",
+     "description": "Fixture where 'similarity' holds (metrics.region_ssim_min >= (config.ssim_region_min_vector if state.nodes.B01_inspect.metrics.raster_pages == 0 else config.ssim_region_min_raster)) → check passes"
+    },
+    {
+     "test": "pt:step/B10_verify/check/style/test/pass",
+     "kind": "pass_case",
+     "description": "Fixture where 'style' holds (metrics.style_deviations == 0) → check passes"
+    },
+    {
+     "test": "pt:step/B10_verify/check/visibility/test/pass",
+     "kind": "pass_case",
+     "description": "Fixture where 'visibility' holds (metrics.visibility_missing == 0) → check passes"
+    },
+    {
+     "test": "pt:invariant/INV06/test/B10_verify",
+     "kind": "property",
+     "description": "Property test: Every slot value of a rendered document appears in the PDF text layer inside its region."
+    },
+    {
+     "test": "pt:invariant/INV07/test/B10_verify",
+     "kind": "property",
+     "description": "Property test: Every slot value is visible on the rendered image (OCR finds it), so clipped text cannot pass."
+    },
+    {
+     "test": "pt:invariant/INV08/test/B10_verify",
+     "kind": "property",
+     "description": "Property test: No region's content exceeds its box or the page."
+    },
+    {
+     "test": "pt:edge/e30/test/route",
+     "kind": "route",
+     "description": "Outcome 'pass' → engine moves to B13_stress_data"
+    },
+    {
+     "test": "pt:edge/e31/test/route",
+     "kind": "route",
+     "description": "Outcome 'fail' with guard [state.counters.repair_rounds < config.max_repair_rounds] true → engine moves to B11_repair"
+    },
+    {
+     "test": "pt:edge/e32/test/route",
+     "kind": "route",
+     "description": "Outcome 'fail' → engine moves to B12_escalation"
+    }
+   ],
+   "gaps": []
+  },
+  {
+   "id": "CQ07",
+   "question": "Which domain invariants does this step enforce?",
+   "required": false,
+   "status": "answered",
+   "answer": [
+    {
+     "invariant": "pt:invariant/INV06",
+     "statement": "Every slot value of a rendered document appears in the PDF text layer inside its region.",
+     "check": "pt:step/B10_verify/check/fidelity"
+    },
+    {
+     "invariant": "pt:invariant/INV08",
+     "statement": "No region's content exceeds its box or the page.",
+     "check": "pt:step/B10_verify/check/overflow"
+    },
+    {
+     "invariant": "pt:invariant/INV07",
+     "statement": "Every slot value is visible on the rendered image (OCR finds it), so clipped text cannot pass.",
+     "check": "pt:step/B10_verify/check/visibility"
+    }
+   ],
+   "gaps": []
+  },
+  {
+   "id": "CQ03",
+   "question": "What structure (fields) must each JSON artifact it writes have?",
+   "required": false,
+   "status": "answered",
+   "answer": [
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "doc"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "failing_regions[] {region_id, component, checks[]}"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "regions[].bbox_pt"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "regions[].component"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "regions[].fidelity_missing[] (slot names)"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "regions[].overflow_px"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "regions[].region_id"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "regions[].ssim"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "regions[].style_deviations[] {property, expected, actual}"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "regions[].visibility_missing[] (slot names)"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "source_kind (vector|raster|mixed)"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "summary.fidelity_missing"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "summary.overflow_count"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "summary.region_ssim_min"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "summary.style_deviations"
+    },
+    {
+     "artifact": "pt:artifact/verify_report",
+     "fieldPath": "summary.visibility_missing"
+    }
+   ],
+   "gaps": []
+  }
+ ],
+ "status": "READY",
+ "blocking": [],
+ "citation_rule": "Annotate code and tests with the pt: id of every check, transition, invariant and field they implement, e.g. `# implements pt:step/B10_verify/check/fidelity`."
+}

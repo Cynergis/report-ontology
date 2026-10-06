@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cynergis.ai/schema/docgen/lineage/2.1.0",
+  "title": "semantic/lineage.yaml — which column of which table supplies each field",
+  "x-ontology": "https://cynergis.ai/ont/report",
+  "x-ontology-version": "2.1.0",
+  "x-provided-by": "analyst",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "fields"
+  ],
+  "properties": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-term": "rpt:inDataSource",
+      "x-class": "rpt:DataSource",
+      "required": [
+        "name",
+        "kind"
+      ],
+      "description": "the data source the analyst named for this report; endpoints and credentials are environment config, never here",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "x-term": "rdfs:label",
+          "description": "connection name; the same name in two reports is the same data source"
+        },
+        "kind": {
+          "type": "string",
+          "x-term": "rpt:sourceKind",
+          "description": "bigquery, sqlite, postgres…"
+        },
+        "database": {
+          "type": "string",
+          "x-term": "rpt:database",
+          "description": "database or cloud project that holds the dataset"
+        }
+      }
+    },
+    "table": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-term": "rpt:readsTable",
+      "x-class": "rpt:Table",
+      "required": [
+        "dataset",
+        "name"
+      ],
+      "description": "the one table that holds every column of this report; by convention it takes the report's name",
+      "properties": {
+        "dataset": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "x-term": "rpt:dataset"
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "x-term": "rpt:tableName"
+        }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "x-term": "rpt:boundToColumn",
+      "description": "parameter name → the column whose value selects one document's rows",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+      }
+    },
+    "queries": {
+      "type": "object",
+      "x-key": "rdfs:label",
+      "x-term": "rpt:hasUniverseQuery",
+      "description": "named queries a manifest parameter's universe can point at (lineage:queries.<name>)",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "x-class": "rpt:UniverseQuery",
+        "required": [
+          "sql"
+        ],
+        "properties": {
+          "sql": {
+            "type": "string",
+            "x-term": "rpt:sql"
+          },
+          "returns": {
+            "type": "string",
+            "x-term": "rpt:returnsParameter"
+          },
+          "note": {
+            "type": "string",
+            "x-term": "rpt:note"
+          }
+        },
+        "x-id": "{base}query/{key}"
+      }
+    },
+    "fields": {
+      "type": "object",
+      "x-key": "rpt:fieldId",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "unmapped",
+              "proposed",
+              "verified"
+            ],
+            "x-term": "rpt:lineageStatus"
+          },
+          "column": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+            "x-term": "rpt:sourcedFrom",
+            "description": "column of the report's table that supplies the field; by convention the field id. It holds the value itself for a single-valued field and JSON text for a structured field (list, grouped_list, series, list_of_text, currency_pair, percent_by_series). Proposed by the agent, verified by the analyst."
+          },
+          "note": {
+            "type": "string",
+            "x-term": "rpt:lineageNote"
+          }
+        }
+      },
+      "x-provided-by": "agent"
+    }
+  }
+}

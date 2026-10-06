@@ -1,0 +1,382 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cynergis.ai/schema/docgen/manifest/2.1.0",
+  "title": "Template release manifest",
+  "description": "Operating contract of one report type at one template version: what it needs to render, when it runs, what identifies a document, how it is verified, approved, published and observed. Written by B16_freeze, read by R00. Every property names its ontology term (x-term); a property without one cannot be compiled and the schema fails kgctl terms. additionalProperties is false everywhere: an undeclared key is an error, never a silent drop.",
+  "x-ontology": "https://cynergis.ai/ont/report",
+  "x-ontology-version": "2.1.0",
+  "x-provided-by": "flow",
+  "x-class": "dt:TemplateRelease",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "template_id",
+    "version",
+    "engine_version",
+    "ontology_version",
+    "library_version",
+    "files",
+    "schedule",
+    "parameters",
+    "verify",
+    "approval",
+    "publish",
+    "observability"
+  ],
+  "properties": {
+    "template_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "x-structural": true,
+      "description": "Report type id; must equal report.id in semantic/report.yaml. The link is emitted as rpt:ofReport / rpt:releasedAs."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "x-term": "rpt:version"
+    },
+    "engine_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "x-term": "rpt:engineVersion",
+      "description": "docgen engine this release was frozen with; R00 refuses another major.minor"
+    },
+    "ontology_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "x-term": "rpt:ontologyVersion",
+      "description": "report ontology the semantic layer was compiled against"
+    },
+    "library_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "x-term": "rpt:libraryVersion",
+      "description": "shared component library (components.j2, labels) the templates were built against"
+    },
+    "frozen": {
+      "type": "boolean",
+      "x-term": "rpt:frozen"
+    },
+    "frozen_at": {
+      "type": "string",
+      "format": "date-time",
+      "x-term": "rpt:frozenAt"
+    },
+    "source_sha256": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "x-term": "rpt:sha256",
+      "description": "sha256 of each source document the template reproduces"
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "x-term": "rpt:fileHash",
+      "x-emit": "json",
+      "description": "path → sha256 of every released file; verified by step_freeze --verify"
+    },
+    "fonts": {
+      "type": "array",
+      "x-term": "rpt:font",
+      "x-emit": "json",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "family",
+          "file",
+          "license",
+          "sha256"
+        ],
+        "properties": {
+          "family": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "license": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "assets_pending": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "x-term": "rpt:assetPending"
+    },
+    "waiver": {
+      "type": "string",
+      "x-term": "rpt:waiver",
+      "description": "named waiver when the reference is not vector (config.reference_kind_required)"
+    },
+    "schedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-term": "rpt:hasSchedule",
+      "x-class": "rpt:Schedule",
+      "required": [
+        "cadence",
+        "run_on",
+        "as_of",
+        "timezone"
+      ],
+      "properties": {
+        "cadence": {
+          "type": "string",
+          "enum": [
+            "daily",
+            "weekly",
+            "monthly",
+            "quarterly",
+            "semi_annual",
+            "annual",
+            "on_demand"
+          ],
+          "x-term": "rpt:cadence"
+        },
+        "run_on": {
+          "type": "string",
+          "pattern": "^(business_day:\\d{1,2}|calendar_day:\\d{1,2}|weekday:[1-7]|on_demand)$",
+          "x-term": "rpt:runOn",
+          "description": "when within the cadence the dispatcher starts the run"
+        },
+        "as_of": {
+          "type": "string",
+          "enum": [
+            "prev_month_end",
+            "prev_quarter_end",
+            "prev_year_end",
+            "run_date",
+            "prev_business_day"
+          ],
+          "x-term": "rpt:asOfRule"
+        },
+        "calendar": {
+          "type": "string",
+          "x-term": "rpt:calendar",
+          "description": "business calendar for run_on, e.g. TSX, NYSE, CA"
+        },
+        "timezone": {
+          "type": "string",
+          "x-term": "rpt:timezone"
+        }
+      },
+      "x-provided-by": "analyst"
+    },
+    "parameters": {
+      "type": "object",
+      "x-term": "rpt:hasParameter",
+      "x-key": "rpt:label",
+      "description": "what identifies one document; the dispatcher expands the cross product of all universes",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "x-class": "rpt:Parameter",
+        "properties": {
+          "meaning": {
+            "type": "string",
+            "x-term": "rpt:definition"
+          },
+          "universe": {
+            "type": "string",
+            "x-term": "rpt:universeQuery",
+            "description": "lineage:queries.<name> — a named query in lineage.yaml that lists the allowed values at run time",
+            "x-ref": "{base}query/{value}",
+            "x-strip": "lineage:queries."
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            "x-term": "rpt:allowedValue"
+          },
+          "from": {
+            "type": "string",
+            "enum": [
+              "schedule",
+              "batch_spec"
+            ],
+            "x-term": "rpt:boundBy",
+            "description": "value supplied by the schedule (as_of) or by the batch request"
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "universe"
+            ]
+          },
+          {
+            "required": [
+              "values"
+            ]
+          },
+          {
+            "required": [
+              "from"
+            ]
+          }
+        ],
+        "x-id": "{base}parameter/{key}"
+      },
+      "x-provided-by": "analyst"
+    },
+    "verify": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-term": "rpt:hasVerificationPolicy",
+      "x-class": "rpt:VerificationPolicy",
+      "required": [
+        "golden_static_ssim_min",
+        "overflow_blocking"
+      ],
+      "properties": {
+        "golden_static_ssim_min": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-term": "rpt:goldenStaticSsimMin"
+        },
+        "overflow_blocking": {
+          "type": "boolean",
+          "x-term": "rpt:overflowBlocking"
+        },
+        "fidelity_min": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-term": "rpt:fidelityMin",
+          "description": "share of data values that must be found in the produced PDF text layer"
+        }
+      },
+      "x-provided-by": "analyst"
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-term": "rpt:hasApprovalPolicy",
+      "x-class": "rpt:ApprovalPolicy",
+      "required": [
+        "sample_rate",
+        "sample_min"
+      ],
+      "properties": {
+        "sample_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-term": "rpt:sampleRate"
+        },
+        "sample_min": {
+          "type": "integer",
+          "minimum": 0,
+          "x-term": "rpt:sampleMin"
+        },
+        "full_review_after_release": {
+          "type": "boolean",
+          "x-term": "rpt:fullReviewAfterRelease",
+          "description": "first batch after a new template version is reviewed in full"
+        },
+        "reviewer_role": {
+          "type": "string",
+          "x-term": "rpt:reviewerRole"
+        }
+      },
+      "x-provided-by": "analyst"
+    },
+    "publish": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-term": "rpt:hasPublishPolicy",
+      "x-class": "rpt:PublishPolicy",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "x-term": "rpt:pathPattern",
+          "description": "destination path pattern over the parameters, e.g. reports/{fund_id}/{as_of:%Y-%m}/{template_id}_{series}_{lang}.pdf (bucket/endpoint is environment config, not here)"
+        },
+        "formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "pdf",
+              "png",
+              "html"
+            ]
+          },
+          "x-term": "rpt:publishFormat"
+        },
+        "retention_days": {
+          "type": "integer",
+          "minimum": 1,
+          "x-term": "rpt:retentionDays"
+        }
+      },
+      "x-provided-by": "analyst"
+    },
+    "observability": {
+      "type": "object",
+      "additionalProperties": false,
+      "x-term": "rpt:hasObservabilityPolicy",
+      "x-class": "rpt:ObservabilityPolicy",
+      "required": [
+        "deliver_within_hours",
+        "max_failure_rate",
+        "alert",
+        "run_log"
+      ],
+      "properties": {
+        "deliver_within_hours": {
+          "type": "integer",
+          "minimum": 1,
+          "x-term": "rpt:deliverWithinHours",
+          "description": "hours after the scheduled start by which every approved document must be published"
+        },
+        "max_failure_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "x-term": "rpt:maxFailureRate",
+          "description": "share of a batch that may fail verification before the run alerts"
+        },
+        "alert": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          },
+          "x-term": "rpt:alertRecipient",
+          "description": "roles or channels told about a missed deadline or an exceeded failure rate (addresses are environment config, not here)"
+        },
+        "run_log": {
+          "type": "string",
+          "x-term": "rpt:runLog",
+          "description": "where each run records its history: a table or path; the graph points at it and does not hold the history"
+        }
+      },
+      "x-provided-by": "analyst"
+    }
+  }
+}

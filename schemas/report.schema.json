@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cynergis.ai/schema/docgen/report/2.1.0",
+  "title": "semantic/report.yaml — meaning layer of a report type",
+  "x-ontology": "https://cynergis.ai/ont/report",
+  "x-ontology-version": "2.1.0",
+  "x-provided-by": "analyst",
+  "type": "object", "additionalProperties": false, "required": ["report", "sections", "fields"],
+  "$defs": {
+    "locale_text": {"type": "object", "additionalProperties": false, "required": ["en"],
+                    "properties": {"en": {"type": "string", "x-term": "rpt:label"}, "fr": {"type": "string", "x-term": "rpt:label"}}},
+    "field_type": {"type": "string", "enum": ["text", "enum", "number", "integer", "percent", "currency", "currency_pair", "percent_by_series", "date", "list", "grouped_list", "series", "list_of_text", "boolean", "object"]},
+    "row_member": {"type": "object", "additionalProperties": false, "required": ["type"],
+                   "properties": {"type": {"$ref": "#/$defs/field_type", "x-term": "rpt:fieldType"}, "meaning": {"type": "string", "x-term": "rpt:definition"}}}
+  },
+  "properties": {
+    "report": {
+      "type": "object", "additionalProperties": false, "x-class": "rpt:ReportType",
+      "required": ["id", "version", "title", "kind", "purpose", "parameters", "locales"],
+      "properties": {
+        "id":       {"type": "string", "pattern": "^[a-z0-9-]+$", "x-term": "rpt:reportId"},
+        "version":  {"type": "string", "x-term": "rpt:version", "x-provided-by": "agent"},
+        "title":    {"type": "string", "x-term": "rdfs:label"},
+        "kind":     {"type": "string", "x-term": "rpt:kind"},
+        "purpose":  {"type": "string", "minLength": 20, "x-term": "rpt:purpose"},
+        "owner":    {"type": "string", "x-term": "rpt:owner", "description": "the report analyst responsible for the definition and the field-to-column mapping"},
+        "audience": {"type": "array", "items": {"type": "string"}, "x-term": "rpt:audience"},
+        "cadence":  {"type": "string", "x-term": "rpt:cadence", "description": "informative here; the operating schedule is manifest.json → schedule"},
+        "locales":  {"type": "array", "items": {"type": "string", "enum": ["en", "fr"]}, "minItems": 1, "x-term": "rpt:locale"},
+        "layout":   {"type": "string", "x-term": "rpt:layout", "x-provided-by": "agent"},
+        "parameters": {"type": "array", "x-term": "rpt:hasParameter",
+                       "items": {"type": "object", "additionalProperties": false, "required": ["name", "meaning"], "x-class": "rpt:Parameter",
+                                 "properties": {"name": {"type": "string", "x-term": "rdfs:label"}, "meaning": {"type": "string", "x-term": "rpt:definition"}}}},
+        "regulatory_notes": {"type": "array", "items": {"type": "string"}, "x-term": "rpt:hasRule", "x-class": "rpt:Rule", "description": "each note becomes a regulatory Rule of the report"}
+      }
+    },
+    "sections": {
+      "type": "array", "minItems": 1, "x-term": "rpt:hasSection", "x-provided-by": "agent",
+      "items": {
+        "type": "object", "additionalProperties": false, "x-class": "rpt:Section",
+        "required": ["id", "title", "purpose", "component", "fields"],
+        "properties": {
+          "id":           {"type": "string", "pattern": "^[a-z0-9_]+$", "x-structural": true},
+          "title":        {"$ref": "#/$defs/locale_text", "x-structural": true},
+          "purpose":      {"type": "string", "x-term": "rpt:purpose"},
+          "component":    {"type": "string", "x-term": "rpt:renderedBy"},
+          "fields":       {"type": "array", "items": {"type": "string"}, "minItems": 1, "x-term": "rpt:hasField"},
+          "present_when": {"type": "string", "x-term": "rpt:presentWhen"}
+        }
+      }
+    },
+    "fields": {
+      "type": "object", "x-key": "rpt:fieldId", "x-provided-by": "agent",
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false, "required": ["type", "meaning"], "x-class": "rpt:Field",
+        "properties": {
+          "type":       {"$ref": "#/$defs/field_type", "x-term": "rpt:fieldType"},
+          "label":      {"$ref": "#/$defs/locale_text", "x-structural": true, "description": "label per locale → FieldMeaning.label"},
+          "meaning":    {"type": "string", "minLength": 8, "x-term": "rpt:definition", "description": "→ FieldMeaning(en).definition"},
+          "meaning_fr": {"type": "string", "minLength": 8, "x-term": "rpt:definition", "description": "→ FieldMeaning(fr).definition"},
+          "row":        {"type": "object", "additionalProperties": {"$ref": "#/$defs/row_member"}, "x-term": "rpt:rowStructure", "x-emit": "json"},
+          "members":    {"type": "object", "additionalProperties": {"type": "string"}, "x-term": "rpt:members", "x-emit": "json", "description": "named members of a composite field (risk measures) → definition each"},
+          "rules":      {"type": "array", "items": {"type": "string"}, "x-term": "rpt:hasRule", "x-class": "rpt:Rule"},
+          "aliases":    {"type": "array", "items": {"type": "string", "minLength": 2}, "uniqueItems": true, "x-term": "rpt:alias", "description": "other names readers use for the field (management expense ratio, frais de gestion)"}
+        }
+      }
+    }
+  }
+}

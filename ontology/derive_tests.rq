@@ -1,0 +1,46 @@
+# Derive test obligations mechanically from the graph (no LLM).
+#   every check       → one pass_case + one fail_case
+#   every transition  → one route test (given outcome [+ guard], the engine goes to the target)
+#   every invariant   → one property test, attached to each step whose check enforces it
+PREFIX flow: <https://cynergis.ai/ont/flow#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+
+CONSTRUCT {
+  ?tp a flow:TestObligation ; flow:obligationKind "pass_case" ; flow:tests ?check ; flow:forStep ?step ;
+      dct:description ?dp .
+  ?tf a flow:TestObligation ; flow:obligationKind "fail_case" ; flow:tests ?check ; flow:forStep ?step ;
+      dct:description ?df .
+}
+WHERE {
+  ?step flow:hasCheck ?check . ?check flow:checkId ?cid ; flow:expression ?expr ; flow:onFail ?o .
+  ?o flow:outcomeName ?oname .
+  BIND(IRI(CONCAT(STR(?check), "/test/pass")) AS ?tp)
+  BIND(IRI(CONCAT(STR(?check), "/test/fail")) AS ?tf)
+  BIND(CONCAT("Fixture where '", ?cid, "' holds (", ?expr, ") → check passes") AS ?dp)
+  BIND(CONCAT("Fixture where '", ?cid, "' is violated → check fails and the step outcome is '", ?oname, "'") AS ?df)
+}
+;
+CONSTRUCT {
+  ?tr a flow:TestObligation ; flow:obligationKind "route" ; flow:tests ?t ; flow:forStep ?step ;
+      dct:description ?d .
+}
+WHERE {
+  ?t a flow:Transition ; flow:from ?step ; flow:onOutcome ?o . ?o flow:outcomeName ?oname .
+  OPTIONAL { ?t flow:guard ?g }
+  OPTIONAL { ?t flow:to ?to . ?to flow:stepId ?toId }
+  OPTIONAL { ?t flow:toDynamic ?dyn }
+  BIND(IRI(CONCAT(STR(?t), "/test/route")) AS ?tr)
+  BIND(CONCAT("Outcome '", ?oname, "'", IF(BOUND(?g), CONCAT(" with guard [", ?g, "] true"), ""),
+              " → engine moves to ", COALESCE(?toId, ?dyn)) AS ?d)
+}
+;
+CONSTRUCT {
+  ?ti a flow:TestObligation ; flow:obligationKind "property" ; flow:tests ?inv ; flow:forStep ?step ;
+      dct:description ?d .
+}
+WHERE {
+  ?inv a flow:Invariant ; flow:statement ?stmt ; flow:enforcedBy ?check .
+  ?step flow:hasCheck ?check ; flow:stepId ?sid .
+  BIND(IRI(CONCAT(STR(?inv), "/test/", ?sid)) AS ?ti)
+  BIND(CONCAT("Property test: ", ?stmt) AS ?d)
+}

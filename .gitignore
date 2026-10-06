@@ -1,0 +1,11 @@
+# generated: rebuilt by the tools, never committed (compile stamps the current time)
+build/
+*.graph.json
+# the OTO unit's sample is written by tools/oto_port.py and committed: a unit must be whole when checked out
+!oto/report/sample.graph.json
+fixtures/**/semantic/report.md
+
+__pycache__/
+.pytest_cache/
+.venv/
+.DS_Store

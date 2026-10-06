@@ -1,0 +1,27 @@
+{
+  "name": "report",
+  "release": 1,
+  "domain": "reporting",
+  "summary": "A report type: its meaning per locale, its sections and fields, the rules that apply, the column that supplies each value, the runs and approvals that produced its template, its operating contract, its lifecycle and the accepted history of its definition.",
+  "extends": [
+    "oto-core"
+  ],
+  "namespace": "https://cynergis.ai/ont/report#",
+  "engine": ">=0.8",
+  "carries": [
+    "vocabulary",
+    "rationale",
+    "rules",
+    "questions",
+    "sample",
+    "readme"
+  ],
+  "maintainer": "Cynergis AI",
+  "changelog": [
+    {
+      "release": 1,
+      "at": "2026-10-06",
+      "note": "Ported from report-ontology 2.1.0 (ontology/report.ttl, questions/report_cq.yaml, ontology/report-shapes.ttl, the fund-profile-balanced fixture as the sample)."
+    }
+  ]
+}

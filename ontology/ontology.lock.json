@@ -1,0 +1,4643 @@
+{
+ "_about": "The vocabularies, shapes and questions as last accepted. `kgctl.py ontology check` compares the files with it; `kgctl.py ontology accept --by <you>` updates it. Generated: do not edit.",
+ "accepted_by": "claude: report 2.1.0 — history of definitions, aliases, recorded rationale",
+ "accepted_at": "2026-10-05T20:45:20+00:00",
+ "versions": {
+  "report": "2.1.0",
+  "flow": "0.1.1",
+  "doctemplate": "0.1.1",
+  "meta": "0.1.0"
+ },
+ "question_versions": {
+  "report": "2.1.0",
+  "flow": "0.1.1"
+ },
+ "terms": {
+  "dt:AuthoringRule": {
+   "kind": "class",
+   "label": "Authoring rule",
+   "definition": "Guidance for writing templates that survive real data.",
+   "subclass_of": []
+  },
+  "dt:Batch": {
+   "kind": "class",
+   "label": "Batch",
+   "definition": "A production run: template version, as-of date, list of documents.",
+   "subclass_of": []
+  },
+  "dt:Blueprint": {
+   "kind": "class",
+   "label": "Blueprint",
+   "definition": "The semantic model of a page: each region labeled with a component, each text span classified as static or as the source of a named slot, and the repeat structure.",
+   "subclass_of": []
+  },
+  "dt:ColorToken": {
+   "kind": "class",
+   "label": "Color token",
+   "definition": "A hex color with a role (brand, ink, rule, band, chart mark).",
+   "subclass_of": [
+    "dt:DesignToken"
+   ]
+  },
+  "dt:Component": {
+   "kind": "class",
+   "label": "Component",
+   "definition": "A reusable visual box type (returns table, allocation list, bar chart, key-value list…). One component = one template macro.",
+   "subclass_of": []
+  },
+  "dt:DataDocument": {
+   "kind": "class",
+   "label": "Data document",
+   "definition": "One document's data as JSON, conforming to the data schema.",
+   "subclass_of": []
+  },
+  "dt:DataGap": {
+   "kind": "class",
+   "label": "Data gap",
+   "definition": "A slot whose value could not be filled or parsed; needs a human.",
+   "subclass_of": []
+  },
+  "dt:DataSchema": {
+   "kind": "class",
+   "label": "Data schema",
+   "definition": "JSON Schema for one document's data, derived from blueprint slots (types, required, arrays, max lengths).",
+   "subclass_of": []
+  },
+  "dt:DesignToken": {
+   "kind": "class",
+   "label": "Design token",
+   "definition": "A named, measured style value (color, font family, size, spacing, rule width) reused across the template.",
+   "subclass_of": []
+  },
+  "dt:Drawing": {
+   "kind": "class",
+   "label": "Drawing",
+   "definition": "A vector path: rule, box or fill, with stroke color, fill color and width.",
+   "subclass_of": []
+  },
+  "dt:FontFile": {
+   "kind": "class",
+   "label": "Font file",
+   "definition": "A font embedded in a vector source; usable via @font-face if licensed.",
+   "subclass_of": []
+  },
+  "dt:GoldenImage": {
+   "kind": "class",
+   "label": "Golden image",
+   "definition": "The approved render plus a mask of static regions (regions with no slots), used to detect unintended change in production.",
+   "subclass_of": []
+  },
+  "dt:InspectionReport": {
+   "kind": "class",
+   "label": "Inspection report",
+   "definition": "Per-page kind, fonts, sizes, colors, large images.",
+   "subclass_of": []
+  },
+  "dt:IntakeRecord": {
+   "kind": "class",
+   "label": "Intake record",
+   "definition": "Source hash, page count, page sizes, encryption.",
+   "subclass_of": []
+  },
+  "dt:Layout": {
+   "kind": "class",
+   "label": "Layout",
+   "definition": "An arrangement of components into columns; templates share components and differ by layout.",
+   "subclass_of": []
+  },
+  "dt:Locale": {
+   "kind": "class",
+   "label": "Locale",
+   "definition": "Language + number/date formatting conventions (en, fr).",
+   "subclass_of": []
+  },
+  "dt:OcrWord": {
+   "kind": "class",
+   "label": "OCR word",
+   "definition": "A text span read by OCR from a raster image; adds conf (0–1) and est_size_pt from glyph height.",
+   "subclass_of": [
+    "dt:TextSpan"
+   ]
+  },
+  "dt:Page": {
+   "kind": "class",
+   "label": "Page",
+   "definition": "One page of a source document, classified by how its content is encoded.",
+   "subclass_of": []
+  },
+  "dt:PageImage": {
+   "kind": "class",
+   "label": "Page image",
+   "definition": "A raster of a page at a known dpi; the visual reference every comparison uses.",
+   "subclass_of": []
+  },
+  "dt:PageKind": {
+   "kind": "class",
+   "label": "Page kind",
+   "definition": "Vector (real text and drawings), Raster (a picture of a page), or Mixed.",
+   "subclass_of": []
+  },
+  "dt:PublishReceipt": {
+   "kind": "class",
+   "label": "Publish receipt",
+   "definition": "Destination and hash of every published document.",
+   "subclass_of": []
+  },
+  "dt:Region": {
+   "kind": "class",
+   "label": "Region",
+   "definition": "A rectangular area of a page that groups text and drawings into one visual box (detected from rules/boxes), with a region_id and bbox.",
+   "subclass_of": []
+  },
+  "dt:RegionCrop": {
+   "kind": "class",
+   "label": "Region crop",
+   "definition": "Side-by-side source|render image of one failing region, given to repair.",
+   "subclass_of": []
+  },
+  "dt:RenderedDocument": {
+   "kind": "class",
+   "label": "Rendered document",
+   "definition": "HTML, PDF and PNG produced by rendering a data document through a template project with headless Chromium.",
+   "subclass_of": []
+  },
+  "dt:RepairRecord": {
+   "kind": "class",
+   "label": "Repair record",
+   "definition": "What one repair round changed, which failures it targeted, files touched.",
+   "subclass_of": []
+  },
+  "dt:ReviewPage": {
+   "kind": "class",
+   "label": "Review page",
+   "definition": "A self-contained HTML page shown to a human at a gate.",
+   "subclass_of": []
+  },
+  "dt:SampleData": {
+   "kind": "class",
+   "label": "Sample data",
+   "definition": "The source PDF's own data, filled by code from its text; rendering it must reproduce the source.",
+   "subclass_of": [
+    "dt:DataDocument"
+   ]
+  },
+  "dt:Slot": {
+   "kind": "class",
+   "label": "Slot",
+   "definition": "A named place where data goes, with a type and a repeat flag. Every slot becomes one data-schema field.",
+   "subclass_of": []
+  },
+  "dt:SlotType": {
+   "kind": "class",
+   "label": "Slot type",
+   "definition": "How a slot's value is parsed and formatted.",
+   "subclass_of": []
+  },
+  "dt:SourceDocument": {
+   "kind": "class",
+   "label": "Source document",
+   "definition": "The sample PDF a template must reproduce. Identified by its sha256.",
+   "subclass_of": []
+  },
+  "dt:SpacingToken": {
+   "kind": "class",
+   "label": "Spacing token",
+   "definition": "Margins, gaps, column x-positions, rule widths.",
+   "subclass_of": [
+    "dt:DesignToken"
+   ]
+  },
+  "dt:StaticText": {
+   "kind": "class",
+   "label": "Static text",
+   "definition": "Text that is part of the design (labels, headings, disclaimers); it becomes an i18n label, never data.",
+   "subclass_of": []
+  },
+  "dt:StressCase": {
+   "kind": "class",
+   "label": "Stress case",
+   "definition": "Seeded edge-case data (longest strings, most rows, French, extremes) that the template must survive.",
+   "subclass_of": [
+    "dt:DataDocument"
+   ]
+  },
+  "dt:StressResult": {
+   "kind": "class",
+   "label": "Stress result",
+   "definition": "Per stress case: overflow, fidelity, visibility.",
+   "subclass_of": []
+  },
+  "dt:TemplateProject": {
+   "kind": "class",
+   "label": "Template project",
+   "definition": "The template folder of one report type: tokens.css, components.j2 (one macro per component), base.html.j2 (page shell), charts.json, layouts.json, i18n.json. It is data only; charts and formatters are the plugin's filters, configured by charts.json.",
+   "subclass_of": []
+  },
+  "dt:TemplateRelease": {
+   "kind": "class",
+   "label": "Template release",
+   "definition": "A frozen, versioned copy of a template project with a manifest of file hashes and the sign-off approval id.",
+   "subclass_of": []
+  },
+  "dt:TextCorrection": {
+   "kind": "class",
+   "label": "Text correction",
+   "definition": "A human-confirmed value replacing uncertain OCR text or filling a data gap.",
+   "subclass_of": []
+  },
+  "dt:TextSpan": {
+   "kind": "class",
+   "label": "Text span",
+   "definition": "A run of text with bbox (points, top-left origin), font, size (pt), color (hex), bold, italic, and a stable span_id.",
+   "subclass_of": []
+  },
+  "dt:TypeToken": {
+   "kind": "class",
+   "label": "Type token",
+   "definition": "A font family, weight and size in pt with a role (title, heading, body, footnote).",
+   "subclass_of": [
+    "dt:DesignToken"
+   ]
+  },
+  "dt:VerificationResult": {
+   "kind": "class",
+   "label": "Verification result",
+   "definition": "Per-region results of comparing a render to its reference and its data: overflow, fidelity, visibility, similarity, style.",
+   "subclass_of": []
+  },
+  "dt:conformsTo": {
+   "kind": "object property",
+   "label": "conforms to",
+   "definition": "The data schema the document's data must satisfy.",
+   "domain": [
+    "dt:DataDocument"
+   ],
+   "range": [
+    "dt:DataSchema"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:derivedFrom": {
+   "kind": "object property",
+   "label": "derived from",
+   "definition": "What the item was computed from: a data schema from the blueprint's slots, sample data from the source's text spans.",
+   "domain": [
+    "dt:DataSchema",
+    "dt:SampleData"
+   ],
+   "range": [
+    "dt:Blueprint",
+    "dt:TextSpan"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:hasSlot": {
+   "kind": "object property",
+   "label": "has slot",
+   "definition": "A named place for data inside the region.",
+   "domain": [
+    "dt:Region"
+   ],
+   "range": [
+    "dt:Slot"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:implementsComponent": {
+   "kind": "object property",
+   "label": "implements component",
+   "definition": "The template project has a macro that draws this component.",
+   "domain": [
+    "dt:TemplateProject"
+   ],
+   "range": [
+    "dt:Component"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:inRegion": {
+   "kind": "object property",
+   "label": "in region",
+   "definition": "The region (visual box) the text span was assigned to.",
+   "domain": [
+    "dt:TextSpan"
+   ],
+   "range": [
+    "dt:Region"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:labeledAs": {
+   "kind": "object property",
+   "label": "labeled as",
+   "definition": "The component the blueprint says the region is; every region has exactly one.",
+   "domain": [
+    "dt:Region"
+   ],
+   "range": [
+    "dt:Component"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:onPage": {
+   "kind": "object property",
+   "label": "on page",
+   "definition": "The page a text span, drawing, region or page image is found on.",
+   "domain": [
+    "dt:Drawing",
+    "dt:PageImage",
+    "dt:Region",
+    "dt:TextSpan"
+   ],
+   "range": [
+    "dt:Page"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:pageKind": {
+   "kind": "object property",
+   "label": "page kind",
+   "definition": "How the page's content is encoded: vector, raster or mixed. It decides whether text is measured or read by OCR.",
+   "domain": [
+    "dt:Page"
+   ],
+   "range": [
+    "dt:PageKind"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:pageOf": {
+   "kind": "object property",
+   "label": "page of",
+   "definition": "The source document the page belongs to.",
+   "domain": [
+    "dt:Page"
+   ],
+   "range": [
+    "dt:SourceDocument"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:renderedFrom": {
+   "kind": "object property",
+   "label": "rendered from",
+   "definition": "The data document and the template project the rendered document was produced from.",
+   "domain": [
+    "dt:RenderedDocument"
+   ],
+   "range": [
+    "dt:DataDocument",
+    "dt:TemplateProject"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:slotType": {
+   "kind": "object property",
+   "label": "slot type",
+   "definition": "How the slot's value is parsed and formatted.",
+   "domain": [
+    "dt:Slot"
+   ],
+   "range": [
+    "dt:SlotType"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:sourcedFrom": {
+   "kind": "object property",
+   "label": "sourced from",
+   "definition": "The text span of the source PDF that holds the slot's sample value. Not the data mapping: that is rpt:sourcedFrom (field → column).",
+   "domain": [
+    "dt:Slot"
+   ],
+   "range": [
+    "dt:TextSpan"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "dt:verifies": {
+   "kind": "object property",
+   "label": "verifies",
+   "definition": "The rendered document the verification result is about.",
+   "domain": [
+    "dt:VerificationResult"
+   ],
+   "range": [
+    "dt:RenderedDocument"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:Artifact": {
+   "kind": "class",
+   "label": "Artifact",
+   "definition": "A file or folder exchanged between steps, with a path, format and field structure.",
+   "subclass_of": []
+  },
+  "flow:Check": {
+   "kind": "class",
+   "label": "Check",
+   "definition": "A deterministic validation run after a step; a blocking failure sets the step's outcome.",
+   "subclass_of": []
+  },
+  "flow:ClaudeStep": {
+   "kind": "class",
+   "label": "Claude step",
+   "definition": "Claude with a versioned prompt and a required output schema; cached by input hash; never routes.",
+   "subclass_of": [
+    "flow:Step"
+   ]
+  },
+  "flow:DeterministicStep": {
+   "kind": "class",
+   "label": "Deterministic step",
+   "definition": "A script: same inputs, same outputs.",
+   "subclass_of": [
+    "flow:Step"
+   ]
+  },
+  "flow:Effect": {
+   "kind": "class",
+   "label": "Effect",
+   "definition": "A state mutation applied when a transition is taken (set, increment, reset, append…).",
+   "subclass_of": []
+  },
+  "flow:Field": {
+   "kind": "class",
+   "label": "Field",
+   "definition": "A named path inside a structured artifact (e.g. pages[].regions[].bbox).",
+   "subclass_of": []
+  },
+  "flow:Flow": {
+   "kind": "class",
+   "label": "Flow",
+   "definition": "A versioned process graph with entrypoints, phases, steps and transitions.",
+   "subclass_of": []
+  },
+  "flow:HumanStep": {
+   "kind": "class",
+   "label": "Human step",
+   "definition": "A person records a decision; the flow pauses until it exists.",
+   "subclass_of": [
+    "flow:Step"
+   ]
+  },
+  "flow:Implementation": {
+   "kind": "class",
+   "label": "Implementation",
+   "definition": "The script that executes a step.",
+   "subclass_of": []
+  },
+  "flow:Invariant": {
+   "kind": "class",
+   "label": "Invariant",
+   "definition": "A statement that must always hold; enforced by one or more checks.",
+   "subclass_of": []
+  },
+  "flow:Metric": {
+   "kind": "class",
+   "label": "Metric",
+   "definition": "A named measurement a step records in run state and checks compare against parameters.",
+   "subclass_of": []
+  },
+  "flow:OcrStep": {
+   "kind": "class",
+   "label": "OCR step",
+   "definition": "An OCR engine run; output carries per-word confidence.",
+   "subclass_of": [
+    "flow:Step"
+   ]
+  },
+  "flow:Outcome": {
+   "kind": "class",
+   "label": "Outcome",
+   "definition": "A named result of a step (pass, fail, approve, …); the only thing transitions branch on.",
+   "subclass_of": []
+  },
+  "flow:Parameter": {
+   "kind": "class",
+   "label": "Parameter",
+   "definition": "A configuration value (threshold, limit, seed) owned by config, never by steps.",
+   "subclass_of": []
+  },
+  "flow:Phase": {
+   "kind": "class",
+   "label": "Phase",
+   "definition": "A named group of steps run together (e.g. template build, production run).",
+   "subclass_of": []
+  },
+  "flow:Step": {
+   "kind": "class",
+   "label": "Step",
+   "definition": "A unit of work with declared inputs, outputs, checks and outcomes.",
+   "subclass_of": []
+  },
+  "flow:TerminalStep": {
+   "kind": "class",
+   "label": "Terminal step",
+   "definition": "An end state.",
+   "subclass_of": [
+    "flow:Step"
+   ]
+  },
+  "flow:TestObligation": {
+   "kind": "class",
+   "label": "Test obligation",
+   "definition": "A test that must exist before a step's implementation is accepted; derived mechanically from the graph.",
+   "subclass_of": []
+  },
+  "flow:Transition": {
+   "kind": "class",
+   "label": "Transition",
+   "definition": "A directed edge from a step, taken on an outcome when its guard holds; may apply effects to run state.",
+   "subclass_of": []
+  },
+  "flow:blocking": {
+   "kind": "datatype property",
+   "label": "blocking",
+   "definition": "Whether a failure of the check stops the step: 'true', 'false', or an expression over run state that decides.",
+   "domain": [
+    "flow:Check"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:carries": {
+   "kind": "object property",
+   "label": "carries",
+   "definition": "The domain concept whose instances the artifact holds. This is the one bridge from the flow to the dt: and rpt: vocabularies.",
+   "domain": [
+    "flow:Artifact"
+   ],
+   "range": [
+    "owl:Class"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:checkId": {
+   "kind": "datatype property",
+   "label": "check id",
+   "definition": "Identifier of the check, unique in its step (fidelity, overflow).",
+   "domain": [
+    "flow:Check"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:checkKind": {
+   "kind": "datatype property",
+   "label": "check kind",
+   "definition": "How the check is evaluated: metric (a comparison over recorded metrics) | script | json_schema | file_exists.",
+   "domain": [
+    "flow:Check"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:command": {
+   "kind": "datatype property",
+   "label": "command",
+   "definition": "The command line that runs the step, for steps executed by a script.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:comparedTo": {
+   "kind": "object property",
+   "label": "compared to",
+   "definition": "The configuration value the check compares its metrics against; changing it changes what passes.",
+   "domain": [
+    "flow:Check"
+   ],
+   "range": [
+    "flow:Parameter"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:concerns": {
+   "kind": "object property",
+   "label": "concerns",
+   "definition": "A domain concept the invariant constrains.",
+   "domain": [
+    "flow:Invariant"
+   ],
+   "range": [
+    "owl:Class"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:decisionOption": {
+   "kind": "datatype property",
+   "label": "decision option",
+   "definition": "A decision the person may record; each becomes an outcome of the step.",
+   "domain": [
+    "flow:HumanStep"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:enforcedBy": {
+   "kind": "object property",
+   "label": "enforced by",
+   "definition": "A check that fails when the invariant is broken.",
+   "domain": [
+    "flow:Invariant"
+   ],
+   "range": [
+    "flow:Check"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:entrypoint": {
+   "kind": "object property",
+   "label": "entrypoint",
+   "definition": "The step a run of the phase starts at.",
+   "domain": [
+    "flow:Phase"
+   ],
+   "range": [
+    "flow:Step"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:exists": {
+   "kind": "datatype property",
+   "label": "exists",
+   "definition": "Whether the script was found on disk when the graph was built.",
+   "domain": [
+    "flow:Implementation"
+   ],
+   "range": [
+    "xsd:boolean"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:expression": {
+   "kind": "datatype property",
+   "label": "expression",
+   "definition": "What the check evaluates: a comparison over metrics and config, a script to run, a schema, or a path that must exist.",
+   "domain": [
+    "flow:Check"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:fieldPath": {
+   "kind": "datatype property",
+   "label": "field path",
+   "definition": "The path of the field inside the artifact (pages[].regions[].bbox).",
+   "domain": [
+    "flow:Field"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:forStep": {
+   "kind": "object property",
+   "label": "for step",
+   "definition": "The step whose implementation must pass the test.",
+   "domain": [
+    "flow:TestObligation"
+   ],
+   "range": [
+    "flow:Step"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:foreach": {
+   "kind": "datatype property",
+   "label": "for each",
+   "definition": "The collection in run state the step runs once per item of (the documents of a batch, the stress cases).",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:format": {
+   "kind": "datatype property",
+   "label": "format",
+   "definition": "The file format of the artifact (json, png, pdf, folder…).",
+   "domain": [
+    "flow:Artifact"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:from": {
+   "kind": "object property",
+   "label": "from",
+   "definition": "The step the transition leaves.",
+   "domain": [
+    "flow:Transition"
+   ],
+   "range": [
+    "flow:Step"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:guard": {
+   "kind": "datatype property",
+   "label": "guard",
+   "definition": "A condition over run state and config that must hold for the transition to be taken; absent means always.",
+   "domain": [
+    "flow:Transition"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:hasCheck": {
+   "kind": "object property",
+   "label": "has check",
+   "definition": "A validation run after the step's action. The first failed blocking check sets the step's outcome.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "flow:Check"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:hasEffect": {
+   "kind": "object property",
+   "label": "has effect",
+   "definition": "A change to run state applied when the transition is taken; effects apply in order.",
+   "domain": [
+    "flow:Transition"
+   ],
+   "range": [
+    "flow:Effect"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:hasField": {
+   "kind": "object property",
+   "label": "has field",
+   "definition": "A named path the artifact's content must contain. A JSON artifact with no fields is under-specified: an agent must not guess its structure.",
+   "domain": [
+    "flow:Artifact"
+   ],
+   "range": [
+    "flow:Field"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:hasOutcome": {
+   "kind": "object property",
+   "label": "has outcome",
+   "definition": "A result the step can end with. Every outcome needs at least one transition.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "flow:Outcome"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:hasStep": {
+   "kind": "object property",
+   "label": "has step",
+   "definition": "The flow contains this step.",
+   "domain": [
+    "flow:Flow"
+   ],
+   "range": [
+    "flow:Step"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:implementedBy": {
+   "kind": "object property",
+   "label": "implemented by",
+   "definition": "The script that executes the step.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "flow:Implementation"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:inPhase": {
+   "kind": "object property",
+   "label": "in phase",
+   "definition": "The phase the step belongs to (template build, production run).",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "flow:Phase"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:isImplemented": {
+   "kind": "datatype property",
+   "label": "is implemented",
+   "definition": "Whether the flow definition marks the step's action as implemented.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "xsd:boolean"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:measures": {
+   "kind": "object property",
+   "label": "measures",
+   "definition": "A metric the check's expression reads. The step must record it (flow:records).",
+   "domain": [
+    "flow:Check"
+   ],
+   "range": [
+    "flow:Metric"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:metricName": {
+   "kind": "datatype property",
+   "label": "metric name",
+   "definition": "Name of the metric as it appears in run state under the step.",
+   "domain": [
+    "flow:Metric"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:obligationKind": {
+   "kind": "datatype property",
+   "label": "obligation kind",
+   "definition": "The kind of test required: pass_case | fail_case | route | property.",
+   "domain": [
+    "flow:TestObligation"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:onFail": {
+   "kind": "object property",
+   "label": "on fail",
+   "definition": "The outcome the step takes when this check fails and is blocking.",
+   "domain": [
+    "flow:Check"
+   ],
+   "range": [
+    "flow:Outcome"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:onOutcome": {
+   "kind": "object property",
+   "label": "on outcome",
+   "definition": "The outcome of the source step on which the transition is considered.",
+   "domain": [
+    "flow:Transition"
+   ],
+   "range": [
+    "flow:Outcome"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:op": {
+   "kind": "datatype property",
+   "label": "operation",
+   "definition": "The kind of change: set | set_from | increment | reset | append | reactivate_items | exclude_failed_items.",
+   "domain": [
+    "flow:Effect"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:optional": {
+   "kind": "datatype property",
+   "label": "optional",
+   "definition": "True when the artifact need not exist for the flow to proceed.",
+   "domain": [
+    "flow:Artifact"
+   ],
+   "range": [
+    "xsd:boolean"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:outcomeName": {
+   "kind": "datatype property",
+   "label": "outcome name",
+   "definition": "Name of the outcome (pass, fail, approve, reject…); the only thing transitions branch on.",
+   "domain": [
+    "flow:Outcome"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:outputSchema": {
+   "kind": "datatype property",
+   "label": "output schema",
+   "definition": "The JSON Schema the output must satisfy: on a Claude step, the schema its answer is validated against; on an artifact, the schema of its content.",
+   "domain": [
+    "flow:Artifact",
+    "flow:ClaudeStep"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:paramName": {
+   "kind": "datatype property",
+   "label": "parameter name",
+   "definition": "Name of the configuration value, as its path in the flow's config (claude.model, ssim_region_min_vector).",
+   "domain": [
+    "flow:Parameter"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:path": {
+   "kind": "datatype property",
+   "label": "path",
+   "definition": "Where the artifact, or the step's script, is found; may contain placeholders such as {run_dir} or {skill_dir}.",
+   "domain": [
+    "flow:Artifact",
+    "flow:Implementation"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:priority": {
+   "kind": "datatype property",
+   "label": "priority",
+   "definition": "Order in which the transitions for one step and outcome are tried: ascending, and the first whose guard holds is taken.",
+   "domain": [
+    "flow:Transition"
+   ],
+   "range": [
+    "xsd:integer"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:producedBy": {
+   "kind": "object property",
+   "label": "produced by",
+   "definition": "The step that creates the artifact.",
+   "domain": [
+    "flow:Artifact"
+   ],
+   "range": [
+    "flow:Step"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:promptRef": {
+   "kind": "datatype property",
+   "label": "prompt reference",
+   "definition": "The prompt file the Claude step is invoked with.",
+   "domain": [
+    "flow:ClaudeStep"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:promptVersion": {
+   "kind": "datatype property",
+   "label": "prompt version",
+   "definition": "Version of the prompt; part of the cache key, so a new version invalidates cached outputs.",
+   "domain": [
+    "flow:ClaudeStep"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:reads": {
+   "kind": "object property",
+   "label": "reads",
+   "definition": "An artifact the step needs as input; the step is blocked when it is missing.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "flow:Artifact"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:readsOptional": {
+   "kind": "object property",
+   "label": "reads optional",
+   "definition": "An artifact the step uses when it is present and runs without when it is absent.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "flow:Artifact"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:readsStatePath": {
+   "kind": "datatype property",
+   "label": "reads state path",
+   "definition": "A path in run state that the guard, or the check, depends on.",
+   "domain": [
+    "flow:Check",
+    "flow:Transition"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:records": {
+   "kind": "object property",
+   "label": "records",
+   "definition": "A measurement the step writes to run state, for its checks and for transition guards.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "flow:Metric"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:requiredField": {
+   "kind": "datatype property",
+   "label": "required field",
+   "definition": "A field the recorded decision must carry (reviewer, comment…) before the flow continues.",
+   "domain": [
+    "flow:HumanStep"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:retryMax": {
+   "kind": "datatype property",
+   "label": "retry maximum",
+   "definition": "How many times the step is re-run on a retryable outcome before that outcome stands.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "xsd:integer"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:reviewPage": {
+   "kind": "datatype property",
+   "label": "review page",
+   "definition": "The page shown to the person who must decide.",
+   "domain": [
+    "flow:HumanStep"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:sourceRef": {
+   "kind": "datatype property",
+   "label": "source reference",
+   "definition": "Where in the flow definition the fact came from (file#pointer), for traceability.",
+   "domain": [
+    "flow:Artifact",
+    "flow:Parameter",
+    "flow:Step",
+    "flow:Transition"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:statePath": {
+   "kind": "datatype property",
+   "label": "state path",
+   "definition": "The path in run state the effect changes.",
+   "domain": [
+    "flow:Effect"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:statement": {
+   "kind": "datatype property",
+   "label": "statement",
+   "definition": "The invariant, stated in one sentence.",
+   "domain": [
+    "flow:Invariant"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:stepId": {
+   "kind": "datatype property",
+   "label": "step id",
+   "definition": "Identifier of the step, unique in its flow (B10_verify). Transitions, run state, briefs and code citations refer to a step by it.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:tests": {
+   "kind": "object property",
+   "label": "tests",
+   "definition": "What the required test exercises: a check (pass and fail case), a transition (route), or an invariant (property).",
+   "domain": [
+    "flow:TestObligation"
+   ],
+   "range": [
+    "flow:Check",
+    "flow:Invariant",
+    "flow:Transition"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:to": {
+   "kind": "object property",
+   "label": "to",
+   "definition": "The step the transition goes to.",
+   "domain": [
+    "flow:Transition"
+   ],
+   "range": [
+    "flow:Step"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:toDynamic": {
+   "kind": "datatype property",
+   "label": "to (dynamic)",
+   "definition": "A target read from run state when the transition is taken, e.g. $state.context.resume_node; used in place of flow:to.",
+   "domain": [
+    "flow:Transition"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:usesOcr": {
+   "kind": "datatype property",
+   "label": "uses OCR",
+   "definition": "True when the step runs an OCR engine as part of its work.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "xsd:boolean"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:usesParameter": {
+   "kind": "object property",
+   "label": "uses parameter",
+   "definition": "A configuration value the step's action, or the transition's guard, depends on.",
+   "domain": [
+    "flow:Step",
+    "flow:Transition"
+   ],
+   "range": [
+    "flow:Parameter"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:value": {
+   "kind": "datatype property",
+   "label": "value",
+   "definition": "On a parameter: its current value in config (JSON for lists and objects). On a flow: its version.",
+   "domain": [
+    "flow:Flow",
+    "flow:Parameter"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:writes": {
+   "kind": "object property",
+   "label": "writes",
+   "definition": "An artifact the step produces as output.",
+   "domain": [
+    "flow:Step"
+   ],
+   "range": [
+    "flow:Artifact"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "flow:writesOnly": {
+   "kind": "datatype property",
+   "label": "writes only",
+   "definition": "A path the Claude step may write to; anything written outside the listed paths fails the scope check.",
+   "domain": [
+    "flow:ClaudeStep"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "meta:alternatives": {
+   "kind": "annotation property",
+   "label": "alternatives",
+   "definition": "What was considered instead, and why it was rejected."
+  },
+  "meta:rationale": {
+   "kind": "annotation property",
+   "label": "rationale",
+   "definition": "Why the term, shape or question exists: which question could not be answered, or what would go wrong, without it."
+  },
+  "meta:validatedBy": {
+   "kind": "annotation property",
+   "label": "validated by",
+   "definition": "The person who knows the domain and confirmed the term, shape or question as written. Left absent until a person has; never filled in by an agent."
+  },
+  "meta:validatedOn": {
+   "kind": "annotation property",
+   "label": "validated on",
+   "definition": "The date (YYYY-MM-DD) of the confirmation. It covers the text as it stood that day: a later change to the meaning asks for a new confirmation."
+  },
+  "rpt:Approval": {
+   "kind": "class",
+   "label": "Approval",
+   "definition": "A recorded human decision at a gate of a run: reviewer, decision, time, hashes reviewed. [CQ3]",
+   "subclass_of": []
+  },
+  "rpt:ApprovalPolicy": {
+   "kind": "class",
+   "label": "Approval policy",
+   "definition": "How much human review a production batch gets: sample rate and minimum, full review after a new release, reviewer role. [CQ11]",
+   "subclass_of": []
+  },
+  "rpt:Change": {
+   "kind": "class",
+   "label": "Change",
+   "definition": "One fact of a definition that a revision added, changed or removed, named by its file and path (semantic/lineage.yaml → fields.mer.column), with its value before and after. [CQ20, CQ21]",
+   "subclass_of": [],
+   "rationale": "A revision without its facts says that something changed, not what; questions about one field's history need the fact itself."
+  },
+  "rpt:Column": {
+   "kind": "class",
+   "label": "Column",
+   "definition": "A column of a table. A field is mapped to the one column that supplies its value: the value itself for a single-valued field, JSON text for a structured field. A parameter is bound to the column that selects one document's rows. [CQ5-7]",
+   "subclass_of": []
+  },
+  "rpt:DataSource": {
+   "kind": "class",
+   "label": "Data source",
+   "definition": "A database the analyst names as the origin of a report's data: a connection name, a kind (bigquery, sqlite…) and a database. Endpoints and credentials are environment config, never here. [CQ7]",
+   "subclass_of": []
+  },
+  "rpt:Field": {
+   "kind": "class",
+   "label": "Field",
+   "definition": "A piece of information the report shows, with a type, at least one meaning per locale, optional rules, and the column that supplies it. The semantic counterpart of a template slot. [CQ1, CQ4-6, CQ8-9, CQ15, CQ18]",
+   "subclass_of": []
+  },
+  "rpt:FieldMeaning": {
+   "kind": "class",
+   "label": "Field meaning",
+   "definition": "The label and definition of a field in one locale. [CQ1]",
+   "subclass_of": []
+  },
+  "rpt:ObservabilityPolicy": {
+   "kind": "class",
+   "label": "Observability policy",
+   "definition": "What a production run of a release is expected to achieve and who hears about it when it does not: delivery deadline, tolerated failure rate, alert recipients, and where the run history is recorded. The history itself lives in that log, not in this graph. [CQ17]",
+   "subclass_of": []
+  },
+  "rpt:Parameter": {
+   "kind": "class",
+   "label": "Parameter",
+   "definition": "A value that identifies one document of a report type (fund id, series, as-of month, locale). [CQ2]",
+   "subclass_of": []
+  },
+  "rpt:PublishPolicy": {
+   "kind": "class",
+   "label": "Publish policy",
+   "definition": "Where produced documents go: path pattern over the parameters, formats, retention. Endpoints are environment config, not here. [CQ12]",
+   "subclass_of": []
+  },
+  "rpt:ReportType": {
+   "kind": "class",
+   "label": "Report type",
+   "definition": "A family of documents sharing one purpose, one set of sections and fields, one table and one template folder; identified by id and version. [CQ1-19]",
+   "subclass_of": []
+  },
+  "rpt:Revision": {
+   "kind": "class",
+   "label": "Revision",
+   "definition": "One accepted revision of a report type's definition: who accepted it, when it was recorded, from which date it applies, why, and the facts it changed. The first revision holds the whole definition as first accepted; revisions are appended and never rewritten, so replaying them gives the definition as it stood on any date. [CQ20, CQ21]",
+   "subclass_of": [],
+   "rationale": "Without it a corrected meaning or column overwrites the old one, and 'what did this report say when that document was produced' has no answer. Compliance asks exactly that.",
+   "alternatives": "Relying on git history of the YAML files: rejected because the graph and its consumers cannot query it, it records who committed rather than who accepted, and it has no reason or effective date."
+  },
+  "rpt:Rule": {
+   "kind": "class",
+   "label": "Rule",
+   "definition": "A constraint or regulatory requirement on a field or report (sums to 100%, must carry disclaimer, not annualized under one year). [CQ4]",
+   "subclass_of": []
+  },
+  "rpt:Run": {
+   "kind": "class",
+   "label": "Run",
+   "definition": "One execution of the template-build flow: which flow and engine version, which source documents it used, which steps ran, what it produced. [CQ3]",
+   "subclass_of": [
+    "prov:Activity"
+   ]
+  },
+  "rpt:Schedule": {
+   "kind": "class",
+   "label": "Schedule",
+   "definition": "When documents of a release are produced: cadence, day within the cadence, as-of rule, business calendar, timezone. Declared in the release manifest; the dispatcher reads it, nothing else holds it. [CQ10]",
+   "subclass_of": []
+  },
+  "rpt:Section": {
+   "kind": "class",
+   "label": "Section",
+   "definition": "A named part of the report with one purpose, rendered by one component, holding an ordered set of fields; may be present only in some layouts. [CQ2, CQ8]",
+   "subclass_of": []
+  },
+  "rpt:StatusChange": {
+   "kind": "class",
+   "label": "Status change",
+   "definition": "One step in the lifecycle of a report type: the status it reached, who recorded the step and when. Steps are appended as the work progresses and never rewritten; the last one is the report's current status. [CQ19]",
+   "subclass_of": []
+  },
+  "rpt:Table": {
+   "kind": "class",
+   "label": "Table",
+   "definition": "A table of a data source, identified by dataset and name. A report type reads one table that holds every column it needs; how that table is populated belongs to the data team's own lineage, which joins to this graph on the same names. [CQ5-7]",
+   "subclass_of": []
+  },
+  "rpt:UniverseQuery": {
+   "kind": "class",
+   "label": "Universe query",
+   "definition": "A named query (lineage.yaml → queries) that lists the allowed values of a parameter at run time, e.g. active funds. [CQ12]",
+   "subclass_of": []
+  },
+  "rpt:VerificationPolicy": {
+   "kind": "class",
+   "label": "Verification policy",
+   "definition": "Thresholds a produced document must meet in a production run: static-region similarity to golden images, overflow, fidelity. [CQ11]",
+   "subclass_of": []
+  },
+  "rpt:alertRecipient": {
+   "kind": "datatype property",
+   "label": "alert recipient",
+   "definition": "A role or channel told when a run misses its deadline or exceeds its failure rate; one value per recipient. Addresses are environment config, not here.",
+   "domain": [
+    "rpt:ObservabilityPolicy"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:alias": {
+   "kind": "datatype property",
+   "label": "alias",
+   "definition": "Another name readers use for the field (management expense ratio for mer, frais de gestion); one value per name. Lets a question in the reader's words find the field, and a new report reuse it instead of inventing a second id.",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": [],
+   "rationale": "Field ids are snake_case and labels are short (MER); analysts and data teams ask with the long name or the other language, and without aliases the same information gets a second field id."
+  },
+  "rpt:allowedValue": {
+   "kind": "datatype property",
+   "label": "allowed value",
+   "definition": "A value the parameter may take, when the values are enumerated in the manifest; one per value.",
+   "domain": [
+    "rpt:Parameter"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:asOfRule": {
+   "kind": "datatype property",
+   "label": "as-of rule",
+   "definition": "Which date the data is taken at, relative to the run: prev_month_end | prev_quarter_end | prev_year_end | run_date | prev_business_day.",
+   "domain": [
+    "rpt:Schedule"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:assetPending": {
+   "kind": "datatype property",
+   "label": "asset pending",
+   "definition": "An asset the release still lacks (logo, licensed font); one value per asset.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:at": {
+   "kind": "datatype property",
+   "label": "at",
+   "definition": "When the decision, the status change or the revision was recorded: an ISO 8601 date or date-time.",
+   "domain": [
+    "rpt:Approval",
+    "rpt:Revision",
+    "rpt:StatusChange"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:audience": {
+   "kind": "datatype property",
+   "label": "audience",
+   "definition": "A group of readers the report is written for (investors, advisors, compliance); one value per group.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:boundBy": {
+   "kind": "datatype property",
+   "label": "bound by",
+   "definition": "What supplies the parameter's value at run time when it is not enumerated: schedule | batch_spec.",
+   "domain": [
+    "rpt:Parameter"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:boundToColumn": {
+   "kind": "object property",
+   "label": "bound to column",
+   "definition": "The column whose value must equal the parameter's value to select the rows of one document.",
+   "domain": [
+    "rpt:Parameter"
+   ],
+   "range": [
+    "rpt:Column"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:cadence": {
+   "kind": "datatype property",
+   "label": "cadence",
+   "definition": "How often documents are produced: daily | weekly | monthly | quarterly | semi_annual | annual | on_demand. On a schedule it is the operating value; on a report type it is informative.",
+   "domain": [
+    "rpt:ReportType",
+    "rpt:Schedule"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:calendar": {
+   "kind": "datatype property",
+   "label": "calendar",
+   "definition": "The business calendar that decides which days are business days (TSX, NYSE…).",
+   "domain": [
+    "rpt:Schedule"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:changeKind": {
+   "kind": "datatype property",
+   "label": "change kind",
+   "definition": "What the revision did to the fact: added | changed | removed.",
+   "domain": [
+    "rpt:Change"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:changedBy": {
+   "kind": "datatype property",
+   "label": "changed by",
+   "definition": "The person who recorded the status change (who started the definition, who put it in validation, who deployed it to production), or who accepted the revision of the definition.",
+   "domain": [
+    "rpt:Revision",
+    "rpt:StatusChange"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:columnName": {
+   "kind": "datatype property",
+   "label": "column name",
+   "definition": "Name of the column in its table.",
+   "domain": [
+    "rpt:Column"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:compiledAt": {
+   "kind": "datatype property",
+   "label": "compiled at",
+   "definition": "When semantic.py compiled this report's graph from its files.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "xsd:dateTime"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:database": {
+   "kind": "datatype property",
+   "label": "database",
+   "definition": "The database (or cloud project) inside the data source that holds the report's dataset.",
+   "domain": [
+    "rpt:DataSource"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:dataset": {
+   "kind": "datatype property",
+   "label": "dataset",
+   "definition": "The dataset or schema the table sits in.",
+   "domain": [
+    "rpt:Table"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:decision": {
+   "kind": "datatype property",
+   "label": "decision",
+   "definition": "What the reviewer decided (approve, reject, revise…).",
+   "domain": [
+    "rpt:Approval"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:definition": {
+   "kind": "datatype property",
+   "label": "definition",
+   "definition": "What the field means, in the locale of the field meaning; or what the parameter identifies.",
+   "domain": [
+    "rpt:FieldMeaning",
+    "rpt:Parameter"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:deliverWithinHours": {
+   "kind": "datatype property",
+   "label": "deliver within hours",
+   "definition": "The delivery deadline: hours after the scheduled start by which every approved document must be published. A run that misses it raises an alert.",
+   "domain": [
+    "rpt:ObservabilityPolicy"
+   ],
+   "range": [
+    "xsd:integer"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:derivedFrom": {
+   "kind": "object property",
+   "label": "derived from",
+   "definition": "The sample PDF the analyst provided, which the report's template reproduces.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "dt:SourceDocument"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:effectiveFrom": {
+   "kind": "datatype property",
+   "label": "effective from",
+   "definition": "The date (YYYY-MM-DD) from which the revision applies. Usually the day it was recorded (rpt:at); earlier for a correction that applies retroactively, later for a change planned for a future run.",
+   "domain": [
+    "rpt:Revision"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": [],
+   "rationale": "When a fact was recorded and when it became true differ: a mapping fixed today may have been wrong since last month's run. As-of questions read this date."
+  },
+  "rpt:engineVersion": {
+   "kind": "datatype property",
+   "label": "engine version",
+   "definition": "On a run: the engine that executed it. On a release: the engine it was frozen with; a production run refuses another major.minor.",
+   "domain": [
+    "dt:TemplateRelease",
+    "rpt:Run"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:fact": {
+   "kind": "datatype property",
+   "label": "fact",
+   "definition": "The fact that changed, named by the file and the path where it is written, the way gaps and explain name it: semantic/report.yaml → fields.mer.meaning.",
+   "domain": [
+    "rpt:Change"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:fidelityMin": {
+   "kind": "datatype property",
+   "label": "fidelity minimum",
+   "definition": "Lowest accepted share of data values found unchanged in the produced document.",
+   "domain": [
+    "rpt:VerificationPolicy"
+   ],
+   "range": [
+    "xsd:decimal"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:fieldId": {
+   "kind": "datatype property",
+   "label": "field id",
+   "definition": "Identifier of the field, unique in its report: the snake_case form of its English label. By convention the column that supplies it has the same name; the column actually used is the one rpt:sourcedFrom points at. Two reports that use the same field id show the same information (CQ9, CQ15).",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:fieldType": {
+   "kind": "datatype property",
+   "label": "field type",
+   "definition": "How the value is shaped and formatted. Single-valued: text | enum | number | integer | percent | currency | date | boolean. Structured, stored as JSON text in the field's column: list | grouped_list | series | list_of_text | currency_pair | percent_by_series.",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:fileHash": {
+   "kind": "datatype property",
+   "label": "file hash",
+   "definition": "Every released file and its fingerprint, as JSON: path → sha256.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:flow": {
+   "kind": "datatype property",
+   "label": "flow",
+   "definition": "Identifier of the flow the run executed.",
+   "domain": [
+    "rpt:Run"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:flowVersion": {
+   "kind": "datatype property",
+   "label": "flow version",
+   "definition": "Version of the flow definition the run executed.",
+   "domain": [
+    "rpt:Run"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:font": {
+   "kind": "datatype property",
+   "label": "font",
+   "definition": "The fonts the release needs, as JSON: family, file, license, sha256, and the source font each stands in for.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:frozen": {
+   "kind": "datatype property",
+   "label": "frozen",
+   "definition": "True once the release is signed off and can no longer change; only frozen releases run in production.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "xsd:boolean"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:frozenAt": {
+   "kind": "datatype property",
+   "label": "frozen at",
+   "definition": "When the release was frozen.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "xsd:dateTime"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:fullReviewAfterRelease": {
+   "kind": "datatype property",
+   "label": "full review after release",
+   "definition": "True when the first batch after a new template release is reviewed in full.",
+   "domain": [
+    "rpt:ApprovalPolicy"
+   ],
+   "range": [
+    "xsd:boolean"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:gate": {
+   "kind": "datatype property",
+   "label": "gate",
+   "definition": "The human step of the flow at which the decision was taken.",
+   "domain": [
+    "rpt:Approval"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:goldenStaticSsimMin": {
+   "kind": "datatype property",
+   "label": "golden static SSIM minimum",
+   "definition": "Lowest accepted similarity between the static regions of a produced document and the golden image; below it the document fails.",
+   "domain": [
+    "rpt:VerificationPolicy"
+   ],
+   "range": [
+    "xsd:decimal"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasApproval": {
+   "kind": "object property",
+   "label": "has approval",
+   "definition": "A human decision recorded at a gate of the run.",
+   "domain": [
+    "rpt:Run"
+   ],
+   "range": [
+    "rpt:Approval"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasApprovalPolicy": {
+   "kind": "object property",
+   "label": "has approval policy",
+   "definition": "How much human review a production batch of the release gets before publishing.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "rpt:ApprovalPolicy"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasChange": {
+   "kind": "object property",
+   "label": "has change",
+   "definition": "A fact the revision added, changed or removed.",
+   "domain": [
+    "rpt:Revision"
+   ],
+   "range": [
+    "rpt:Change"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasField": {
+   "kind": "object property",
+   "label": "has field",
+   "definition": "The section shows this field.",
+   "domain": [
+    "rpt:Section"
+   ],
+   "range": [
+    "rpt:Field"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasMeaning": {
+   "kind": "object property",
+   "label": "has meaning",
+   "definition": "The label and definition of the field in one locale; one per locale the report is offered in.",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "rpt:FieldMeaning"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasObservabilityPolicy": {
+   "kind": "object property",
+   "label": "has observability policy",
+   "definition": "What a production run of the release is expected to achieve, who is alerted when it does not, and where its history is recorded.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "rpt:ObservabilityPolicy"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasParameter": {
+   "kind": "object property",
+   "label": "has parameter",
+   "definition": "From a report type: a value that identifies one of its documents, with its meaning. From a template release: the same parameter, with where its allowed values come from at that version.",
+   "domain": [
+    "dt:TemplateRelease",
+    "rpt:ReportType"
+   ],
+   "range": [
+    "rpt:Parameter"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasPublishPolicy": {
+   "kind": "object property",
+   "label": "has publish policy",
+   "definition": "Where the produced documents of the release go, in which formats, and for how long they are kept.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "rpt:PublishPolicy"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasRevision": {
+   "kind": "object property",
+   "label": "has revision",
+   "definition": "An accepted revision of the report type's definition. Together they are its history: what the definition said, and since when.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "rpt:Revision"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasRule": {
+   "kind": "object property",
+   "label": "has rule",
+   "definition": "A constraint or regulatory requirement that applies to the field, or to the report as a whole.",
+   "domain": [
+    "rpt:Field",
+    "rpt:ReportType"
+   ],
+   "range": [
+    "rpt:Rule"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasSchedule": {
+   "kind": "object property",
+   "label": "has schedule",
+   "definition": "When documents of the release are produced.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "rpt:Schedule"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasSection": {
+   "kind": "object property",
+   "label": "has section",
+   "definition": "The report type is made of this section.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "rpt:Section"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasStatusChange": {
+   "kind": "object property",
+   "label": "has status change",
+   "definition": "A step in the report type's lifecycle. Together the steps are its history: when it was started, saved, put in validation and deployed, and by whom.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "rpt:StatusChange"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasUniverseQuery": {
+   "kind": "object property",
+   "label": "has universe query",
+   "definition": "A named query the report type declares, which a parameter can point at for its allowed values.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "rpt:UniverseQuery"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:hasVerificationPolicy": {
+   "kind": "object property",
+   "label": "has verification policy",
+   "definition": "The thresholds every produced document of the release must meet.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "rpt:VerificationPolicy"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:inDataSource": {
+   "kind": "object property",
+   "label": "in data source",
+   "definition": "The data source the table lives in.",
+   "domain": [
+    "rpt:Table"
+   ],
+   "range": [
+    "rpt:DataSource"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:inReport": {
+   "kind": "object property",
+   "label": "in report",
+   "definition": "The report type the field belongs to. Stated directly on the field so fields can be compared across reports (CQ9, CQ15).",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "rpt:ReportType"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:inSection": {
+   "kind": "object property",
+   "label": "in section",
+   "definition": "The one section that shows the field.",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "rpt:Section"
+   ],
+   "inverse_of": "rpt:hasField",
+   "subproperty_of": []
+  },
+  "rpt:inTable": {
+   "kind": "object property",
+   "label": "in table",
+   "definition": "The table the column belongs to.",
+   "domain": [
+    "rpt:Column"
+   ],
+   "range": [
+    "rpt:Table"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:kind": {
+   "kind": "datatype property",
+   "label": "kind",
+   "definition": "The family the report type belongs to (fund-fact-sheet, statement…); used to group the catalogue.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:label": {
+   "kind": "datatype property",
+   "label": "label",
+   "definition": "On a field meaning: the text the report shows for the field in that locale (English or French). On a parameter: its name. Names of other nodes use rdfs:label.",
+   "domain": [
+    "rpt:FieldMeaning",
+    "rpt:Parameter"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:layout": {
+   "kind": "datatype property",
+   "label": "layout",
+   "definition": "The named arrangement of components the report type uses (layouts.json of its template folder).",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:libraryVersion": {
+   "kind": "datatype property",
+   "label": "library version",
+   "definition": "Version of the shared component library the release's templates were built against.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:lifecycleStatus": {
+   "kind": "datatype property",
+   "label": "lifecycle status",
+   "definition": "Where a report type is in its lifecycle: inception (its definition has been started) | saved (the definition validates and is part of the catalogue graph) | in_validation (the definition and its template are being checked by agents and a person) | in_production (documents are produced from a frozen release). On a status change: the status that step reached. On a report type: its current status, the one of its latest step.",
+   "domain": [
+    "rpt:ReportType",
+    "rpt:StatusChange"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:lineageNote": {
+   "kind": "datatype property",
+   "label": "lineage note",
+   "definition": "A remark on the field's mapping: why it is unmapped, who owns the content, what remains to confirm.",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:lineageStatus": {
+   "kind": "datatype property",
+   "label": "lineage status",
+   "definition": "How far the field's mapping has got: unmapped (no column known) | proposed (suggested, not yet confirmed) | verified (confirmed by the analyst). Unmapped fields block a production release.",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:locale": {
+   "kind": "datatype property",
+   "label": "locale",
+   "definition": "A language code (en, fr): on a report type, a language it is offered in; on a field meaning, the language of that meaning.",
+   "domain": [
+    "rpt:FieldMeaning",
+    "rpt:ReportType"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:maxFailureRate": {
+   "kind": "datatype property",
+   "label": "maximum failure rate",
+   "definition": "Share of a batch's documents, between 0 and 1, that may fail verification before the run raises an alert.",
+   "domain": [
+    "rpt:ObservabilityPolicy"
+   ],
+   "range": [
+    "xsd:decimal"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:members": {
+   "kind": "datatype property",
+   "label": "members",
+   "definition": "For a composite field (risk measures), its named members and the definition of each, as JSON.",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:newValue": {
+   "kind": "datatype property",
+   "label": "new value",
+   "definition": "The value the fact holds from the revision on: text as written, any other value as JSON. Absent when the fact was removed.",
+   "domain": [
+    "rpt:Change"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:note": {
+   "kind": "datatype property",
+   "label": "note",
+   "definition": "A free remark on a source document, a universe query or a status change.",
+   "domain": [
+    "dt:SourceDocument",
+    "rpt:StatusChange",
+    "rpt:UniverseQuery"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:ofReport": {
+   "kind": "object property",
+   "label": "of report",
+   "definition": "The report type a template release belongs to.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "rpt:ReportType"
+   ],
+   "inverse_of": "rpt:releasedAs",
+   "subproperty_of": []
+  },
+  "rpt:ontologyVersion": {
+   "kind": "datatype property",
+   "label": "ontology version",
+   "definition": "The version of this ontology the release's semantic layer was written for, or the report's graph was compiled against.",
+   "domain": [
+    "dt:TemplateRelease",
+    "rpt:ReportType"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:order": {
+   "kind": "datatype property",
+   "label": "order",
+   "definition": "Position of a section in the report, of a field in its section, of a status change in the report's lifecycle, or of a revision in the history of its definition, starting at 1.",
+   "domain": [
+    "rpt:Field",
+    "rpt:Revision",
+    "rpt:Section",
+    "rpt:StatusChange"
+   ],
+   "range": [
+    "xsd:integer"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:overflowBlocking": {
+   "kind": "datatype property",
+   "label": "overflow blocking",
+   "definition": "True when any content overflowing its box fails the document.",
+   "domain": [
+    "rpt:VerificationPolicy"
+   ],
+   "range": [
+    "xsd:boolean"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:owner": {
+   "kind": "datatype property",
+   "label": "owner",
+   "definition": "The report analyst responsible for the report's definition and for verifying its field-to-column mapping.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:pageKind": {
+   "kind": "datatype property",
+   "label": "page kind",
+   "definition": "How each page of the source document is encoded, one value per page: vector | raster | mixed.",
+   "domain": [
+    "dt:SourceDocument"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:pathPattern": {
+   "kind": "datatype property",
+   "label": "path pattern",
+   "definition": "Destination path of a published document, as a pattern over the parameters and {template_id}.",
+   "domain": [
+    "rpt:PublishPolicy"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:presentWhen": {
+   "kind": "datatype property",
+   "label": "present when",
+   "definition": "Layout condition under which the section appears; absent means always present.",
+   "domain": [
+    "rpt:Section"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:previousValue": {
+   "kind": "datatype property",
+   "label": "previous value",
+   "definition": "The value the fact held before the revision: text as written, any other value as JSON. Absent when the fact was added.",
+   "domain": [
+    "rpt:Change"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:producedBy": {
+   "kind": "object property",
+   "label": "produced by",
+   "definition": "The run of the template-build flow that produced the release.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "rpt:Run"
+   ],
+   "inverse_of": null,
+   "subproperty_of": [
+    "prov:wasGeneratedBy"
+   ]
+  },
+  "rpt:publishFormat": {
+   "kind": "datatype property",
+   "label": "publish format",
+   "definition": "A format the document is published in: pdf | png | html; one value per format.",
+   "domain": [
+    "rpt:PublishPolicy"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:purpose": {
+   "kind": "datatype property",
+   "label": "purpose",
+   "definition": "What the report, or the section, is for: the question it answers for its reader.",
+   "domain": [
+    "rpt:ReportType",
+    "rpt:Section"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:readsTable": {
+   "kind": "object property",
+   "label": "reads table",
+   "definition": "The table the analyst named for the report: it holds every column the report needs, and the rows of one document are selected by the parameter columns.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "rpt:Table"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:reason": {
+   "kind": "datatype property",
+   "label": "reason",
+   "definition": "Why the revision was accepted: what was wrong or missing before. Required whenever a revision changes or removes a fact.",
+   "domain": [
+    "rpt:Revision"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": [],
+   "rationale": "Supersession without a reason tells the reader that a value changed but not whether the old one was wrong or merely out of date."
+  },
+  "rpt:receivedOn": {
+   "kind": "datatype property",
+   "label": "received on",
+   "definition": "The date the analyst provided the source document.",
+   "domain": [
+    "dt:SourceDocument"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:referenceKind": {
+   "kind": "datatype property",
+   "label": "reference kind",
+   "definition": "What the fidelity gate compared the render against: vector | raster. A raster reference caps the fidelity that can be claimed.",
+   "domain": [
+    "dt:SourceDocument"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:regulatory": {
+   "kind": "datatype property",
+   "label": "regulatory",
+   "definition": "True when the rule comes from regulation or compliance and not from presentation choices.",
+   "domain": [
+    "rpt:Rule"
+   ],
+   "range": [
+    "xsd:boolean"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:releasedAs": {
+   "kind": "object property",
+   "label": "released as",
+   "definition": "The versioned template folder that renders documents of the report type, with its operating contract.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "dt:TemplateRelease"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:renderedBy": {
+   "kind": "object property",
+   "label": "rendered by",
+   "definition": "The component (one template macro of the shared library) that draws the section. Reports that use the same component are affected together when it changes (CQ16).",
+   "domain": [
+    "rpt:Section"
+   ],
+   "range": [
+    "dt:Component"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:repoUrl": {
+   "kind": "datatype property",
+   "label": "repository URL",
+   "definition": "Where the source PDF, or the template folder, is stored in a repository.",
+   "domain": [
+    "dt:SourceDocument",
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:reportId": {
+   "kind": "datatype property",
+   "label": "report id",
+   "definition": "Identifier of the report type (lower case, hyphens). The template folder, the manifest's template_id and, by convention, the report's table carry the same name.",
+   "domain": [
+    "rpt:ReportType"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:result": {
+   "kind": "datatype property",
+   "label": "result",
+   "definition": "Where the run ended: draft | signed_off | frozen.",
+   "domain": [
+    "rpt:Run"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:retentionDays": {
+   "kind": "datatype property",
+   "label": "retention days",
+   "definition": "How many days a published document is kept.",
+   "domain": [
+    "rpt:PublishPolicy"
+   ],
+   "range": [
+    "xsd:integer"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:returnsParameter": {
+   "kind": "datatype property",
+   "label": "returns parameter",
+   "definition": "Name of the parameter whose values the query returns.",
+   "domain": [
+    "rpt:UniverseQuery"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:reviewedHash": {
+   "kind": "datatype property",
+   "label": "reviewed hash",
+   "definition": "What the reviewer saw, as JSON: path → sha256 of each file reviewed.",
+   "domain": [
+    "rpt:Approval"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:reviewer": {
+   "kind": "datatype property",
+   "label": "reviewer",
+   "definition": "The person who took the decision.",
+   "domain": [
+    "rpt:Approval"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:reviewerRole": {
+   "kind": "datatype property",
+   "label": "reviewer role",
+   "definition": "The role that must approve a batch before it is published.",
+   "domain": [
+    "rpt:ApprovalPolicy"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:role": {
+   "kind": "datatype property",
+   "label": "role",
+   "definition": "What the source document is used for: primary (the one the template reproduces) | alternate | reference.",
+   "domain": [
+    "dt:SourceDocument"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:rowStructure": {
+   "kind": "datatype property",
+   "label": "row structure",
+   "definition": "For list-like fields, the shape of one row as JSON: member name → type and meaning. The field's column holds the list as JSON text: an array of rows of this shape.",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:ruleText": {
+   "kind": "datatype property",
+   "label": "rule text",
+   "definition": "The rule, stated in one sentence.",
+   "domain": [
+    "rpt:Rule"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:runLog": {
+   "kind": "datatype property",
+   "label": "run log",
+   "definition": "Where each run of the release records its history (start, end, documents produced, failed, published): a table or path. The graph points at the log; it does not hold the history.",
+   "domain": [
+    "rpt:ObservabilityPolicy"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:runOn": {
+   "kind": "datatype property",
+   "label": "run on",
+   "definition": "The day within the cadence on which the run starts: business_day:N | calendar_day:N | weekday:N | on_demand.",
+   "domain": [
+    "rpt:Schedule"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:sampleMin": {
+   "kind": "datatype property",
+   "label": "sample minimum",
+   "definition": "Smallest number of documents shown to the reviewer, whatever the sample rate gives.",
+   "domain": [
+    "rpt:ApprovalPolicy"
+   ],
+   "range": [
+    "xsd:integer"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:sampleRate": {
+   "kind": "datatype property",
+   "label": "sample rate",
+   "definition": "Share of a batch's documents shown to the reviewer, between 0 and 1.",
+   "domain": [
+    "rpt:ApprovalPolicy"
+   ],
+   "range": [
+    "xsd:decimal"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:sha256": {
+   "kind": "datatype property",
+   "label": "sha256",
+   "definition": "On a source document: the fingerprint that identifies it. On a template release: the fingerprint of each source document it was built from.",
+   "domain": [
+    "dt:SourceDocument",
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:sourceKind": {
+   "kind": "datatype property",
+   "label": "source kind",
+   "definition": "The database technology of the data source (bigquery, sqlite, postgres…); tells the loader which dialect and connection to use.",
+   "domain": [
+    "rpt:DataSource"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:sourcedFrom": {
+   "kind": "object property",
+   "label": "sourced from",
+   "definition": "The column that supplies the field's value. This is the mapping: the agent proposes it, the analyst verifies it (rpt:lineageStatus).",
+   "domain": [
+    "rpt:Field"
+   ],
+   "range": [
+    "rpt:Column"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:sql": {
+   "kind": "datatype property",
+   "label": "sql",
+   "definition": "The query text that returns the allowed values.",
+   "domain": [
+    "rpt:UniverseQuery"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:startedAt": {
+   "kind": "datatype property",
+   "label": "started at",
+   "definition": "When the run started.",
+   "domain": [
+    "rpt:Run"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:step": {
+   "kind": "datatype property",
+   "label": "step",
+   "definition": "The steps that ran, as JSON: step id, tool or prompt@version, outputs, metrics.",
+   "domain": [
+    "rpt:Run"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:tableName": {
+   "kind": "datatype property",
+   "label": "table name",
+   "definition": "Name of the table. By convention the report's table takes the report's name.",
+   "domain": [
+    "rpt:Table"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:timezone": {
+   "kind": "datatype property",
+   "label": "timezone",
+   "definition": "The timezone the schedule's days and times are read in (IANA name).",
+   "domain": [
+    "rpt:Schedule"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:universeQuery": {
+   "kind": "object property",
+   "label": "universe query",
+   "definition": "The query that lists the parameter's allowed values at run time. Written in the manifest as lineage:queries.<name>.",
+   "domain": [
+    "rpt:Parameter"
+   ],
+   "range": [
+    "rpt:UniverseQuery"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:usedSource": {
+   "kind": "object property",
+   "label": "used source",
+   "definition": "A source document the run read as input.",
+   "domain": [
+    "rpt:Run"
+   ],
+   "range": [
+    "dt:SourceDocument"
+   ],
+   "inverse_of": null,
+   "subproperty_of": [
+    "prov:used"
+   ]
+  },
+  "rpt:version": {
+   "kind": "datatype property",
+   "label": "version",
+   "definition": "Semantic version: of the report type's definition, or of the template release.",
+   "domain": [
+    "dt:TemplateRelease",
+    "rpt:ReportType"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  },
+  "rpt:waiver": {
+   "kind": "datatype property",
+   "label": "waiver",
+   "definition": "A named exception accepted at sign-off, for instance when the reference is not vector.",
+   "domain": [
+    "dt:TemplateRelease"
+   ],
+   "range": [
+    "xsd:string"
+   ],
+   "inverse_of": null,
+   "subproperty_of": []
+  }
+ },
+ "shapes": {
+  "report-shapes.ttl#Approval": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Approval"
+   ],
+   "constraints": {
+    "property rpt:reviewer": {
+     "sh:minCount": 1,
+     "sh:pattern": "^[^<]",
+     "sh:message": "Approval reviewer is a placeholder",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:decision": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:gate": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#ApprovalPolicy": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:ApprovalPolicy"
+   ],
+   "constraints": {
+    "property rpt:sampleRate": {
+     "sh:minCount": 1,
+     "sh:minInclusive": "0.0",
+     "sh:maxInclusive": "1.0",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:sampleMin": {
+     "sh:minCount": 1,
+     "sh:minInclusive": 1,
+     "sh:message": "Approval policy samples nothing",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#Change": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Change"
+   ],
+   "constraints": {
+    "property rpt:changeKind": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:in": [
+      "added",
+      "changed",
+      "removed"
+     ],
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:fact": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "sparql 3fbdc13e19": {
+     "sh:select": "PREFIX rpt: <https://cynergis.ai/ont/report#> SELECT $this WHERE { $this rpt:changeKind ?k . FILTER(?k IN (\"changed\", \"removed\")) FILTER NOT EXISTS { $this rpt:previousValue ?v } }",
+     "sh:message": "A changed or removed fact does not keep the value it had before (CQ21)",
+     "sh:severity": "sh:Violation"
+    }
+   },
+   "rationale": "The value before is the whole point of supersession: without it the history says that a fact changed but not what was true."
+  },
+  "report-shapes.ttl#Column": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Column"
+   ],
+   "constraints": {
+    "property rpt:inTable": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:message": "Column not attached to exactly one table (CQ6)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:columnName": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#DataSource": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:DataSource"
+   ],
+   "constraints": {
+    "property rpt:sourceKind": {
+     "sh:minCount": 1,
+     "sh:message": "Data source has no kind: the loader cannot choose a connection (CQ7)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rdfs:label": {
+     "sh:minCount": 1,
+     "sh:message": "Data source has no name (CQ7)",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#Field": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Field"
+   ],
+   "constraints": {
+    "property rpt:fieldType": {
+     "sh:minCount": 1,
+     "sh:in": [
+      "text",
+      "enum",
+      "number",
+      "integer",
+      "percent",
+      "currency",
+      "currency_pair",
+      "percent_by_series",
+      "date",
+      "list",
+      "grouped_list",
+      "series",
+      "list_of_text",
+      "boolean"
+     ],
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:lineageStatus": {
+     "sh:minCount": 1,
+     "sh:in": [
+      "unmapped",
+      "proposed",
+      "verified"
+     ],
+     "sh:message": "Field has no lineage entry (CQ5)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:sourcedFrom": {
+     "sh:maxCount": 1,
+     "sh:message": "Field is mapped to more than one column (CQ5)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:inSection": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:message": "Field must sit in exactly one section",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:fieldId": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:hasMeaning": {
+     "sh:minCount": 1,
+     "sh:message": "Field has no meaning in any locale (CQ1)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:inReport": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "sparql 6d3de06159": {
+     "sh:select": "PREFIX rpt: <https://cynergis.ai/ont/report#> SELECT $this WHERE { FILTER NOT EXISTS { $this rpt:hasMeaning ?m . ?m rpt:locale \"en\" ; rpt:definition ?d } }",
+     "sh:message": "Field has no English meaning",
+     "sh:severity": "sh:Violation"
+    },
+    "sparql 4f8e044bca": {
+     "sh:select": "PREFIX rpt: <https://cynergis.ai/ont/report#> SELECT $this WHERE { $this rpt:lineageStatus ?s . FILTER(?s IN (\"proposed\",\"verified\")) FILTER NOT EXISTS { $this rpt:sourcedFrom ?x } }",
+     "sh:message": "Mapping says proposed/verified but no column is attached (CQ5)",
+     "sh:severity": "sh:Violation"
+    },
+    "sparql 1b47340f3f": {
+     "sh:select": "PREFIX rpt: <https://cynergis.ai/ont/report#> SELECT $this WHERE { $this rpt:sourcedFrom ?c ; rpt:inReport ?r . ?c rpt:inTable ?t . FILTER NOT EXISTS { ?r rpt:readsTable ?t } }",
+     "sh:message": "Field is mapped to a column outside the report's table (CQ5, CQ7)",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#FieldFrench": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Field"
+   ],
+   "constraints": {
+    "sparql e81dd85814": {
+     "sh:select": "PREFIX rpt: <https://cynergis.ai/ont/report#> SELECT $this WHERE { $this rpt:inReport ?r . ?r rpt:locale \"fr\" . FILTER NOT EXISTS { $this rpt:hasMeaning ?m . ?m rpt:locale \"fr\" } }",
+     "sh:message": "Field has no French meaning although the report is offered in fr",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#FieldMeaning": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:FieldMeaning"
+   ],
+   "constraints": {
+    "property rpt:locale": {
+     "sh:minCount": 1,
+     "sh:in": [
+      "en",
+      "fr"
+     ],
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:definition": {
+     "sh:minCount": 1,
+     "sh:minLength": 8,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#FieldUnmapped": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Field"
+   ],
+   "constraints": {
+    "property rpt:lineageStatus": {
+     "sh:severity": "sh:Warning",
+     "sh:not": {
+      "sh:hasValue": "unmapped"
+     },
+     "sh:message": "Field not mapped to a column (blocks production release)"
+    }
+   }
+  },
+  "report-shapes.ttl#FrozenRelease": {
+   "vocabulary": "report",
+   "targets": [
+    "dt:TemplateRelease"
+   ],
+   "constraints": {
+    "sparql 35719b17c4": {
+     "sh:select": "PREFIX rpt: <https://cynergis.ai/ont/report#> SELECT $this WHERE { $this rpt:frozen true . FILTER( NOT EXISTS { $this rpt:hasSchedule ?s } || NOT EXISTS { $this rpt:hasVerificationPolicy ?v } || NOT EXISTS { $this rpt:hasApprovalPolicy ?a } || NOT EXISTS { $this rpt:hasPublishPolicy ?p } || NOT EXISTS { $this rpt:hasObservabilityPolicy ?ob } || NOT EXISTS { $this rpt:hasParameter ?q } || NOT EXISTS { $this rpt:engineVersion ?e } || NOT EXISTS { $this rpt:ontologyVersion ?o } || NOT EXISTS { $this rpt:libraryVersion ?l } ) }",
+     "sh:message": "Frozen release lacks part of its operating contract (schedule, policies, observability, parameters, engine/ontology/library version)",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#ObservabilityPolicy": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:ObservabilityPolicy"
+   ],
+   "constraints": {
+    "property rpt:maxFailureRate": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:minInclusive": "0.0",
+     "sh:maxInclusive": "1.0",
+     "sh:message": "Observability policy has no failure rate between 0 and 1 (CQ17)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:runLog": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:message": "Observability policy does not say where the run history is recorded (CQ17)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:deliverWithinHours": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:minInclusive": 1,
+     "sh:message": "Observability policy has no delivery deadline (CQ17)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:alertRecipient": {
+     "sh:minCount": 1,
+     "sh:message": "Observability policy alerts nobody (CQ17)",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#ParameterUniverse": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Parameter"
+   ],
+   "constraints": {
+    "sparql 2bab56c7c9": {
+     "sh:select": "PREFIX rpt: <https://cynergis.ai/ont/report#> SELECT $this WHERE { FILTER NOT EXISTS { $this rpt:universeQuery ?u } FILTER NOT EXISTS { $this rpt:allowedValue ?v } FILTER NOT EXISTS { $this rpt:boundBy ?b } }",
+     "sh:message": "Parameter has no universe (query, values or run-time binding): the dispatcher cannot expand a batch (CQ12)",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#PublishPolicy": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:PublishPolicy"
+   ],
+   "constraints": {
+    "property rpt:pathPattern": {
+     "sh:minCount": 1,
+     "sh:pattern": "\\{template_id\\}",
+     "sh:message": "Publish path must carry {template_id} (CQ12)",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#ReleaseContract": {
+   "vocabulary": "report",
+   "targets": [
+    "dt:TemplateRelease"
+   ],
+   "constraints": {
+    "property rpt:hasApprovalPolicy": {
+     "sh:severity": "sh:Warning",
+     "sh:minCount": 1,
+     "sh:message": "Release declares no approval policy (CQ11)"
+    },
+    "property rpt:hasObservabilityPolicy": {
+     "sh:severity": "sh:Warning",
+     "sh:minCount": 1,
+     "sh:message": "Release declares no observability policy (CQ17; blocks production)"
+    },
+    "property rpt:hasPublishPolicy": {
+     "sh:severity": "sh:Warning",
+     "sh:minCount": 1,
+     "sh:message": "Release declares no publish policy (CQ12)"
+    },
+    "property rpt:hasSchedule": {
+     "sh:severity": "sh:Warning",
+     "sh:minCount": 1,
+     "sh:message": "Release declares no schedule (CQ10; blocks production)"
+    },
+    "property rpt:hasVerificationPolicy": {
+     "sh:severity": "sh:Warning",
+     "sh:minCount": 1,
+     "sh:message": "Release declares no verification policy (CQ11)"
+    }
+   }
+  },
+  "report-shapes.ttl#ReleaseFrozen": {
+   "vocabulary": "report",
+   "targets": [
+    "dt:TemplateRelease"
+   ],
+   "constraints": {
+    "property rpt:frozen": {
+     "sh:severity": "sh:Warning",
+     "sh:hasValue": true,
+     "sh:message": "Template release not frozen"
+    }
+   }
+  },
+  "report-shapes.ttl#ReportData": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:ReportType"
+   ],
+   "constraints": {
+    "property rpt:readsTable": {
+     "sh:severity": "sh:Warning",
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:message": "Report does not name exactly one table (CQ7; blocks production release)"
+    },
+    "property rpt:owner": {
+     "sh:severity": "sh:Warning",
+     "sh:minCount": 1,
+     "sh:message": "Report names no owner (CQ14)"
+    }
+   }
+  },
+  "report-shapes.ttl#ReportHistory": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:ReportType"
+   ],
+   "constraints": {
+    "property rpt:hasRevision": {
+     "sh:severity": "sh:Warning",
+     "sh:minCount": 1,
+     "sh:message": "Report has no accepted revision: its definition can change without a record (CQ20; blocks production)"
+    }
+   },
+   "rationale": "A warning, not a violation: reports written before 2.1.0 have no history yet and must keep compiling until someone accepts their definition."
+  },
+  "report-shapes.ttl#ReportType": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:ReportType"
+   ],
+   "constraints": {
+    "property rpt:lifecycleStatus": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:in": [
+      "inception",
+      "saved",
+      "in_validation",
+      "in_production"
+     ],
+     "sh:message": "Report does not carry exactly one lifecycle status (CQ19)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:reportId": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:hasParameter": {
+     "sh:minCount": 1,
+     "sh:message": "Report declares no identifying parameters (CQ2)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:purpose": {
+     "sh:minCount": 1,
+     "sh:minLength": 20,
+     "sh:message": "Report has no purpose statement",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:derivedFrom": {
+     "sh:minCount": 1,
+     "sh:message": "Report has no source document (CQ3)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:hasStatusChange": {
+     "sh:minCount": 1,
+     "sh:message": "Report records no status change (CQ19)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:hasSection": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:locale": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:version": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "sparql 68c18550ff": {
+     "sh:select": "PREFIX rpt: <https://cynergis.ai/ont/report#> SELECT $this WHERE { $this rpt:lifecycleStatus \"in_production\" . FILTER NOT EXISTS { $this rpt:releasedAs ?rel . ?rel rpt:frozen true } }",
+     "sh:message": "Report is in production but its release is not frozen: only a frozen release produces documents (CQ19)",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#Revision": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Revision"
+   ],
+   "constraints": {
+    "property rpt:at": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:message": "Revision does not say when it was recorded (CQ20)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:changedBy": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:pattern": "^[^<]",
+     "sh:message": "Revision does not say who accepted it (CQ20)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:order": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:reason": {
+     "sh:minCount": 1,
+     "sh:message": "Revision does not say why it was accepted (CQ20)",
+     "sh:severity": "sh:Violation"
+    }
+   },
+   "rationale": "A revision nobody can attribute or explain is an overwrite with extra steps."
+  },
+  "report-shapes.ttl#Run": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Run"
+   ],
+   "constraints": {
+    "property rpt:result": {
+     "sh:minCount": 1,
+     "sh:in": [
+      "draft",
+      "signed_off",
+      "frozen"
+     ],
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:usedSource": {
+     "sh:minCount": 1,
+     "sh:message": "Run used no source document (CQ3)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:engineVersion": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:flowVersion": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#Schedule": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Schedule"
+   ],
+   "constraints": {
+    "property rpt:cadence": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:in": [
+      "daily",
+      "weekly",
+      "monthly",
+      "quarterly",
+      "semi_annual",
+      "annual",
+      "on_demand"
+     ],
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:asOfRule": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:runOn": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:pattern": "^(business_day:[0-9]{1,2}|calendar_day:[0-9]{1,2}|weekday:[1-7]|on_demand)$",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:timezone": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#Section": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Section"
+   ],
+   "constraints": {
+    "property rpt:renderedBy": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:message": "Section not bound to a component (CQ8)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:hasField": {
+     "sh:minCount": 1,
+     "sh:message": "Section has no fields",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:purpose": {
+     "sh:minCount": 1,
+     "sh:message": "Section has no purpose",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:order": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#SourceDocument": {
+   "vocabulary": "report",
+   "targets": [
+    "dt:SourceDocument"
+   ],
+   "constraints": {
+    "property rpt:sha256": {
+     "sh:minCount": 1,
+     "sh:pattern": "^[0-9a-f]{64}$",
+     "sh:message": "Source document has no real sha256",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:repoUrl": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#StatusChange": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:StatusChange"
+   ],
+   "constraints": {
+    "property rpt:lifecycleStatus": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:in": [
+      "inception",
+      "saved",
+      "in_validation",
+      "in_production"
+     ],
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:at": {
+     "sh:minCount": 1,
+     "sh:message": "Status change does not say when it was recorded (CQ19)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:changedBy": {
+     "sh:minCount": 1,
+     "sh:pattern": "^[^<]",
+     "sh:message": "Status change does not say who recorded it (CQ19)",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:order": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#Table": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Table"
+   ],
+   "constraints": {
+    "property rpt:dataset": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:tableName": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#TableSource": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:Table"
+   ],
+   "constraints": {
+    "property rpt:inDataSource": {
+     "sh:severity": "sh:Warning",
+     "sh:minCount": 1,
+     "sh:message": "Table is not attached to a data source (CQ7)"
+    }
+   }
+  },
+  "report-shapes.ttl#UniverseQuery": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:UniverseQuery"
+   ],
+   "constraints": {
+    "property rpt:sql": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "report-shapes.ttl#VerificationPolicy": {
+   "vocabulary": "report",
+   "targets": [
+    "rpt:VerificationPolicy"
+   ],
+   "constraints": {
+    "property rpt:goldenStaticSsimMin": {
+     "sh:minCount": 1,
+     "sh:minInclusive": "0.9",
+     "sh:message": "Static-region SSIM threshold below 0.9 defeats the golden check",
+     "sh:severity": "sh:Violation"
+    },
+    "property rpt:overflowBlocking": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#Artifact": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:Artifact"
+   ],
+   "constraints": {
+    "property flow:carries": {
+     "sh:minCount": 1,
+     "sh:message": "Artifact is not bound to a domain concept",
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:format": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:path": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#ArtifactFieldSpec": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:Artifact"
+   ],
+   "constraints": {
+    "sparql d07e36512c": {
+     "sh:select": "PREFIX flow: <https://cynergis.ai/ont/flow#> SELECT $this WHERE { ?step flow:writes $this . FILTER NOT EXISTS { ?step a flow:HumanStep } $this flow:format ?f . FILTER(?f IN (\"json\",\"json-schema\")) FILTER NOT EXISTS { $this flow:hasField ?x } }",
+     "sh:message": "JSON artifact written by an automated step has no field specification",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#Check": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:Check"
+   ],
+   "constraints": {
+    "property flow:checkKind": {
+     "sh:minCount": 1,
+     "sh:in": [
+      "metric",
+      "script",
+      "json_schema",
+      "file_exists"
+     ],
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:onFail": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:blocking": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:checkId": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:expression": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "sparql 391b17c0c7": {
+     "sh:select": "PREFIX flow: <https://cynergis.ai/ont/flow#> SELECT $this WHERE { $this flow:checkKind \"metric\" . FILTER NOT EXISTS { $this flow:measures ?m } }",
+     "sh:message": "Metric check measures no metric",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#CheckMetricRecorded": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:Check"
+   ],
+   "constraints": {
+    "sparql 13ef918164": {
+     "sh:select": "PREFIX flow: <https://cynergis.ai/ont/flow#> SELECT $this ?name WHERE { ?step flow:hasCheck $this . $this flow:measures ?m . ?m flow:metricName ?name . FILTER NOT EXISTS { ?step flow:records ?m } }",
+     "sh:message": "Check reads a metric its step does not declare as recorded: {?name}",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#ClaudeStep": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:ClaudeStep"
+   ],
+   "constraints": {
+    "property flow:hasCheck": {
+     "sh:minCount": 1,
+     "sh:message": "Claude output must be gated by at least one deterministic check",
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:writesOnly": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Warning",
+     "sh:message": "Claude step has no declared write scope"
+    },
+    "property flow:promptRef": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:promptVersion": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#HumanStep": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:HumanStep"
+   ],
+   "constraints": {
+    "property flow:decisionOption": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:requiredField": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:reviewPage": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#Invariant": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:Invariant"
+   ],
+   "constraints": {
+    "property flow:statement": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#InvariantEnforced": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:Invariant"
+   ],
+   "constraints": {
+    "property flow:enforcedBy": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Warning",
+     "sh:message": "Invariant is not enforced by any check"
+    }
+   }
+  },
+  "shapes.ttl#Outcome": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:Outcome"
+   ],
+   "constraints": {
+    "sparql 445fb84dbc": {
+     "sh:select": "PREFIX flow: <https://cynergis.ai/ont/flow#> SELECT $this WHERE { FILTER NOT EXISTS { ?t flow:onOutcome $this } }",
+     "sh:message": "Outcome has no outgoing transition (the run would get stuck)",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#Parameter": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:Parameter"
+   ],
+   "constraints": {
+    "property flow:value": {
+     "sh:minCount": 1,
+     "sh:message": "Parameter referenced but not defined in config",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#ScriptStep": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:DeterministicStep",
+    "flow:OcrStep"
+   ],
+   "constraints": {
+    "property flow:command": {
+     "sh:minCount": 1,
+     "sh:message": "Script step has no command contract",
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#Transition": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:Transition"
+   ],
+   "constraints": {
+    "property flow:from": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:onOutcome": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  },
+  "shapes.ttl#WorkStep": {
+   "vocabulary": "flow",
+   "targets": [
+    "flow:ClaudeStep",
+    "flow:DeterministicStep",
+    "flow:HumanStep",
+    "flow:OcrStep"
+   ],
+   "constraints": {
+    "property flow:inPhase": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:stepId": {
+     "sh:minCount": 1,
+     "sh:maxCount": 1,
+     "sh:severity": "sh:Violation"
+    },
+    "property flow:hasOutcome": {
+     "sh:minCount": 1,
+     "sh:message": "Step declares no outcomes",
+     "sh:severity": "sh:Violation"
+    },
+    "property dct:description": {
+     "sh:minCount": 1,
+     "sh:message": "Step has no description",
+     "sh:severity": "sh:Violation"
+    },
+    "property rdfs:label": {
+     "sh:minCount": 1,
+     "sh:severity": "sh:Violation"
+    }
+   }
+  }
+ },
+ "questions": {
+  "CQ1": {
+   "vocabulary": "report",
+   "question": "What does field $FIELD mean, and what is its label in each locale?",
+   "who": "analyst",
+   "parameters": [
+    "FIELD"
+   ],
+   "columns": [
+    "locale",
+    "label",
+    "definition"
+   ],
+   "answer": "7b8fcf723e5e",
+   "gaps": "9a37abcc1095"
+  },
+  "CQ2": {
+   "vocabulary": "report",
+   "question": "Which sections and fields make up report $REPORT, in order, and which are layout-dependent?",
+   "who": "analyst",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "order",
+    "section",
+    "purpose",
+    "presentWhen",
+    "fields"
+   ],
+   "answer": "8fbe48cbbad6",
+   "gaps": "da39a3ee5e6b"
+  },
+  "CQ3": {
+   "vocabulary": "report",
+   "question": "Which source document, run and approvals produced the template of report $REPORT?",
+   "who": "compliance",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "source",
+    "sha256",
+    "role",
+    "referenceKind",
+    "run",
+    "flow",
+    "flowVersion",
+    "engineVersion",
+    "startedAt",
+    "result",
+    "gate",
+    "decision",
+    "reviewer",
+    "at"
+   ],
+   "answer": "432d81116db8",
+   "gaps": "c7c6deb5d5eb"
+  },
+  "CQ4": {
+   "vocabulary": "report",
+   "question": "Which fields of report $REPORT carry rules, and which rules are regulatory?",
+   "who": "compliance",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "fid",
+    "rule",
+    "regulatory"
+   ],
+   "answer": "a65ad63e516d",
+   "gaps": "da39a3ee5e6b"
+  },
+  "CQ5": {
+   "vocabulary": "report",
+   "question": "Which column of which table supplies each field of report $REPORT, is the column a single value or JSON, and which fields are still unmapped?",
+   "who": "data team",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "fid",
+    "status",
+    "dataset",
+    "table",
+    "column",
+    "type",
+    "stored",
+    "note"
+   ],
+   "answer": "4a48828d0f50",
+   "gaps": "9735c1def977"
+  },
+  "CQ6": {
+   "vocabulary": "report",
+   "question": "If column $COLUMN changes, which reports and fields are affected?",
+   "who": "data team",
+   "parameters": [
+    "COLUMN"
+   ],
+   "columns": [
+    "report",
+    "fid",
+    "status",
+    "dataset",
+    "table"
+   ],
+   "answer": "0a1e2d911f39",
+   "gaps": "da39a3ee5e6b"
+  },
+  "CQ7": {
+   "vocabulary": "report",
+   "question": "Which data source and table does report $REPORT read, and which column carries each parameter?",
+   "who": "data team",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "source",
+    "kind",
+    "database",
+    "dataset",
+    "table",
+    "param",
+    "column"
+   ],
+   "answer": "78dad772b1b7",
+   "gaps": "7b7d88d9c54f"
+  },
+  "CQ8": {
+   "vocabulary": "report",
+   "question": "Which component renders field $FIELD, in which template release?",
+   "who": "engineer",
+   "parameters": [
+    "FIELD"
+   ],
+   "columns": [
+    "section",
+    "component",
+    "release",
+    "version",
+    "frozen"
+   ],
+   "answer": "95302ce78f49",
+   "gaps": "da39a3ee5e6b"
+  },
+  "CQ9": {
+   "vocabulary": "report",
+   "question": "Which reports share the field $FIELD?",
+   "who": "engineer",
+   "parameters": [
+    "FIELD"
+   ],
+   "columns": [
+    "report",
+    "section"
+   ],
+   "answer": "7c1dd16ed57c",
+   "gaps": "da39a3ee5e6b"
+  },
+  "CQ10": {
+   "vocabulary": "report",
+   "question": "When does report $REPORT run — cadence, day, as-of rule, calendar, timezone — and at which template version?",
+   "who": "operations",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "version",
+    "frozen",
+    "cadence",
+    "runOn",
+    "asOf",
+    "calendar",
+    "timezone"
+   ],
+   "answer": "419575a0d219",
+   "gaps": "d56b42d88abc"
+  },
+  "CQ11": {
+   "vocabulary": "report",
+   "question": "What verification thresholds and approval policy govern production runs of report $REPORT?",
+   "who": "compliance",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "version",
+    "ssimMin",
+    "overflowBlocking",
+    "fidelityMin",
+    "sampleRate",
+    "sampleMin",
+    "fullReview",
+    "reviewerRole"
+   ],
+   "answer": "85f626004ab5",
+   "gaps": "7b88ddddd8bf"
+  },
+  "CQ12": {
+   "vocabulary": "report",
+   "question": "What identifies one document of report $REPORT, where do the allowed values of each parameter come from, and where is the document published?",
+   "who": "operations",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "param",
+    "definition",
+    "universe",
+    "sql",
+    "values",
+    "boundBy",
+    "path",
+    "format",
+    "retention"
+   ],
+   "answer": "c86d0e71544e",
+   "gaps": "0571f2dd385e"
+  },
+  "CQ13": {
+   "vocabulary": "report",
+   "question": "What does the release of report $REPORT need to render — engine, ontology and library versions, fonts, files, pending assets, waivers?",
+   "who": "engineer",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "version",
+    "engine",
+    "ontology",
+    "library",
+    "fonts",
+    "files",
+    "assetPending",
+    "waiver"
+   ],
+   "answer": "438e333ccfde",
+   "gaps": "f8eb6548ddee"
+  },
+  "CQ14": {
+   "vocabulary": "report",
+   "question": "Which report types exist — what is each for, where is it in its lifecycle, how often does it run, who owns it, and which template version is released?",
+   "who": "analyst",
+   "parameters": [],
+   "columns": [
+    "report",
+    "title",
+    "status",
+    "kind",
+    "cadence",
+    "owner",
+    "version",
+    "frozen",
+    "purpose"
+   ],
+   "answer": "44f96f251c29",
+   "gaps": "396c8c81fa52"
+  },
+  "CQ15": {
+   "vocabulary": "report",
+   "question": "Which other reports show the same fields as report $REPORT, and which fields do they share?",
+   "who": "analyst",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "other",
+    "shared",
+    "fields"
+   ],
+   "answer": "82e3fdb6840c",
+   "gaps": "da39a3ee5e6b"
+  },
+  "CQ16": {
+   "vocabulary": "report",
+   "question": "Which report types use component $COMPONENT, and in which sections?",
+   "who": "engineer",
+   "parameters": [
+    "COMPONENT"
+   ],
+   "columns": [
+    "report",
+    "section"
+   ],
+   "answer": "1a8e0a6ef4a3",
+   "gaps": "da39a3ee5e6b"
+  },
+  "CQ17": {
+   "vocabulary": "report",
+   "question": "What is expected of each run of report $REPORT — delivery deadline and tolerated failures — who is alerted, and where is the run history?",
+   "who": "operations",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "version",
+    "deliverWithinHours",
+    "maxFailureRate",
+    "alerts",
+    "runLog"
+   ],
+   "answer": "4bcd9800c0a7",
+   "gaps": "6246e780ee83"
+  },
+  "CQ18": {
+   "vocabulary": "report",
+   "question": "Which fields does the catalogue already define — id, type, English label, definition and the other names readers use — and how many reports use each?",
+   "who": "analyst",
+   "parameters": [],
+   "columns": [
+    "fid",
+    "type",
+    "reports",
+    "label",
+    "definition",
+    "aliases"
+   ],
+   "answer": "adcad5303d45",
+   "gaps": "da39a3ee5e6b"
+  },
+  "CQ19": {
+   "vocabulary": "report",
+   "question": "Where is report $REPORT in its lifecycle — inception, saved to the graph, in validation, in production — and who recorded each step, when?",
+   "who": "operations",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "step",
+    "status",
+    "by",
+    "at",
+    "note",
+    "current"
+   ],
+   "answer": "4e85176f4548",
+   "gaps": "8efbbbce339a"
+  },
+  "CQ20": {
+   "vocabulary": "report",
+   "question": "How has the definition of report $REPORT changed — each accepted revision, who accepted it, when, from which date it applies, why, and which facts it added, changed or removed?",
+   "who": "compliance",
+   "parameters": [
+    "REPORT"
+   ],
+   "columns": [
+    "revision",
+    "at",
+    "by",
+    "effective",
+    "why",
+    "fact",
+    "kind",
+    "from",
+    "to"
+   ],
+   "answer": "31782da84ff3",
+   "gaps": "79acb42eed7b",
+   "why": "A definition that is corrected in place loses what was true when earlier documents were produced; compliance must be able to show it, with who decided and why."
+  },
+  "CQ21": {
+   "vocabulary": "report",
+   "question": "Has anything about field $FIELD changed in any report — its meaning, label, type or column — what was it before, when, who accepted the change, and why?",
+   "who": "analyst",
+   "parameters": [
+    "FIELD"
+   ],
+   "columns": [
+    "report",
+    "revision",
+    "at",
+    "effective",
+    "by",
+    "why",
+    "fact",
+    "kind",
+    "from",
+    "to"
+   ],
+   "answer": "c514a9e3905e",
+   "gaps": "c30d2b293170",
+   "why": "Before reusing a field or trusting a figure, an analyst needs to know whether its meaning or its column moved, and since when."
+  },
+  "flow:CQ01": {
+   "vocabulary": "flow",
+   "question": "What is this step for, and what kind of executor runs it?",
+   "who": [
+    "implement-step"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "step",
+    "stepId",
+    "name",
+    "type",
+    "description",
+    "usesOcr",
+    "foreach"
+   ],
+   "answer": "e420d034eede",
+   "gaps": "da39a3ee5e6b",
+   "gate": "non_empty"
+  },
+  "flow:CQ02": {
+   "vocabulary": "flow",
+   "question": "Which artifacts does it read and write, where, in what format?",
+   "who": [
+    "implement-step"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "direction",
+    "artifact",
+    "path",
+    "format"
+   ],
+   "answer": "d57a7ef59aed",
+   "gaps": "da39a3ee5e6b",
+   "gate": "non_empty"
+  },
+  "flow:CQ03": {
+   "vocabulary": "flow",
+   "question": "What structure (fields) must each JSON artifact it writes have?",
+   "who": [
+    "implement-step",
+    "write-tests"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "artifact",
+    "fieldPath"
+   ],
+   "answer": "69cfb11bd541",
+   "gaps": "5beb68fd0ecc",
+   "gate": "gaps_only"
+  },
+  "flow:CQ04": {
+   "vocabulary": "flow",
+   "question": "Which checks gate this step: what does each measure, against which threshold, and what happens on failure?",
+   "who": [
+    "implement-step",
+    "write-tests"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "check",
+    "checkId",
+    "kind",
+    "expression",
+    "metric",
+    "parameter",
+    "paramValue",
+    "blocking",
+    "onFail"
+   ],
+   "answer": "bd950835a71f",
+   "gaps": "aa7acf757a9f",
+   "gate": "gaps_only"
+  },
+  "flow:CQ05": {
+   "vocabulary": "flow",
+   "question": "Which metrics must the step record in state (and are all checked metrics recorded)?",
+   "who": [
+    "implement-step"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "metric"
+   ],
+   "answer": "6d3f4afd13bc",
+   "gaps": "677400e459b8",
+   "gate": "gaps_only"
+  },
+  "flow:CQ06": {
+   "vocabulary": "flow",
+   "question": "Which configuration parameters does the step depend on, and their current values?",
+   "who": [
+    "implement-step"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "parameter",
+    "value",
+    "via"
+   ],
+   "answer": "1111e64914d5",
+   "gaps": "d8d29887aa15",
+   "gate": "gaps_only"
+  },
+  "flow:CQ07": {
+   "vocabulary": "flow",
+   "question": "Which domain invariants does this step enforce?",
+   "who": [
+    "implement-step",
+    "write-tests"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "invariant",
+    "statement",
+    "check"
+   ],
+   "answer": "66d346bdebd3",
+   "gaps": "da39a3ee5e6b",
+   "gate": "non_empty"
+  },
+  "flow:CQ08": {
+   "vocabulary": "flow",
+   "question": "How is the step executed (command, Claude prompt, or human review), and does an implementation exist?",
+   "who": [
+    "implement-step"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "mode",
+    "spec",
+    "implPath",
+    "implExists"
+   ],
+   "answer": "f88952b872c3",
+   "gaps": "63db008bed3e",
+   "gate": "gaps_only"
+  },
+  "flow:CQ09": {
+   "vocabulary": "flow",
+   "question": "Which later steps consume what this step writes (field names must match)?",
+   "who": [
+    "implement-step"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "artifact",
+    "consumer"
+   ],
+   "answer": "30ccb6e1bb59",
+   "gaps": "da39a3ee5e6b",
+   "gate": "non_empty"
+  },
+  "flow:CQ10": {
+   "vocabulary": "flow",
+   "question": "Which domain concepts do its inputs and outputs carry, and what do they mean?",
+   "who": [
+    "implement-step"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "artifact",
+    "concept",
+    "label",
+    "definition"
+   ],
+   "answer": "1a97610de562",
+   "gaps": "114e5918187d",
+   "gate": "gaps_only"
+  },
+  "flow:CQ11": {
+   "vocabulary": "flow",
+   "question": "For each outcome, which transition fires, under which guard, and where does it go?",
+   "who": [
+    "implement-step",
+    "write-tests"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "outcome",
+    "transition",
+    "priority",
+    "guard",
+    "to"
+   ],
+   "answer": "01ea6bc74995",
+   "gaps": "3c4ec88b0786",
+   "gate": "gaps_only"
+  },
+  "flow:CQ12": {
+   "vocabulary": "flow",
+   "question": "Which tests must exist for this step (derived mechanically from checks, transitions and invariants)?",
+   "who": [
+    "write-tests"
+   ],
+   "parameters": [
+    "STEP"
+   ],
+   "columns": [
+    "test",
+    "kind",
+    "description"
+   ],
+   "answer": "6605983c0d23",
+   "gaps": "da39a3ee5e6b",
+   "gate": "non_empty"
+  },
+  "flow:CQ13": {
+   "vocabulary": "flow",
+   "question": "Which state paths and config parameters do transition guards read?",
+   "who": [
+    "build-engine"
+   ],
+   "parameters": [],
+   "columns": [
+    "transition",
+    "guard",
+    "statePath"
+   ],
+   "answer": "9c0cd6f9a3c7",
+   "gaps": "da39a3ee5e6b",
+   "gate": "non_empty"
+  },
+  "flow:CQ14": {
+   "vocabulary": "flow",
+   "question": "What must every human step record before the flow can continue?",
+   "who": [
+    "build-engine"
+   ],
+   "parameters": [],
+   "columns": [
+    "step",
+    "option",
+    "requiredField"
+   ],
+   "answer": "07e1c629cba7",
+   "gaps": "da39a3ee5e6b",
+   "gate": "non_empty"
+  },
+  "flow:CQ15": {
+   "vocabulary": "flow",
+   "question": "Which steps have no implementation yet?",
+   "who": [
+    "build-engine"
+   ],
+   "parameters": [],
+   "columns": [
+    "step",
+    "type",
+    "implemented"
+   ],
+   "answer": "0eb8287b8e47",
+   "gaps": "9580b163d5ea",
+   "gate": "gaps_only"
+  },
+  "flow:CQ16": {
+   "vocabulary": "flow",
+   "question": "If this parameter changes, which checks, transitions and tests are affected?",
+   "who": [
+    "impact-parameter"
+   ],
+   "parameters": [
+    "PARAM"
+   ],
+   "columns": [
+    "kind",
+    "element",
+    "step"
+   ],
+   "answer": "1aff23585a5d",
+   "gaps": "da39a3ee5e6b",
+   "gate": "non_empty"
+  },
+  "flow:CQ17": {
+   "vocabulary": "flow",
+   "question": "If this artifact's structure changes, who writes it, who reads it, which checks touch it?",
+   "who": [
+    "impact-artifact"
+   ],
+   "parameters": [
+    "ARTIFACT"
+   ],
+   "columns": [
+    "role",
+    "step"
+   ],
+   "answer": "5b96b8a302ee",
+   "gaps": "da39a3ee5e6b",
+   "gate": "non_empty"
+  }
+ }
+}

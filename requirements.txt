@@ -1,0 +1,5 @@
+rdflib>=7.6,<8
+pyshacl>=0.40,<0.41
+PyYAML>=6.0,<7
+jsonschema>=4.26,<5
+mcp>=2.3,<3

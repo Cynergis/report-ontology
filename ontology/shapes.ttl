@@ -1,0 +1,104 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix flow: <https://cynergis.ai/ont/flow#> .
+@prefix shp:  <https://cynergis.ai/ont/flow/shapes#> .
+
+# "Executable shape": the graph is only useful to a building agent if every step, check and
+# transition is complete enough to implement and test without interpretation.
+# Violation = the graph is structurally broken.  Warning = a spec gap an agent must not paper over.
+
+shp:WorkStep a sh:NodeShape ;
+    sh:targetClass flow:DeterministicStep , flow:OcrStep , flow:ClaudeStep , flow:HumanStep ;
+    sh:property [ sh:path flow:stepId ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ;
+    sh:property [ sh:path dct:description ; sh:minCount 1 ; sh:message "Step has no description" ] ;
+    sh:property [ sh:path flow:hasOutcome ; sh:minCount 1 ; sh:message "Step declares no outcomes" ] ;
+    sh:property [ sh:path flow:inPhase ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+shp:ScriptStep a sh:NodeShape ;
+    sh:targetClass flow:DeterministicStep , flow:OcrStep ;
+    sh:property [ sh:path flow:command ; sh:minCount 1 ; sh:message "Script step has no command contract" ] .
+
+shp:ClaudeStep a sh:NodeShape ;
+    sh:targetClass flow:ClaudeStep ;
+    sh:property [ sh:path flow:promptRef ; sh:minCount 1 ] ;
+    sh:property [ sh:path flow:promptVersion ; sh:minCount 1 ] ;
+    sh:property [ sh:path flow:writesOnly ; sh:minCount 1 ; sh:severity sh:Warning ;
+                  sh:message "Claude step has no declared write scope" ] ;
+    sh:property [ sh:path flow:hasCheck ; sh:minCount 1 ; sh:message "Claude output must be gated by at least one deterministic check" ] .
+
+shp:HumanStep a sh:NodeShape ;
+    sh:targetClass flow:HumanStep ;
+    sh:property [ sh:path flow:decisionOption ; sh:minCount 1 ] ;
+    sh:property [ sh:path flow:requiredField ; sh:minCount 1 ] ;
+    sh:property [ sh:path flow:reviewPage ; sh:minCount 1 ] .
+
+shp:Check a sh:NodeShape ;
+    sh:targetClass flow:Check ;
+    sh:property [ sh:path flow:checkId ; sh:minCount 1 ] ;
+    sh:property [ sh:path flow:checkKind ; sh:minCount 1 ; sh:in ("metric" "script" "json_schema" "file_exists") ] ;
+    sh:property [ sh:path flow:expression ; sh:minCount 1 ] ;
+    sh:property [ sh:path flow:blocking ; sh:minCount 1 ] ;
+    sh:property [ sh:path flow:onFail ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:sparql [
+        sh:message "Metric check measures no metric" ;
+        sh:select """
+            PREFIX flow: <https://cynergis.ai/ont/flow#>
+            SELECT $this WHERE { $this flow:checkKind "metric" . FILTER NOT EXISTS { $this flow:measures ?m } }""" ] ;
+    .
+
+shp:Outcome a sh:NodeShape ;
+    sh:targetClass flow:Outcome ;
+    sh:sparql [
+        sh:message "Outcome has no outgoing transition (the run would get stuck)" ;
+        sh:select """
+            PREFIX flow: <https://cynergis.ai/ont/flow#>
+            SELECT $this WHERE { FILTER NOT EXISTS { ?t flow:onOutcome $this } }""" ] .
+
+shp:Transition a sh:NodeShape ;
+    sh:targetClass flow:Transition ;
+    sh:property [ sh:path flow:from ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path flow:onOutcome ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:xone ( [ sh:path flow:to ; sh:minCount 1 ] [ sh:path flow:toDynamic ; sh:minCount 1 ] ) .
+
+shp:Artifact a sh:NodeShape ;
+    sh:targetClass flow:Artifact ;
+    sh:property [ sh:path flow:path ; sh:minCount 1 ] ;
+    sh:property [ sh:path flow:format ; sh:minCount 1 ] ;
+    sh:property [ sh:path flow:carries ; sh:minCount 1 ; sh:message "Artifact is not bound to a domain concept" ] .
+
+shp:Invariant a sh:NodeShape ;
+    sh:targetClass flow:Invariant ;
+    sh:property [ sh:path flow:statement ; sh:minCount 1 ] .
+
+shp:Parameter a sh:NodeShape ;
+    sh:targetClass flow:Parameter ;
+    sh:property [ sh:path flow:value ; sh:minCount 1 ; sh:message "Parameter referenced but not defined in config" ] .
+
+# ─────────────── Spec gaps (Warning): the graph is valid, but an agent would have to guess ───────────────
+shp:ArtifactFieldSpec a sh:NodeShape ;
+    sh:targetClass flow:Artifact ; sh:severity sh:Warning ;
+    sh:sparql [
+        sh:message "JSON artifact written by an automated step has no field specification" ;
+        sh:select """
+            PREFIX flow: <https://cynergis.ai/ont/flow#>
+            SELECT $this WHERE {
+              ?step flow:writes $this . FILTER NOT EXISTS { ?step a flow:HumanStep }
+              $this flow:format ?f . FILTER(?f IN ("json","json-schema"))
+              FILTER NOT EXISTS { $this flow:hasField ?x } }""" ] .
+
+shp:CheckMetricRecorded a sh:NodeShape ;
+    sh:targetClass flow:Check ; sh:severity sh:Warning ;
+    sh:sparql [
+        sh:message "Check reads a metric its step does not declare as recorded: {?name}" ;
+        sh:select """
+            PREFIX flow: <https://cynergis.ai/ont/flow#>
+            SELECT $this ?name WHERE {
+              ?step flow:hasCheck $this . $this flow:measures ?m . ?m flow:metricName ?name .
+              FILTER NOT EXISTS { ?step flow:records ?m } }""" ] .
+
+shp:InvariantEnforced a sh:NodeShape ;
+    sh:targetClass flow:Invariant ; sh:severity sh:Warning ;
+    sh:property [ sh:path flow:enforcedBy ; sh:minCount 1 ; sh:severity sh:Warning ; sh:message "Invariant is not enforced by any check" ] .
