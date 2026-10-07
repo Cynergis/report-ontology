@@ -1,0 +1,139 @@
+{
+  "_about": "Why each term exists; ported from the definitions of ontology/ontology.ttl. `validated_by` is empty until a person who knows the domain confirms the entry.",
+  "classes": {
+    "Artifact": {
+      "question": "Which artifacts does $STEP read and write, where, in what format?",
+      "why": "Needed by FL2, FL3, FL10, FL17, FL19: without it the graph cannot answer FL2.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Check": {
+      "question": "Which checks gate $STEP: what does each measure, against which threshold, and what happens on failure?",
+      "why": "Needed by FL4, FL7: without it the graph cannot answer FL4.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "ClaudeStep": {
+      "question": "Which artifacts does $STEP read and write, where, in what format?",
+      "why": "Needed by FL2, FL12, FL20: without it the graph cannot answer FL2.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "DeterministicStep": {
+      "question": "Which artifacts does $STEP read and write, where, in what format?",
+      "why": "Needed by FL2, FL12: without it the graph cannot answer FL2.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Effect": {
+      "question": "Which effects does transition $TRANSITION apply to run state, and which artifact produced by which step does a step read?",
+      "why": "Needed by FL19: without it the graph cannot answer FL19.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Flow": {
+      "question": "Which phase is $STEP in, and which step does the phase start at?",
+      "why": "Needed by FL18: without it the graph cannot answer FL18.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "HumanStep": {
+      "question": "What must every human step record before the flow can continue?",
+      "why": "Needed by FL14: without it the graph cannot answer FL14.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Implementation": {
+      "question": "How is $STEP executed (command, Claude prompt, or human review), and does an implementation exist?",
+      "why": "Needed by FL8, FL15: without it the graph cannot answer FL8.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Invariant": {
+      "question": "Which domain invariants does $STEP enforce?",
+      "why": "Needed by FL7: without it the graph cannot answer FL7.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Metric": {
+      "question": "Which checks gate $STEP: what does each measure, against which threshold, and what happens on failure?",
+      "why": "Needed by FL4, FL5: without it the graph cannot answer FL4.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "OcrStep": {
+      "question": "Which artifacts does $STEP read and write, where, in what format?",
+      "why": "Needed by FL2, FL12: without it the graph cannot answer FL2.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Outcome": {
+      "question": "Which checks gate $STEP: what does each measure, against which threshold, and what happens on failure?",
+      "why": "Needed by FL4, FL11: without it the graph cannot answer FL4.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Phase": {
+      "question": "Which phase is $STEP in, and which step does the phase start at?",
+      "why": "Needed by FL18: without it the graph cannot answer FL18.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Step": {
+      "question": "What is step $STEP for, and what kind of executor runs it?",
+      "why": "Needed by FL1, FL3, FL4, FL5, FL6, FL7, FL8, FL9, FL10, FL11, FL15, FL18, FL19: without it the graph cannot answer FL1.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "TerminalStep": {
+      "question": "How is $STEP executed (command, Claude prompt, or human review), and does an implementation exist?",
+      "why": "Needed by FL8: without it the graph cannot answer FL8.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "TestObligation": {
+      "question": "Which tests must exist for $STEP, derived mechanically from its checks, transitions and invariants?",
+      "why": "Needed by FL12, FL21: without it the graph cannot answer FL12.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Transition": {
+      "question": "For each outcome of $STEP, which transition fires, under which guard, and where does it go?",
+      "why": "Needed by FL11, FL13, FL19: without it the graph cannot answer FL11.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "ArtifactField": {
+      "question": "What structure (fields) must each JSON artifact $STEP writes have?",
+      "why": "Needed by FL3: without it the graph cannot answer FL3.",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "ConfigParameter": {
+      "question": "Which checks gate $STEP: what does each measure, against which threshold, and what happens on failure?",
+      "why": "Needed by FL4, FL6, FL13, FL16: without it the graph cannot answer FL4.",
+      "alternatives": "",
+      "validated_by": ""
+    }
+  },
+  "properties": {
+    "dependsOn": {
+      "question": "What does the original join with a UNION?",
+      "why": "The pattern language has no UNION; the rules derive one relation the question reads.",
+      "alternatives": "Several optional blocks in one question: rejected because the rows multiply and the count no longer means anything.",
+      "validated_by": ""
+    },
+    "affectedBy": {
+      "question": "What does the original join with a UNION?",
+      "why": "The pattern language has no UNION; the rules derive one relation the question reads.",
+      "alternatives": "Several optional blocks in one question: rejected because the rows multiply and the count no longer means anything.",
+      "validated_by": ""
+    },
+    "readBy": {
+      "question": "What does the original join with a UNION?",
+      "why": "The pattern language has no UNION; the rules derive one relation the question reads.",
+      "alternatives": "Several optional blocks in one question: rejected because the rows multiply and the count no longer means anything.",
+      "validated_by": ""
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "_about": "What an agent must know before a task: the questions it must be able to answer (required) and the ones it may also read (optional), with the parameters the task is about. `oto query brief <task> NAME=<entity>` is READY or BLOCKED by name.",
+  "briefs": {
+    "implement-step": {
+      "description": "An agent is about to write the script for one flow step (e.g. verify.py for B10_verify).",
+      "params": {
+        "STEP": "DeterministicStep|OcrStep|ClaudeStep"
+      },
+      "required": [
+        "FL1",
+        "FL2",
+        "FL3",
+        "FL4",
+        "FL5",
+        "FL6",
+        "FL8",
+        "FL10",
+        "FL11"
+      ],
+      "optional": [
+        "FL7",
+        "FL9",
+        "FL18"
+      ]
+    },
+    "write-tests": {
+      "description": "An agent writes the tests a step's implementation must pass, before the implementation exists.",
+      "params": {
+        "STEP": "DeterministicStep|OcrStep|ClaudeStep"
+      },
+      "required": [
+        "FL4",
+        "FL11",
+        "FL12"
+      ],
+      "optional": [
+        "FL7",
+        "FL3"
+      ]
+    },
+    "build-engine": {
+      "description": "An agent writes the runner that executes the flow graph (state, guards, effects, human pauses).",
+      "params": {},
+      "required": [
+        "FL13",
+        "FL14",
+        "FL15"
+      ],
+      "optional": []
+    },
+    "impact-parameter": {
+      "description": "A threshold or config value is about to change: what is affected?",
+      "params": {
+        "PARAM": "ConfigParameter"
+      },
+      "required": [
+        "FL16"
+      ],
+      "optional": []
+    },
+    "impact-artifact": {
+      "description": "An artifact's structure is about to change: who reads it, who writes it?",
+      "params": {
+        "ARTIFACT": "Artifact"
+      },
+      "required": [
+        "FL17"
+      ],
+      "optional": []
+    }
+  }
+}

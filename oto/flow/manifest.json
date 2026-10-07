@@ -1,0 +1,28 @@
+{
+  "name": "flow",
+  "release": 1,
+  "domain": "software",
+  "summary": "Executable process graphs: steps with typed executors (script, OCR, Claude, human, terminal), gated by checks against metrics and parameters, connected by guarded transitions with effects, exchanging artifacts with fields; invariants and the tests derived from them. The briefs an agent reads before implementing or testing a step, building the engine, or changing a parameter or an artifact.",
+  "extends": [
+    "oto-core"
+  ],
+  "namespace": "https://cynergis.ai/ont/flow#",
+  "engine": ">=0.9",
+  "carries": [
+    "vocabulary",
+    "rationale",
+    "rules",
+    "questions",
+    "briefs",
+    "sample",
+    "readme"
+  ],
+  "maintainer": "Cynergis AI",
+  "changelog": [
+    {
+      "release": 1,
+      "at": "2026-10-07",
+      "note": "Ported from report-ontology's flow ontology 0.1.1 (ontology/ontology.ttl, questions/competency_questions.yaml): 19 classes, 17 questions as FL1-FL17 plus FL18-FL21, 5 task types as briefs."
+    }
+  ]
+}

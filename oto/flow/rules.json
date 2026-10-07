@@ -1,0 +1,279 @@
+{
+  "_about": "The relations the original's questions joined with UNION, derived; two policies naming the question each protects.",
+  "rules": [
+    {
+      "id": "step-depends-on-checked-parameter",
+      "kind": "derive",
+      "when": [
+        {
+          "edge": [
+            "s",
+            "hasCheck",
+            "c"
+          ]
+        },
+        {
+          "edge": [
+            "c",
+            "comparedTo",
+            "p"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "s",
+          "dependsOn",
+          "p"
+        ]
+      },
+      "why": "A step depends on every parameter one of its checks compares to (CQ06).",
+      "validated_by": ""
+    },
+    {
+      "id": "step-depends-on-guarded-parameter",
+      "kind": "derive",
+      "when": [
+        {
+          "edge": [
+            "t",
+            "from",
+            "s"
+          ]
+        },
+        {
+          "edge": [
+            "t",
+            "usesParameter",
+            "p"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "s",
+          "dependsOn",
+          "p"
+        ]
+      },
+      "why": "A step depends on every parameter a guard of one of its transitions reads (CQ06).",
+      "validated_by": ""
+    },
+    {
+      "id": "step-depends-on-used-parameter",
+      "kind": "derive",
+      "when": [
+        {
+          "node": "s",
+          "type": "Step"
+        },
+        {
+          "edge": [
+            "s",
+            "usesParameter",
+            "p"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "s",
+          "dependsOn",
+          "p"
+        ]
+      },
+      "why": "A step depends on every parameter its action uses (CQ06).",
+      "validated_by": ""
+    },
+    {
+      "id": "check-affected-by-parameter",
+      "kind": "derive",
+      "when": [
+        {
+          "edge": [
+            "c",
+            "comparedTo",
+            "p"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "c",
+          "affectedBy",
+          "p"
+        ]
+      },
+      "why": "A check compared to a parameter changes meaning when the parameter does (CQ16).",
+      "validated_by": ""
+    },
+    {
+      "id": "transition-affected-by-parameter",
+      "kind": "derive",
+      "when": [
+        {
+          "node": "t",
+          "type": "Transition"
+        },
+        {
+          "edge": [
+            "t",
+            "usesParameter",
+            "p"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "t",
+          "affectedBy",
+          "p"
+        ]
+      },
+      "why": "A transition whose guard reads a parameter routes differently when it changes (CQ16).",
+      "validated_by": ""
+    },
+    {
+      "id": "step-affected-by-parameter",
+      "kind": "derive",
+      "when": [
+        {
+          "node": "s",
+          "type": "Step"
+        },
+        {
+          "edge": [
+            "s",
+            "usesParameter",
+            "p"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "s",
+          "affectedBy",
+          "p"
+        ]
+      },
+      "why": "A step whose action uses a parameter behaves differently when it changes (CQ16).",
+      "validated_by": ""
+    },
+    {
+      "id": "test-affected-by-parameter",
+      "kind": "derive",
+      "when": [
+        {
+          "edge": [
+            "t",
+            "tests",
+            "c"
+          ]
+        },
+        {
+          "edge": [
+            "c",
+            "comparedTo",
+            "p"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "t",
+          "affectedBy",
+          "p"
+        ]
+      },
+      "why": "A test of a check compared to a parameter must be revisited when the parameter changes (CQ16).",
+      "validated_by": ""
+    },
+    {
+      "id": "artifact-read-by-step",
+      "kind": "derive",
+      "when": [
+        {
+          "edge": [
+            "s",
+            "reads|readsOptional",
+            "a"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "a",
+          "readBy",
+          "s"
+        ]
+      },
+      "why": "One relation for the consumers of an artifact, required or optional (CQ09).",
+      "validated_by": ""
+    },
+    {
+      "id": "implemented-step-has-its-script",
+      "kind": "policy",
+      "severity": "blocking",
+      "when": [
+        {
+          "node": "s",
+          "type": "Step",
+          "where": {
+            "isImplemented": true
+          }
+        },
+        {
+          "edge": [
+            "s",
+            "implementedBy",
+            "i"
+          ]
+        },
+        {
+          "node": "i",
+          "type": "Implementation",
+          "where": {
+            "exists": false
+          }
+        }
+      ],
+      "then": {
+        "flag": "a step marked implemented has no script on disk"
+      },
+      "why": "The graph must not say a step is done when its script is missing; the build would carry a lie.",
+      "validated_by": "",
+      "answers": "FL15"
+    },
+    {
+      "id": "outcome-has-a-transition",
+      "kind": "policy",
+      "severity": "warn",
+      "when": [
+        {
+          "edge": [
+            "s",
+            "hasOutcome",
+            "o"
+          ]
+        },
+        {
+          "not_edge": [
+            "*",
+            "onOutcome",
+            "o"
+          ]
+        },
+        {
+          "node": "s",
+          "type": "DeterministicStep|OcrStep|ClaudeStep|HumanStep"
+        }
+      ],
+      "then": {
+        "flag": "an outcome of a non-terminal step has no transition: a run that ends there is stranded"
+      },
+      "why": "Outcomes are the only thing transitions branch on.",
+      "validated_by": "",
+      "answers": "FL11"
+    }
+  ]
+}

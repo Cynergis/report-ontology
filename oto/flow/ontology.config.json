@@ -1,0 +1,548 @@
+{
+  "_about": "The flow ontology as an OTO unit, ported from the flow: terms of ontology/ontology.ttl by tools/flow_port.py: how work is executed. Steps with typed executors, gated by checks, connected by guarded transitions, exchanging artifacts; tests derived from checks, transitions and invariants. Every term keeps its IRI under https://cynergis.ai/ont/flow#. A relation is {domain, range, inverse, definition}. Use A|B for a union.",
+  "_summary": "Executable process graphs: steps with typed executors (script, OCR, Claude, human, terminal), gated by checks against metrics and parameters, connected by guarded transitions with effects, exchanging artifacts with fields; invariants and the tests derived from them. The briefs an agent reads before implementing or testing a step, building the engine, or changing a parameter or an artifact.",
+  "name": "Flow",
+  "ontology_version": 1,
+  "strict_domains": false,
+  "languages": [
+    "en"
+  ],
+  "classes": {
+    "Artifact": {
+      "definition": "A file or folder exchanged between steps, with a path, format and field structure.",
+      "label": "Artifact"
+    },
+    "Check": {
+      "definition": "A deterministic validation run after a step; a blocking failure sets the step's outcome.",
+      "label": "Check"
+    },
+    "ClaudeStep": {
+      "definition": "Claude with a versioned prompt and a required output schema; cached by input hash; never routes.",
+      "label": "Claude step",
+      "subclass_of": [
+        "Step"
+      ]
+    },
+    "DeterministicStep": {
+      "definition": "A script: same inputs, same outputs.",
+      "label": "Deterministic step",
+      "subclass_of": [
+        "Step"
+      ]
+    },
+    "Effect": {
+      "definition": "A state mutation applied when a transition is taken (set, increment, reset, append…).",
+      "label": "Effect"
+    },
+    "Flow": {
+      "definition": "A versioned process graph with entrypoints, phases, steps and transitions.",
+      "label": "Flow"
+    },
+    "HumanStep": {
+      "definition": "A person records a decision; the flow pauses until it exists.",
+      "label": "Human step",
+      "subclass_of": [
+        "Step"
+      ]
+    },
+    "Implementation": {
+      "definition": "The script that executes a step.",
+      "label": "Implementation"
+    },
+    "Invariant": {
+      "definition": "A statement that must always hold; enforced by one or more checks.",
+      "label": "Invariant"
+    },
+    "Metric": {
+      "definition": "A named measurement a step records in run state and checks compare against parameters.",
+      "label": "Metric"
+    },
+    "OcrStep": {
+      "definition": "An OCR engine run; output carries per-word confidence.",
+      "label": "OCR step",
+      "subclass_of": [
+        "Step"
+      ]
+    },
+    "Outcome": {
+      "definition": "A named result of a step (pass, fail, approve, …); the only thing transitions branch on.",
+      "label": "Outcome"
+    },
+    "Phase": {
+      "definition": "A named group of steps run together (e.g. template build, production run).",
+      "label": "Phase"
+    },
+    "Step": {
+      "definition": "A unit of work with declared inputs, outputs, checks and outcomes.",
+      "label": "Step"
+    },
+    "TerminalStep": {
+      "definition": "An end state.",
+      "label": "Terminal step",
+      "subclass_of": [
+        "Step"
+      ]
+    },
+    "TestObligation": {
+      "definition": "A test that must exist before a step's implementation is accepted; derived mechanically from the graph.",
+      "label": "Test obligation"
+    },
+    "Transition": {
+      "definition": "A directed edge from a step, taken on an outcome when its guard holds; may apply effects to run state.",
+      "label": "Transition"
+    },
+    "ArtifactField": {
+      "definition": "A named path inside a structured artifact (e.g. pages[].regions[].bbox).",
+      "label": "Field"
+    },
+    "ConfigParameter": {
+      "definition": "A configuration value (threshold, limit, seed) owned by config, never by steps.",
+      "label": "Parameter"
+    }
+  },
+  "properties": {
+    "comparedTo": {
+      "domain": "Check",
+      "range": "ConfigParameter",
+      "definition": "The configuration value the check compares its metrics against; changing it changes what passes."
+    },
+    "enforcedBy": {
+      "domain": "Invariant",
+      "range": "Check",
+      "definition": "A check that fails when the invariant is broken."
+    },
+    "entrypoint": {
+      "domain": "Phase",
+      "range": "Step",
+      "definition": "The step a run of the phase starts at."
+    },
+    "forStep": {
+      "domain": "TestObligation",
+      "range": "Step",
+      "definition": "The step whose implementation must pass the test."
+    },
+    "from": {
+      "domain": "Transition",
+      "range": "Step",
+      "definition": "The step the transition leaves."
+    },
+    "hasCheck": {
+      "domain": "Step",
+      "range": "Check",
+      "definition": "A validation run after the step's action. The first failed blocking check sets the step's outcome."
+    },
+    "hasEffect": {
+      "domain": "Transition",
+      "range": "Effect",
+      "definition": "A change to run state applied when the transition is taken; effects apply in order."
+    },
+    "hasOutcome": {
+      "domain": "Step",
+      "range": "Outcome",
+      "definition": "A result the step can end with. Every outcome needs at least one transition."
+    },
+    "hasStep": {
+      "domain": "Flow",
+      "range": "Step",
+      "definition": "The flow contains this step."
+    },
+    "implementedBy": {
+      "domain": "Step",
+      "range": "Implementation",
+      "definition": "The script that executes the step."
+    },
+    "inPhase": {
+      "domain": "Step",
+      "range": "Phase",
+      "definition": "The phase the step belongs to (template build, production run)."
+    },
+    "measures": {
+      "domain": "Check",
+      "range": "Metric",
+      "definition": "A metric the check's expression reads. The step must record it (flow:records)."
+    },
+    "onFail": {
+      "domain": "Check",
+      "range": "Outcome",
+      "definition": "The outcome the step takes when this check fails and is blocking."
+    },
+    "onOutcome": {
+      "domain": "Transition",
+      "range": "Outcome",
+      "definition": "The outcome of the source step on which the transition is considered."
+    },
+    "reads": {
+      "domain": "Step",
+      "range": "Artifact",
+      "definition": "An artifact the step needs as input; the step is blocked when it is missing."
+    },
+    "readsOptional": {
+      "domain": "Step",
+      "range": "Artifact",
+      "definition": "An artifact the step uses when it is present and runs without when it is absent."
+    },
+    "records": {
+      "domain": "Step",
+      "range": "Metric",
+      "definition": "A measurement the step writes to run state, for its checks and for transition guards."
+    },
+    "tests": {
+      "domain": "TestObligation",
+      "range": "Check|Transition|Invariant",
+      "definition": "What the required test exercises: a check (pass and fail case), a transition (route), or an invariant (property)."
+    },
+    "to": {
+      "domain": "Transition",
+      "range": "Step",
+      "definition": "The step the transition goes to."
+    },
+    "usesParameter": {
+      "domain": "Step|Transition",
+      "range": "ConfigParameter",
+      "definition": "A configuration value the step's action, or the transition's guard, depends on."
+    },
+    "writes": {
+      "domain": "Step",
+      "range": "Artifact",
+      "definition": "An artifact the step produces as output."
+    },
+    "hasArtifactField": {
+      "domain": "Artifact",
+      "range": "ArtifactField",
+      "definition": "A named path the artifact's content must contain. A JSON artifact with no fields is under-specified: an agent must not guess its structure."
+    },
+    "outputOf": {
+      "domain": "Artifact",
+      "range": "Step",
+      "definition": "The step that creates the artifact."
+    },
+    "dependsOn": {
+      "domain": "Step",
+      "range": "ConfigParameter",
+      "inverse": "dependedOnBy",
+      "label": "depends on",
+      "definition": "A configuration parameter the step's behaviour depends on: compared to by one of its checks, read by a guard of one of its transitions, or used by its action. Derived; never stated."
+    },
+    "affectedBy": {
+      "domain": "Check|Transition|Step|TestObligation",
+      "range": "ConfigParameter",
+      "inverse": "affects",
+      "label": "affected by",
+      "definition": "What a change of the parameter reaches: the check compared to it, the transition whose guard reads it, the step whose action uses it, the test of a check compared to it. Derived; never stated."
+    },
+    "readBy": {
+      "domain": "Artifact",
+      "range": "Step",
+      "inverse": "consumesArtifact",
+      "label": "read by",
+      "definition": "A step that reads the artifact, required or optional. Derived from reads and readsOptional, so one question covers both."
+    }
+  },
+  "attributes": {
+    "Check": {
+      "blocking": {
+        "type": "string",
+        "definition": "Whether a failure of the check stops the step: 'true', 'false', or an expression over run state that decides."
+      },
+      "checkId": {
+        "type": "string",
+        "definition": "Identifier of the check, unique in its step (fidelity, overflow)."
+      },
+      "checkKind": {
+        "type": "string",
+        "definition": "How the check is evaluated: metric (a comparison over recorded metrics) | script | json_schema | file_exists."
+      },
+      "expression": {
+        "type": "string",
+        "definition": "What the check evaluates: a comparison over metrics and config, a script to run, a schema, or a path that must exist."
+      },
+      "readsStatePath": {
+        "type": "list",
+        "definition": ""
+      }
+    },
+    "Step": {
+      "command": {
+        "type": "string",
+        "definition": "The command line that runs the step, for steps executed by a script."
+      },
+      "foreach": {
+        "type": "string",
+        "definition": "The collection in run state the step runs once per item of (the documents of a batch, the stress cases).",
+        "label": "for each"
+      },
+      "isImplemented": {
+        "type": "boolean",
+        "definition": "Whether the flow definition marks the step's action as implemented."
+      },
+      "retryMax": {
+        "type": "integer",
+        "definition": "How many times the step is re-run on a retryable outcome before that outcome stands.",
+        "label": "retry maximum"
+      },
+      "sourceRef": {
+        "type": "string",
+        "definition": "",
+        "label": "source reference"
+      },
+      "stepId": {
+        "type": "string",
+        "definition": "Identifier of the step, unique in its flow (B10_verify). Transitions, run state, briefs and code citations refer to a step by it."
+      },
+      "usesOcr": {
+        "type": "boolean",
+        "definition": "True when the step runs an OCR engine as part of its work.",
+        "label": "uses OCR"
+      },
+      "promptRef": {
+        "type": "string",
+        "definition": "The prompt file the Claude step is invoked with.",
+        "label": "prompt reference"
+      },
+      "reviewPage": {
+        "type": "string",
+        "definition": "The page shown to the person who must decide."
+      }
+    },
+    "HumanStep": {
+      "decisionOption": {
+        "type": "list",
+        "definition": "A decision the person may record; each becomes an outcome of the step."
+      },
+      "requiredField": {
+        "type": "list",
+        "definition": "A field the recorded decision must carry (reviewer, comment…) before the flow continues."
+      }
+    },
+    "Implementation": {
+      "exists": {
+        "type": "boolean",
+        "definition": "Whether the script was found on disk when the graph was built."
+      },
+      "path": {
+        "type": "string",
+        "definition": ""
+      }
+    },
+    "Artifact": {
+      "format": {
+        "type": "string",
+        "definition": "The file format of the artifact (json, png, pdf, folder…)."
+      },
+      "optional": {
+        "type": "boolean",
+        "definition": "True when the artifact need not exist for the flow to proceed."
+      },
+      "outputSchema": {
+        "type": "string",
+        "definition": ""
+      },
+      "path": {
+        "type": "string",
+        "definition": ""
+      },
+      "sourceRef": {
+        "type": "string",
+        "definition": "",
+        "label": "source reference"
+      },
+      "carries": {
+        "type": "list",
+        "label": "carries",
+        "definition": "The domain concepts this artifact holds, by class name: what the file is about, so a step's inputs and outputs are read as domain things, not paths."
+      }
+    },
+    "Transition": {
+      "guard": {
+        "type": "string",
+        "definition": "A condition over run state and config that must hold for the transition to be taken; absent means always."
+      },
+      "priority": {
+        "type": "integer",
+        "definition": "Order in which the transitions for one step and outcome are tried: ascending, and the first whose guard holds is taken."
+      },
+      "readsStatePath": {
+        "type": "list",
+        "definition": ""
+      },
+      "sourceRef": {
+        "type": "string",
+        "definition": "",
+        "label": "source reference"
+      },
+      "toDynamic": {
+        "type": "string",
+        "definition": "A target read from run state when the transition is taken, e.g. $state.context.resume_node; used in place of flow:to.",
+        "label": "to (dynamic)"
+      }
+    },
+    "Metric": {
+      "metricName": {
+        "type": "string",
+        "definition": "Name of the metric as it appears in run state under the step."
+      }
+    },
+    "TestObligation": {
+      "obligationKind": {
+        "type": "string",
+        "definition": "The kind of test required: pass_case | fail_case | route | property."
+      }
+    },
+    "Effect": {
+      "op": {
+        "type": "string",
+        "definition": "The kind of change: set | set_from | increment | reset | append | reactivate_items | exclude_failed_items.",
+        "label": "operation"
+      },
+      "statePath": {
+        "type": "string",
+        "definition": "The path in run state the effect changes."
+      }
+    },
+    "Outcome": {
+      "outcomeName": {
+        "type": "string",
+        "definition": "Name of the outcome (pass, fail, approve, reject…); the only thing transitions branch on."
+      }
+    },
+    "ClaudeStep": {
+      "outputSchema": {
+        "type": "string",
+        "definition": ""
+      },
+      "promptVersion": {
+        "type": "string",
+        "definition": "Version of the prompt; part of the cache key, so a new version invalidates cached outputs."
+      },
+      "writesOnly": {
+        "type": "list",
+        "definition": "A path the Claude step may write to; anything written outside the listed paths fails the scope check."
+      }
+    },
+    "Invariant": {
+      "statement": {
+        "type": "string",
+        "definition": "The invariant, stated in one sentence."
+      },
+      "concerns": {
+        "type": "list",
+        "label": "concerns",
+        "definition": "The domain concepts the invariant constrains, by class name."
+      }
+    },
+    "Flow": {
+      "value": {
+        "type": "string",
+        "definition": ""
+      }
+    },
+    "ArtifactField": {
+      "fieldPath": {
+        "type": "string",
+        "definition": "The path of the field inside the artifact (pages[].regions[].bbox)."
+      }
+    },
+    "ConfigParameter": {
+      "paramName": {
+        "type": "string",
+        "definition": "Name of the configuration value, as its path in the flow's config (claude.model, ssim_region_min_vector).",
+        "label": "parameter name"
+      },
+      "sourceRef": {
+        "type": "string",
+        "definition": "",
+        "label": "source reference"
+      },
+      "value": {
+        "type": "string",
+        "definition": ""
+      }
+    }
+  },
+  "namespaces": {
+    "flow": {
+      "iri": "https://cynergis.ai/ont/flow#",
+      "terms": [
+        "Artifact",
+        "Check",
+        "ClaudeStep",
+        "DeterministicStep",
+        "Effect",
+        "ArtifactField",
+        "Flow",
+        "HumanStep",
+        "Implementation",
+        "Invariant",
+        "Metric",
+        "OcrStep",
+        "Outcome",
+        "ConfigParameter",
+        "Phase",
+        "Step",
+        "TerminalStep",
+        "TestObligation",
+        "Transition",
+        "carries",
+        "comparedTo",
+        "concerns",
+        "enforcedBy",
+        "entrypoint",
+        "forStep",
+        "from",
+        "hasCheck",
+        "hasEffect",
+        "hasArtifactField",
+        "hasOutcome",
+        "hasStep",
+        "implementedBy",
+        "inPhase",
+        "measures",
+        "onFail",
+        "onOutcome",
+        "outputOf",
+        "reads",
+        "readsOptional",
+        "records",
+        "tests",
+        "to",
+        "usesParameter",
+        "writes",
+        "blocking",
+        "checkId",
+        "checkKind",
+        "command",
+        "decisionOption",
+        "exists",
+        "expression",
+        "fieldPath",
+        "foreach",
+        "format",
+        "guard",
+        "isImplemented",
+        "metricName",
+        "obligationKind",
+        "op",
+        "optional",
+        "outcomeName",
+        "outputSchema",
+        "paramName",
+        "path",
+        "priority",
+        "promptRef",
+        "promptVersion",
+        "readsStatePath",
+        "requiredField",
+        "retryMax",
+        "reviewPage",
+        "sourceRef",
+        "statePath",
+        "statement",
+        "stepId",
+        "toDynamic",
+        "usesOcr",
+        "value",
+        "writesOnly"
+      ]
+    }
+  }
+}

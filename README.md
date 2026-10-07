@@ -306,6 +306,32 @@ engine on this graph, and the committed unit is what the port writes. The port i
 with `python tools/oto_port.py --oto <OTO checkout> --check` after a change to the Turtle, the
 shapes or the questions; the questions in pattern form are edited in `tools/oto_port.py`.
 
+### The flow ontology, ported
+
+`oto/flow/` is the flow ontology (`flow:` terms of `ontology/ontology.ttl`, the 17 competency
+questions of `questions/competency_questions.yaml`, the five task types) ported the same way by
+`tools/flow_port.py`, with the task types as OTO **briefs**: `briefs.json`, what an agent must
+know before implementing a step, writing its tests, building the engine, or changing a
+parameter or an artifact. `fixtures/pdf-to-template/graph.json` is the pdf-to-template flow
+instance as a project graph (what `kgctl build` made of `flow.json`, `bindings.ttl` and
+`derive_tests.rq`); a real flow with its real gaps is a project's facts, not an ontology's
+sample. Three names the report ontology uses for other things are renamed in the port
+(`ArtifactField`, `ConfigParameter`, `outputOf`), so one project composes both:
+
+```bash
+oto init --name "pdf-to-template" --slug ptt --ontology ./oto/flow,./oto/report --empty --project ptt
+cp fixtures/pdf-to-template/graph.json ptt/graph.json && oto build --project ptt
+oto query --project ptt brief implement-step                     # kgctl readiness: 8 READY, 10 BLOCKED FL3
+oto query --project ptt brief implement-step STEP=step.b10_verify   # kgctl brief: READY, every question's facts
+```
+
+`tests/test_flow_port.py` is the acceptance: the briefs give `kgctl`'s verdicts for every
+implementable step and task, every brief question answers with as many facts as the original
+SPARQL (where the two count alike), and the committed unit and graph are what the port writes.
+The port is regenerated with `python tools/flow_port.py --flow-root <pdf-to-template> --check`.
+The `dt:` concepts are not ported as classes: they are what a run's data is made of, and no graph
+holds a run yet.
+
 ## Paths
 
 | Variable | Meaning | Default |

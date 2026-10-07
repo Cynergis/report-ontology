@@ -1,0 +1,1042 @@
+{
+  "_about": "What this ontology exists to answer. Each question runs over the graph in the pattern language of rules.json; `gate` says what an empty answer means; `gaps` says why it is empty; `terms` names the vocabulary the question covers. Reasoned about in `why`, confirmed in `validated_by`.",
+  "questions": {
+    "FL1": {
+      "who": "a builder",
+      "question": "What is step $STEP for, and what kind of executor runs it?",
+      "why": "CQ01. The first fact an implementer needs: the step's purpose and whether it is a script, an OCR run, Claude or a person.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "node": "$STEP",
+            "type": "Step"
+          }
+        ],
+        "select": [
+          "$STEP.stepId",
+          "$STEP.label",
+          "$STEP.type",
+          "$STEP.usesOcr",
+          "$STEP.foreach",
+          "$STEP.retryMax",
+          "$STEP.sourceRef"
+        ]
+      },
+      "gate": "non_empty"
+    },
+    "FL2": {
+      "who": "a builder",
+      "question": "Which artifacts does $STEP read and write, where, in what format?",
+      "why": "CQ02. The step's contract with its neighbours: the files it takes and leaves, by path and format.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "DeterministicStep|OcrStep|ClaudeStep"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "reads|readsOptional|writes",
+              "a"
+            ]
+          },
+          {
+            "node": "a",
+            "type": "Artifact"
+          }
+        ],
+        "select": [
+          "a.label",
+          "a.path",
+          "a.format",
+          "a.optional",
+          "a.outputSchema",
+          "a.sourceRef"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": {
+        "when": [
+          {
+            "not_edge": [
+              "$STEP",
+              "reads|readsOptional|writes",
+              "*"
+            ]
+          }
+        ],
+        "say": "the step reads and writes nothing on record"
+      }
+    },
+    "FL3": {
+      "who": "a builder",
+      "question": "What structure (fields) must each JSON artifact $STEP writes have?",
+      "why": "CQ03. A JSON output without a field specification cannot be written to a contract; the gap names the artifact.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "writes",
+              "a"
+            ]
+          },
+          {
+            "node": "a",
+            "type": "Artifact"
+          },
+          {
+            "edge": [
+              "a",
+              "hasArtifactField",
+              "f"
+            ]
+          },
+          {
+            "node": "f",
+            "type": "ArtifactField"
+          }
+        ],
+        "select": [
+          "a.label",
+          "f.fieldPath"
+        ]
+      },
+      "gate": "no_gaps",
+      "gaps": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "writes",
+              "a"
+            ]
+          },
+          {
+            "node": "a",
+            "type": "Artifact",
+            "where": {
+              "format": {
+                "in": [
+                  "json",
+                  "json-schema"
+                ]
+              }
+            }
+          },
+          {
+            "not_edge": [
+              "a",
+              "hasArtifactField",
+              "*"
+            ]
+          }
+        ],
+        "say": "JSON output has no field specification"
+      }
+    },
+    "FL4": {
+      "who": "a builder",
+      "question": "Which checks gate $STEP: what does each measure, against which threshold, and what happens on failure?",
+      "why": "CQ04. The checks are the step's acceptance; a metric check that measures no metric cannot be implemented.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "hasCheck",
+              "c"
+            ]
+          },
+          {
+            "node": "c",
+            "type": "Check"
+          },
+          {
+            "edge": [
+              "c",
+              "onFail",
+              "o"
+            ]
+          },
+          {
+            "node": "o",
+            "type": "Outcome"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "c",
+                  "measures",
+                  "m"
+                ]
+              },
+              {
+                "node": "m",
+                "type": "Metric"
+              }
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "c",
+                  "comparedTo",
+                  "p"
+                ]
+              },
+              {
+                "node": "p",
+                "type": "ConfigParameter"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "c.checkId",
+          "c.checkKind",
+          "c.expression",
+          "m.metricName",
+          "p.paramName",
+          "p.value",
+          "c.blocking",
+          "c.readsStatePath",
+          "o.outcomeName"
+        ]
+      },
+      "gate": "no_gaps",
+      "gaps": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "hasCheck",
+              "c"
+            ]
+          },
+          {
+            "node": "c",
+            "type": "Check",
+            "where": {
+              "checkKind": "metric"
+            }
+          },
+          {
+            "not_edge": [
+              "c",
+              "measures",
+              "*"
+            ]
+          }
+        ],
+        "say": "metric check measures no metric"
+      }
+    },
+    "FL5": {
+      "who": "a builder",
+      "question": "Which metrics must $STEP record in state, and are all checked metrics recorded?",
+      "why": "CQ05. A check that reads a metric the step never records can never pass.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "records",
+              "m"
+            ]
+          },
+          {
+            "node": "m",
+            "type": "Metric"
+          }
+        ],
+        "select": [
+          "m.metricName"
+        ]
+      },
+      "gate": "no_gaps",
+      "gaps": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "hasCheck",
+              "c"
+            ]
+          },
+          {
+            "edge": [
+              "c",
+              "measures",
+              "m"
+            ]
+          },
+          {
+            "not_edge": [
+              "$STEP",
+              "records",
+              "m"
+            ]
+          }
+        ],
+        "say": "a check reads a metric the step does not declare as recorded"
+      }
+    },
+    "FL6": {
+      "who": "a builder",
+      "question": "Which configuration parameters does $STEP depend on, and their current values?",
+      "why": "CQ06. Thresholds, limits and seeds live in config; the step reads them, never owns them. A parameter without a value is a gap.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "dependsOn",
+              "p"
+            ]
+          },
+          {
+            "node": "p",
+            "type": "ConfigParameter"
+          }
+        ],
+        "select": [
+          "p.paramName",
+          "p.value",
+          "p.sourceRef"
+        ]
+      },
+      "gate": "no_gaps",
+      "gaps": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "dependsOn",
+              "p"
+            ]
+          },
+          {
+            "node": "p",
+            "type": "ConfigParameter",
+            "where": {
+              "value": {
+                "exists": false
+              }
+            }
+          }
+        ],
+        "say": "parameter referenced but has no value in config"
+      }
+    },
+    "FL7": {
+      "who": "a builder",
+      "question": "Which domain invariants does $STEP enforce?",
+      "why": "CQ07. The statements that must always hold, enforced by this step's checks; the property tests come from them.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "hasCheck",
+              "c"
+            ]
+          },
+          {
+            "node": "c",
+            "type": "Check"
+          },
+          {
+            "edge": [
+              "inv",
+              "enforcedBy",
+              "c"
+            ]
+          },
+          {
+            "node": "inv",
+            "type": "Invariant"
+          }
+        ],
+        "select": [
+          "inv.label",
+          "inv.statement",
+          "inv.concerns",
+          "c.checkId"
+        ]
+      },
+      "gate": "any"
+    },
+    "FL8": {
+      "who": "a builder",
+      "question": "How is $STEP executed (command, Claude prompt, or human review), and does an implementation exist?",
+      "why": "CQ08. A step with no execution spec cannot be run; one marked implemented whose script is missing is a lie the graph must not carry.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "node": "$STEP",
+            "type": "Step"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$STEP",
+                  "implementedBy",
+                  "i"
+                ]
+              },
+              {
+                "node": "i",
+                "type": "Implementation"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "$STEP.command",
+          "$STEP.promptRef",
+          "$STEP.reviewPage",
+          "$STEP.isImplemented",
+          "i.path",
+          "i.exists"
+        ]
+      },
+      "gate": "no_gaps",
+      "gaps": {
+        "when": [
+          {
+            "node": "$STEP",
+            "type": "DeterministicStep|OcrStep|ClaudeStep|HumanStep",
+            "where": {
+              "command": {
+                "exists": false
+              },
+              "promptRef": {
+                "exists": false
+              },
+              "reviewPage": {
+                "exists": false
+              }
+            }
+          }
+        ],
+        "say": "no execution spec (command, prompt or review page)"
+      },
+      "terms": [
+        "TerminalStep"
+      ]
+    },
+    "FL9": {
+      "who": "a builder",
+      "question": "Which later steps consume what $STEP writes?",
+      "why": "CQ09. Field names must match on both sides; the consumers are who breaks when the output changes.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "writes",
+              "a"
+            ]
+          },
+          {
+            "edge": [
+              "a",
+              "readBy",
+              "s2"
+            ]
+          },
+          {
+            "node": "s2",
+            "type": "Step",
+            "where": {
+              "id": {
+                "!=": "$STEP"
+              }
+            }
+          }
+        ],
+        "select": [
+          "a.label",
+          "s2.stepId"
+        ]
+      },
+      "gate": "any"
+    },
+    "FL10": {
+      "who": "a builder",
+      "question": "Which domain concepts do the inputs and outputs of $STEP carry?",
+      "why": "CQ10. An artifact is a domain thing, not a path; one bound to no concept is a gap. The concept's meaning is its class's definition.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "reads|readsOptional|writes",
+              "a"
+            ]
+          },
+          {
+            "node": "a",
+            "type": "Artifact",
+            "where": {
+              "carries": {
+                "exists": true
+              }
+            }
+          }
+        ],
+        "select": [
+          "a.label",
+          "a.carries"
+        ]
+      },
+      "gate": "no_gaps",
+      "gaps": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "reads|readsOptional|writes",
+              "a"
+            ]
+          },
+          {
+            "node": "a",
+            "type": "Artifact",
+            "where": {
+              "carries": {
+                "exists": false
+              }
+            }
+          }
+        ],
+        "say": "artifact not bound to any domain concept"
+      }
+    },
+    "FL11": {
+      "who": "a builder",
+      "question": "For each outcome of $STEP, which transition fires, under which guard, and where does it go?",
+      "why": "CQ11. Outcomes are the only thing transitions branch on; an outcome with no transition strands the run.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "t",
+              "from",
+              "$STEP"
+            ]
+          },
+          {
+            "node": "t",
+            "type": "Transition"
+          },
+          {
+            "edge": [
+              "t",
+              "onOutcome",
+              "o"
+            ]
+          },
+          {
+            "node": "o",
+            "type": "Outcome"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "t",
+                  "to",
+                  "s2"
+                ]
+              },
+              {
+                "node": "s2",
+                "type": "Step"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "o.outcomeName",
+          "t.guard",
+          "t.priority",
+          "s2.stepId",
+          "t.toDynamic",
+          "t.sourceRef"
+        ]
+      },
+      "gate": "no_gaps",
+      "gaps": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "hasOutcome",
+              "o"
+            ]
+          },
+          {
+            "not_edge": [
+              "*",
+              "onOutcome",
+              "o"
+            ]
+          }
+        ],
+        "say": "outcome has no transition"
+      }
+    },
+    "FL12": {
+      "who": "a test writer",
+      "question": "Which tests must exist for $STEP, derived mechanically from its checks, transitions and invariants?",
+      "why": "CQ12. A pass and a fail case per check, a route per transition, a property per invariant: the tests exist before the implementation.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "DeterministicStep|OcrStep|ClaudeStep"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "t",
+              "forStep",
+              "$STEP"
+            ]
+          },
+          {
+            "node": "t",
+            "type": "TestObligation"
+          }
+        ],
+        "select": [
+          "t.obligationKind",
+          "t.label"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": {
+        "when": [
+          {
+            "not_edge": [
+              "*",
+              "forStep",
+              "$STEP"
+            ]
+          }
+        ],
+        "say": "no test obligation: the step has no check, transition or invariant"
+      }
+    },
+    "FL13": {
+      "who": "an engine builder",
+      "question": "Which state paths and config parameters do transition guards read?",
+      "why": "CQ13. The runner must expose exactly these paths to guards.",
+      "validated_by": "",
+      "ask": {
+        "when": [
+          {
+            "node": "t",
+            "type": "Transition",
+            "where": {
+              "guard": {
+                "exists": true
+              }
+            }
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "t",
+                  "usesParameter",
+                  "p"
+                ]
+              },
+              {
+                "node": "p",
+                "type": "ConfigParameter"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "t.label",
+          "t.guard",
+          "t.readsStatePath",
+          "p.paramName"
+        ]
+      },
+      "gate": "non_empty"
+    },
+    "FL14": {
+      "who": "an engine builder",
+      "question": "What must every human step record before the flow can continue?",
+      "why": "CQ14. The decision options and the required fields: what the runner waits for.",
+      "validated_by": "",
+      "ask": {
+        "when": [
+          {
+            "node": "s",
+            "type": "HumanStep"
+          }
+        ],
+        "select": [
+          "s.stepId",
+          "s.decisionOption",
+          "s.requiredField",
+          "s.reviewPage"
+        ]
+      },
+      "gate": "non_empty"
+    },
+    "FL15": {
+      "who": "an engine builder",
+      "question": "Which steps have no implementation yet, and which claim one whose script is missing?",
+      "why": "CQ15. The honest state of the build: unimplemented is fine, implemented-but-missing is not.",
+      "validated_by": "",
+      "ask": {
+        "when": [
+          {
+            "node": "s",
+            "type": "DeterministicStep|OcrStep|ClaudeStep",
+            "where": {
+              "isImplemented": false
+            }
+          }
+        ],
+        "select": [
+          "s.stepId",
+          "s.type"
+        ]
+      },
+      "gate": "no_gaps",
+      "gaps": {
+        "when": [
+          {
+            "node": "s",
+            "type": "Step",
+            "where": {
+              "isImplemented": true
+            }
+          },
+          {
+            "edge": [
+              "s",
+              "implementedBy",
+              "i"
+            ]
+          },
+          {
+            "node": "i",
+            "type": "Implementation",
+            "where": {
+              "exists": false
+            }
+          }
+        ],
+        "say": "marked implemented but script missing"
+      }
+    },
+    "FL16": {
+      "who": "anyone changing config",
+      "question": "If parameter $PARAM changes, which checks, transitions, steps and tests are affected?",
+      "why": "CQ16. The blast radius of a threshold change, read from the graph before the change.",
+      "validated_by": "",
+      "params": {
+        "PARAM": {
+          "type": "ConfigParameter"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "x",
+              "affectedBy",
+              "$PARAM"
+            ]
+          }
+        ],
+        "select": [
+          "x.label",
+          "x.type"
+        ]
+      },
+      "gate": "any"
+    },
+    "FL17": {
+      "who": "anyone changing an artifact",
+      "question": "If the structure of $ARTIFACT changes, who writes it and who reads it?",
+      "why": "CQ17. Writers and readers are who must change together.",
+      "validated_by": "",
+      "params": {
+        "ARTIFACT": {
+          "type": "Artifact"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "s",
+              "reads|readsOptional|writes",
+              "$ARTIFACT"
+            ]
+          }
+        ],
+        "select": [
+          "s.stepId",
+          "s.type"
+        ]
+      },
+      "gate": "any"
+    },
+    "FL18": {
+      "who": "a builder",
+      "question": "Which phase is $STEP in, and which step does the phase start at?",
+      "why": "The phase is how a run is scoped; the entrypoint is where it begins.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "inPhase",
+              "ph"
+            ]
+          },
+          {
+            "node": "ph",
+            "type": "Phase"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "ph",
+                  "entrypoint",
+                  "e"
+                ]
+              },
+              {
+                "node": "e",
+                "type": "Step"
+              }
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "fl",
+                  "hasStep",
+                  "$STEP"
+                ]
+              },
+              {
+                "node": "fl",
+                "type": "Flow"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "ph.label",
+          "e.stepId",
+          "fl.label",
+          "fl.value"
+        ]
+      },
+      "gate": "any"
+    },
+    "FL19": {
+      "who": "an engine builder",
+      "question": "Which effects does transition $TRANSITION apply to run state, and which artifact produced by which step does a step read?",
+      "why": "Effects and provenance: what a transition changes, and where an artifact comes from.",
+      "validated_by": "",
+      "params": {
+        "TRANSITION": {
+          "type": "Transition"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "node": "$TRANSITION",
+            "type": "Transition"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$TRANSITION",
+                  "hasEffect",
+                  "ef"
+                ]
+              },
+              {
+                "node": "ef",
+                "type": "Effect"
+              }
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "a",
+                  "outputOf",
+                  "s"
+                ]
+              },
+              {
+                "node": "a",
+                "type": "Artifact"
+              },
+              {
+                "node": "s",
+                "type": "Step"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "ef.op",
+          "ef.statePath",
+          "a.label",
+          "s.stepId"
+        ]
+      },
+      "gate": "any"
+    },
+    "FL20": {
+      "who": "a builder",
+      "question": "Which prompt, at which version, with which output schema and write scope does Claude step $CLAUDE run with?",
+      "why": "A Claude step is a versioned prompt with a required output schema and a write scope; the cache key and the scope check come from these.",
+      "validated_by": "",
+      "params": {
+        "CLAUDE": {
+          "type": "ClaudeStep"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "node": "$CLAUDE",
+            "type": "ClaudeStep"
+          }
+        ],
+        "select": [
+          "$CLAUDE.promptRef",
+          "$CLAUDE.promptVersion",
+          "$CLAUDE.outputSchema",
+          "$CLAUDE.writesOnly"
+        ]
+      },
+      "gate": "non_empty"
+    },
+    "FL21": {
+      "who": "a test writer",
+      "question": "What does test obligation $TEST exercise: which check, transition or invariant?",
+      "why": "A test obligation names what it proves; the test writer cites it.",
+      "validated_by": "",
+      "params": {
+        "TEST": {
+          "type": "TestObligation"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$TEST",
+              "tests",
+              "x"
+            ]
+          }
+        ],
+        "select": [
+          "x.label",
+          "x.type",
+          "$TEST.obligationKind"
+        ]
+      },
+      "gate": "non_empty"
+    }
+  }
+}

@@ -1,0 +1,749 @@
+{
+  "_about": "A three-step flow, invented, so the unit builds and answers on its own. Replace it.",
+  "nodes": [
+    {
+      "id": "flow.sample",
+      "type": "Flow",
+      "label": "Sample flow",
+      "summary": "Extract, check, review, done.",
+      "attributes": {
+        "value": "1.0.0"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "phase.build",
+      "type": "Phase",
+      "label": "Build",
+      "summary": "Build",
+      "attributes": {},
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "param.min_rows",
+      "type": "ConfigParameter",
+      "label": "min_rows",
+      "summary": "The smallest table the extractor may accept.",
+      "attributes": {
+        "paramName": "min_rows",
+        "value": "3",
+        "sourceRef": "flow.json#/config/min_rows"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "step.s1_extract",
+      "type": "DeterministicStep",
+      "label": "Extract the table",
+      "summary": "Reads the source and writes the rows as JSON.",
+      "attributes": {
+        "stepId": "S1_extract",
+        "isImplemented": true,
+        "command": "python {skill_dir}/steps/extract.py --run-dir {run_dir}",
+        "sourceRef": "flow.json#/nodes/S1_extract"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "impl.steps-extract-py",
+      "type": "Implementation",
+      "label": "steps/extract.py",
+      "summary": "The extractor.",
+      "attributes": {
+        "path": "{skill_dir}/steps/extract.py",
+        "exists": true
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "step.s2_review",
+      "type": "HumanStep",
+      "label": "Review the rows",
+      "summary": "A person confirms the rows.",
+      "attributes": {
+        "stepId": "S2_review",
+        "isImplemented": false,
+        "reviewPage": "{run_dir}/review/S2_review.html",
+        "decisionOption": [
+          "approve",
+          "reject"
+        ],
+        "requiredField": [
+          "reviewer",
+          "decision"
+        ],
+        "sourceRef": "flow.json#/nodes/S2_review"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "step.end_done",
+      "type": "TerminalStep",
+      "label": "Done",
+      "summary": "The rows are accepted.",
+      "attributes": {
+        "stepId": "END_done",
+        "sourceRef": "flow.json#/nodes/END_done"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "artifact.source",
+      "type": "Artifact",
+      "label": "source",
+      "summary": "The source document.",
+      "attributes": {
+        "path": "{inputs.source}",
+        "format": "pdf",
+        "carries": [
+          "Document"
+        ],
+        "sourceRef": "flow.json#/artifacts/source"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "artifact.rows",
+      "type": "Artifact",
+      "label": "rows",
+      "summary": "The extracted rows.",
+      "attributes": {
+        "path": "{run_dir}/rows.json",
+        "format": "json",
+        "carries": [
+          "Document"
+        ],
+        "sourceRef": "flow.json#/artifacts/rows"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "field.rows.0",
+      "type": "ArtifactField",
+      "label": "rows[].cells",
+      "summary": "rows[].cells",
+      "attributes": {
+        "fieldPath": "rows[].cells"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "metric.s1_extract.row_count",
+      "type": "Metric",
+      "label": "row_count",
+      "summary": "row_count",
+      "attributes": {
+        "metricName": "row_count"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "check.s1_extract.enough_rows",
+      "type": "Check",
+      "label": "enough_rows",
+      "summary": "At least min_rows rows were found.",
+      "attributes": {
+        "checkId": "enough_rows",
+        "checkKind": "metric",
+        "expression": "metrics.row_count >= config.min_rows",
+        "blocking": "true",
+        "readsStatePath": [
+          "state.nodes.S1_extract.metrics.row_count"
+        ]
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "outcome.s1_extract.pass",
+      "type": "Outcome",
+      "label": "pass",
+      "summary": "Rows found.",
+      "attributes": {
+        "outcomeName": "pass"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "outcome.s1_extract.fail",
+      "type": "Outcome",
+      "label": "fail",
+      "summary": "Too few rows.",
+      "attributes": {
+        "outcomeName": "fail"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "outcome.s2_review.approve",
+      "type": "Outcome",
+      "label": "approve",
+      "summary": "The reviewer approved.",
+      "attributes": {
+        "outcomeName": "approve"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "outcome.s2_review.reject",
+      "type": "Outcome",
+      "label": "reject",
+      "summary": "The reviewer rejected.",
+      "attributes": {
+        "outcomeName": "reject"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "transition.e1",
+      "type": "Transition",
+      "label": "e1: S1_extract on pass",
+      "summary": "Rows go to review.",
+      "attributes": {
+        "priority": 0,
+        "sourceRef": "flow.json#/edges/e1"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "transition.e2",
+      "type": "Transition",
+      "label": "e2: S1_extract on fail",
+      "summary": "Retry while attempts remain.",
+      "attributes": {
+        "priority": 1,
+        "guard": "state.counters.attempts < config.min_rows",
+        "readsStatePath": [
+          "state.counters.attempts"
+        ],
+        "sourceRef": "flow.json#/edges/e2"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "effect.e2.0",
+      "type": "Effect",
+      "label": "increment counters.attempts",
+      "summary": "increment counters.attempts",
+      "attributes": {
+        "op": "increment",
+        "statePath": "state.counters.attempts"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "transition.e3",
+      "type": "Transition",
+      "label": "e3: S2_review on approve",
+      "summary": "Approved rows end the flow.",
+      "attributes": {
+        "priority": 0,
+        "sourceRef": "flow.json#/edges/e3"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "transition.e4",
+      "type": "Transition",
+      "label": "e4: S2_review on reject",
+      "summary": "Rejected rows are extracted again.",
+      "attributes": {
+        "priority": 0,
+        "sourceRef": "flow.json#/edges/e4"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "invariant.inv1",
+      "type": "Invariant",
+      "label": "INV1",
+      "summary": "Every extracted row has as many cells as the header.",
+      "attributes": {
+        "statement": "Every extracted row has as many cells as the header.",
+        "concerns": [
+          "Document"
+        ]
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "test.s1_extract.enough_rows.pass",
+      "type": "TestObligation",
+      "label": "Fixture where 'enough_rows' holds -> check passes",
+      "summary": "Fixture where 'enough_rows' holds -> check passes",
+      "attributes": {
+        "obligationKind": "pass_case"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "test.s1_extract.enough_rows.fail",
+      "type": "TestObligation",
+      "label": "Fixture where 'enough_rows' is violated -> outcome 'fail'",
+      "summary": "Fixture where 'enough_rows' is violated -> outcome 'fail'",
+      "attributes": {
+        "obligationKind": "fail_case"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "test.e1.route",
+      "type": "TestObligation",
+      "label": "Outcome 'pass' -> engine moves to S2_review",
+      "summary": "Outcome 'pass' -> engine moves to S2_review",
+      "attributes": {
+        "obligationKind": "route"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    },
+    {
+      "id": "test.inv1.s1_extract",
+      "type": "TestObligation",
+      "label": "Property test: every extracted row has as many cells as the header.",
+      "summary": "Property test: every extracted row has as many cells as the header.",
+      "attributes": {
+        "obligationKind": "property"
+      },
+      "status": "current",
+      "as_of": "2026-10-07",
+      "valid_from": "2026-10-07",
+      "source_doc": "sample",
+      "sources": [
+        "sample"
+      ],
+      "aliases": [],
+      "tags": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "flow.sample",
+      "rel": "hasStep",
+      "to": "step.s1_extract"
+    },
+    {
+      "from": "step.s1_extract",
+      "rel": "inPhase",
+      "to": "phase.build"
+    },
+    {
+      "from": "flow.sample",
+      "rel": "hasStep",
+      "to": "step.s2_review"
+    },
+    {
+      "from": "step.s2_review",
+      "rel": "inPhase",
+      "to": "phase.build"
+    },
+    {
+      "from": "flow.sample",
+      "rel": "hasStep",
+      "to": "step.end_done"
+    },
+    {
+      "from": "step.end_done",
+      "rel": "inPhase",
+      "to": "phase.build"
+    },
+    {
+      "from": "phase.build",
+      "rel": "entrypoint",
+      "to": "step.s1_extract"
+    },
+    {
+      "from": "step.s1_extract",
+      "rel": "reads",
+      "to": "artifact.source"
+    },
+    {
+      "from": "step.s1_extract",
+      "rel": "writes",
+      "to": "artifact.rows"
+    },
+    {
+      "from": "artifact.rows",
+      "rel": "outputOf",
+      "to": "step.s1_extract"
+    },
+    {
+      "from": "artifact.rows",
+      "rel": "hasArtifactField",
+      "to": "field.rows.0"
+    },
+    {
+      "from": "step.s2_review",
+      "rel": "readsOptional",
+      "to": "artifact.rows"
+    },
+    {
+      "from": "step.s1_extract",
+      "rel": "records",
+      "to": "metric.s1_extract.row_count"
+    },
+    {
+      "from": "step.s1_extract",
+      "rel": "hasCheck",
+      "to": "check.s1_extract.enough_rows"
+    },
+    {
+      "from": "check.s1_extract.enough_rows",
+      "rel": "measures",
+      "to": "metric.s1_extract.row_count"
+    },
+    {
+      "from": "check.s1_extract.enough_rows",
+      "rel": "comparedTo",
+      "to": "param.min_rows"
+    },
+    {
+      "from": "check.s1_extract.enough_rows",
+      "rel": "onFail",
+      "to": "outcome.s1_extract.fail"
+    },
+    {
+      "from": "step.s1_extract",
+      "rel": "hasOutcome",
+      "to": "outcome.s1_extract.pass"
+    },
+    {
+      "from": "step.s1_extract",
+      "rel": "hasOutcome",
+      "to": "outcome.s1_extract.fail"
+    },
+    {
+      "from": "step.s2_review",
+      "rel": "hasOutcome",
+      "to": "outcome.s2_review.approve"
+    },
+    {
+      "from": "step.s2_review",
+      "rel": "hasOutcome",
+      "to": "outcome.s2_review.reject"
+    },
+    {
+      "from": "step.s1_extract",
+      "rel": "implementedBy",
+      "to": "impl.steps-extract-py"
+    },
+    {
+      "from": "step.s1_extract",
+      "rel": "usesParameter",
+      "to": "param.min_rows"
+    },
+    {
+      "from": "transition.e1",
+      "rel": "from",
+      "to": "step.s1_extract"
+    },
+    {
+      "from": "transition.e1",
+      "rel": "onOutcome",
+      "to": "outcome.s1_extract.pass"
+    },
+    {
+      "from": "transition.e1",
+      "rel": "to",
+      "to": "step.s2_review"
+    },
+    {
+      "from": "transition.e2",
+      "rel": "from",
+      "to": "step.s1_extract"
+    },
+    {
+      "from": "transition.e2",
+      "rel": "onOutcome",
+      "to": "outcome.s1_extract.fail"
+    },
+    {
+      "from": "transition.e2",
+      "rel": "to",
+      "to": "step.s1_extract"
+    },
+    {
+      "from": "transition.e2",
+      "rel": "usesParameter",
+      "to": "param.min_rows"
+    },
+    {
+      "from": "transition.e2",
+      "rel": "hasEffect",
+      "to": "effect.e2.0"
+    },
+    {
+      "from": "transition.e3",
+      "rel": "from",
+      "to": "step.s2_review"
+    },
+    {
+      "from": "transition.e3",
+      "rel": "onOutcome",
+      "to": "outcome.s2_review.approve"
+    },
+    {
+      "from": "transition.e3",
+      "rel": "to",
+      "to": "step.end_done"
+    },
+    {
+      "from": "transition.e4",
+      "rel": "from",
+      "to": "step.s2_review"
+    },
+    {
+      "from": "transition.e4",
+      "rel": "onOutcome",
+      "to": "outcome.s2_review.reject"
+    },
+    {
+      "from": "transition.e4",
+      "rel": "to",
+      "to": "step.s1_extract"
+    },
+    {
+      "from": "invariant.inv1",
+      "rel": "enforcedBy",
+      "to": "check.s1_extract.enough_rows"
+    },
+    {
+      "from": "test.s1_extract.enough_rows.pass",
+      "rel": "tests",
+      "to": "check.s1_extract.enough_rows"
+    },
+    {
+      "from": "test.s1_extract.enough_rows.pass",
+      "rel": "forStep",
+      "to": "step.s1_extract"
+    },
+    {
+      "from": "test.s1_extract.enough_rows.fail",
+      "rel": "tests",
+      "to": "check.s1_extract.enough_rows"
+    },
+    {
+      "from": "test.s1_extract.enough_rows.fail",
+      "rel": "forStep",
+      "to": "step.s1_extract"
+    },
+    {
+      "from": "test.e1.route",
+      "rel": "tests",
+      "to": "transition.e1"
+    },
+    {
+      "from": "test.e1.route",
+      "rel": "forStep",
+      "to": "step.s1_extract"
+    },
+    {
+      "from": "test.inv1.s1_extract",
+      "rel": "tests",
+      "to": "invariant.inv1"
+    },
+    {
+      "from": "test.inv1.s1_extract",
+      "rel": "forStep",
+      "to": "step.s1_extract"
+    }
+  ]
+}
