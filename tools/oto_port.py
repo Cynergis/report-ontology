@@ -430,9 +430,6 @@ RULES = [
 
 #: Constraints of report-shapes.ttl that neither a count nor a rule can hold; listed in the README.
 NOT_PORTED = [
-    "sh:minLength 8 on FieldMeaning.definition, sh:minLength 20 on ReportType.purpose",
-    "sh:pattern on Approval.reviewer and Revision.changedBy (no placeholder), SourceDocument.sha256 (64 hex), Schedule.runOn, PublishPolicy.pathPattern ({template_id})",
-    "sh:minInclusive / sh:maxInclusive on VerificationPolicy.goldenStaticSsimMin (0.9), ApprovalPolicy.sampleRate (0..1) and sampleMin (1), ObservabilityPolicy.deliverWithinHours (1) and maxFailureRate (0..1)",
     "the frozen-release contract as one disjunction (schedule, policies, parameters, engine/ontology/library versions): ported as separate policies for the schedule and the observability policy only",
 ]
 
@@ -488,6 +485,12 @@ remains the SPARQL form of the same questions for its own tooling.
 `sample.graph.json` is the fund-profile-balanced fixture, an invented report type, compiled from
 `fixtures/fund-profile-balanced/semantic/` and converted. It answers every question it must.
 Replace it with your own report types once the catalogue is yours.
+
+## What the port holds since OTO 0.10.0
+
+The value constraints of `report-shapes.ttl` (`sh:pattern`, `sh:minInclusive`, `sh:maxInclusive`,
+`sh:minLength`) are held by the engine as `pattern`, `min_value`, `max_value` and `min_length` on
+the attribute, evaluated at every gate and written back as the same SHACL.
 
 ## What the port could not hold
 

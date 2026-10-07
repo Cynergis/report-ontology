@@ -277,13 +277,16 @@
       "deliverWithinHours": {
         "type": "integer",
         "definition": "The delivery deadline: hours after the scheduled start by which every approved document must be published. A run that misses it raises an alert.",
-        "required": true
+        "required": true,
+        "min_value": 1
       },
       "maxFailureRate": {
         "type": "number",
         "definition": "Share of a batch's documents, between 0 and 1, that may fail verification before the run raises an alert.",
         "label": "maximum failure rate",
-        "required": true
+        "required": true,
+        "min_value": 0,
+        "max_value": 1
       },
       "runLog": {
         "type": "string",
@@ -365,7 +368,8 @@
       "runOn": {
         "type": "string",
         "definition": "The day within the cadence on which the run starts: business_day:N | calendar_day:N | weekday:N | on_demand.",
-        "required": true
+        "required": true,
+        "pattern": "^(business_day:[0-9]{1,2}|calendar_day:[0-9]{1,2}|weekday:[1-7]|on_demand)$"
       },
       "timezone": {
         "type": "string",
@@ -446,7 +450,8 @@
       "reviewer": {
         "type": "string",
         "definition": "The person who took the decision.",
-        "required": true
+        "required": true,
+        "pattern": "^[^<]"
       }
     },
     "StatusChange": {
@@ -458,7 +463,8 @@
       "changedBy": {
         "type": "string",
         "definition": "",
-        "required": true
+        "required": true,
+        "pattern": "^[^<]"
       },
       "lifecycleStatus": {
         "type": "enum:inception|saved|in_validation|in_production",
@@ -484,7 +490,8 @@
       "changedBy": {
         "type": "string",
         "definition": "",
-        "required": true
+        "required": true,
+        "pattern": "^[^<]"
       },
       "effectiveFrom": {
         "type": "string",
@@ -543,7 +550,8 @@
       "purpose": {
         "type": "string",
         "definition": "",
-        "required": true
+        "required": true,
+        "min_length": 20
       },
       "reportId": {
         "type": "string",
@@ -610,7 +618,8 @@
       "definition": {
         "type": "string",
         "definition": "",
-        "required": true
+        "required": true,
+        "min_length": 8
       },
       "label": {
         "type": "string",
@@ -661,7 +670,8 @@
         "type": "number",
         "definition": "Lowest accepted similarity between the static regions of a produced document and the golden image; below it the document fails.",
         "label": "golden static SSIM minimum",
-        "required": true
+        "required": true,
+        "min_value": 0.9
       },
       "overflowBlocking": {
         "type": "boolean",
@@ -682,12 +692,15 @@
         "type": "integer",
         "definition": "Smallest number of documents shown to the reviewer, whatever the sample rate gives.",
         "label": "sample minimum",
-        "required": true
+        "required": true,
+        "min_value": 1
       },
       "sampleRate": {
         "type": "number",
         "definition": "Share of a batch's documents shown to the reviewer, between 0 and 1.",
-        "required": true
+        "required": true,
+        "min_value": 0,
+        "max_value": 1
       }
     },
     "SourceDocument": {
@@ -720,7 +733,8 @@
       "sha256": {
         "type": "list",
         "definition": "",
-        "required": true
+        "required": true,
+        "pattern": "^[0-9a-f]{64}$"
       }
     },
     "UniverseQuery": {
@@ -758,7 +772,8 @@
       "pathPattern": {
         "type": "string",
         "definition": "Destination path of a published document, as a pattern over the parameters and {template_id}.",
-        "required": true
+        "required": true,
+        "pattern": "\\{template_id\\}"
       },
       "publishFormat": {
         "type": "list",
