@@ -15,13 +15,13 @@
     },
     "ClaudeStep": {
       "question": "Which artifacts does $STEP read and write, where, in what format?",
-      "why": "Needed by FL2, FL12, FL20: without it the graph cannot answer FL2.",
+      "why": "Needed by FL2, FL12, FL20, FL21: without it the graph cannot answer FL2.",
       "alternatives": "",
       "validated_by": ""
     },
     "DeterministicStep": {
       "question": "Which artifacts does $STEP read and write, where, in what format?",
-      "why": "Needed by FL2, FL12: without it the graph cannot answer FL2.",
+      "why": "Needed by FL2, FL12, FL21: without it the graph cannot answer FL2.",
       "alternatives": "",
       "validated_by": ""
     },
@@ -63,7 +63,7 @@
     },
     "OcrStep": {
       "question": "Which artifacts does $STEP read and write, where, in what format?",
-      "why": "Needed by FL2, FL12: without it the graph cannot answer FL2.",
+      "why": "Needed by FL2, FL12, FL21: without it the graph cannot answer FL2.",
       "alternatives": "",
       "validated_by": ""
     },
@@ -92,8 +92,8 @@
       "validated_by": ""
     },
     "TestObligation": {
-      "question": "Which tests must exist for $STEP, derived mechanically from its checks, transitions and invariants?",
-      "why": "Needed by FL12, FL21: without it the graph cannot answer FL12.",
+      "question": "Which test obligations are recorded for $STEP, of what kind, exercising what?",
+      "why": "Needed by FL21: without it the graph cannot answer FL21.",
       "alternatives": "",
       "validated_by": ""
     },

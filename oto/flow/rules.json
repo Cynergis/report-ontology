@@ -189,6 +189,87 @@
       "validated_by": ""
     },
     {
+      "id": "step-requires-test-of-check",
+      "kind": "derive",
+      "when": [
+        {
+          "edge": [
+            "s",
+            "hasCheck",
+            "c"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "s",
+          "requiresTest",
+          "c"
+        ]
+      },
+      "why": "Every check needs a pass case and a fail case before the step's implementation is accepted (CQ12).",
+      "validated_by": ""
+    },
+    {
+      "id": "step-requires-test-of-transition",
+      "kind": "derive",
+      "when": [
+        {
+          "edge": [
+            "t",
+            "from",
+            "s"
+          ]
+        },
+        {
+          "node": "t",
+          "type": "Transition"
+        }
+      ],
+      "then": {
+        "edge": [
+          "s",
+          "requiresTest",
+          "t"
+        ]
+      },
+      "why": "Every transition from the step needs a route test: given the outcome and the guard, the engine goes to the target (CQ12).",
+      "validated_by": ""
+    },
+    {
+      "id": "step-requires-test-of-invariant",
+      "kind": "derive",
+      "when": [
+        {
+          "edge": [
+            "s",
+            "hasCheck",
+            "c"
+          ]
+        },
+        {
+          "edge": [
+            "inv",
+            "enforcedBy",
+            "c"
+          ]
+        },
+        {
+          "node": "inv",
+          "type": "Invariant"
+        }
+      ],
+      "then": {
+        "edge": [
+          "s",
+          "requiresTest",
+          "inv"
+        ]
+      },
+      "why": "An invariant a step's check enforces needs a property test on that step (CQ12).",
+      "validated_by": ""
+    },
+    {
       "id": "artifact-read-by-step",
       "kind": "derive",
       "when": [

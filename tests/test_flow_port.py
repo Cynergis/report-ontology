@@ -43,7 +43,7 @@ KGCTL_READINESS = {
 #: The original's question ids, by the port's.
 CQ = {"FL%d" % i: "CQ%02d" % i for i in range(1, 18)}
 #: Questions whose rows the two sides count alike (the port's FL10 lists the concepts of an artifact in one row).
-COUNTED = ["FL1", "FL2", "FL3", "FL4", "FL5", "FL6", "FL7", "FL8", "FL9", "FL11", "FL12"]
+COUNTED = ["FL1", "FL2", "FL3", "FL4", "FL5", "FL6", "FL7", "FL8", "FL9", "FL11"]
 
 
 @pytest.fixture(scope="module")
@@ -108,8 +108,10 @@ def test_every_brief_question_answers_with_as_many_facts_as_the_original(ported)
     assert engine["status"] == "READY" and [r["id"] for r in engine["questions"]] == ["FL13", "FL14", "FL15"]
     assert all(r["rows"] for r in engine["questions"])
     tests = _run_brief(ported, "write-tests", {"STEP": _steps(ported)["B10_verify"]})
-    kinds = sorted({row["t.obligationKind"] for r in tests["questions"] if r["id"] == "FL12" for row in r["rows"]})
-    assert kinds == ["fail_case", "pass_case", "property", "route"]
+    exercised = sorted({row["x.type"] for r in tests["questions"] if r["id"] == "FL12" for row in r["rows"]})
+    assert exercised == ["Check", "Invariant", "Transition"], "a test of every check, transition and enforced invariant"
+    kinds = sorted({row["t.obligationKind"] for r in tests["questions"] if r["id"] == "FL21" for row in r["rows"]})
+    assert kinds == ["fail_case", "pass_case", "property", "route"], "the materialised obligations, with ids to cite"
 
 
 @pytest.mark.skipif(not FLOW_ROOT, reason="the flow instance (FLOW_ROOT) is needed to run kgctl itself")
@@ -133,6 +135,9 @@ def test_kgctl_itself_agrees_on_every_step_task_parameter_and_artifact(ported):
                     # CQ02 lists an artifact once per direction; the port once (B11_repair reads and writes template_project)
                     expected = len({row["artifact"] for row in q["answer"]}) if q["id"] == "CQ02" else len(q["answer"])
                     assert len(next(r for r in mine["questions"] if r["id"] == fl)["rows"]) == expected, (step_id, task, q["id"])
+                if q["id"] == "CQ12":
+                    # FL12 lists what a test must exercise (a check once); FL21 the materialised obligations (a check twice)
+                    assert len(next(r for r in mine["questions"] if r["id"] == "FL21")["rows"]) == len(q["answer"]), (step_id, task, q["id"])
     # a parameter change reaches the same elements; an artifact change the same steps
     for n in ported["nodes"]:
         if n["type"] == "ConfigParameter":

@@ -35,7 +35,8 @@
       ],
       "optional": [
         "FL7",
-        "FL3"
+        "FL3",
+        "FL21"
       ]
     },
     "build-engine": {

@@ -668,19 +668,15 @@
         "when": [
           {
             "edge": [
-              "t",
-              "forStep",
-              "$STEP"
+              "$STEP",
+              "requiresTest",
+              "x"
             ]
-          },
-          {
-            "node": "t",
-            "type": "TestObligation"
           }
         ],
         "select": [
-          "t.obligationKind",
-          "t.label"
+          "x.label",
+          "x.type"
         ]
       },
       "gate": "non_empty",
@@ -688,13 +684,13 @@
         "when": [
           {
             "not_edge": [
-              "*",
-              "forStep",
-              "$STEP"
+              "$STEP",
+              "requiresTest",
+              "*"
             ]
           }
         ],
-        "say": "no test obligation: the step has no check, transition or invariant"
+        "say": "no test to write: the step has no check, no transition and enforces no invariant"
       }
     },
     "FL13": {
@@ -1012,31 +1008,43 @@
     },
     "FL21": {
       "who": "a test writer",
-      "question": "What does test obligation $TEST exercise: which check, transition or invariant?",
-      "why": "A test obligation names what it proves; the test writer cites it.",
+      "question": "Which test obligations are recorded for $STEP, of what kind, exercising what?",
+      "why": "The obligations materialised with an id code can cite (the port derives them as derive_tests.rq did); FL12 is the same fact derived from the step itself.",
       "validated_by": "",
       "params": {
-        "TEST": {
-          "type": "TestObligation"
+        "STEP": {
+          "type": "DeterministicStep|OcrStep|ClaudeStep"
         }
       },
       "ask": {
         "when": [
           {
             "edge": [
-              "$TEST",
+              "t",
+              "forStep",
+              "$STEP"
+            ]
+          },
+          {
+            "node": "t",
+            "type": "TestObligation"
+          },
+          {
+            "edge": [
+              "t",
               "tests",
               "x"
             ]
           }
         ],
         "select": [
+          "t.obligationKind",
+          "t.label",
           "x.label",
-          "x.type",
-          "$TEST.obligationKind"
+          "x.type"
         ]
       },
-      "gate": "non_empty"
+      "gate": "any"
     }
   }
 }

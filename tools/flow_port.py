@@ -118,14 +118,24 @@ def flow_vocabulary(work):
                 spec["type"] = "list"
     # what the SPARQL joined with UNIONs, as relations the rules derive
     properties["dependsOn"] = {
+        "derived": True,
         "domain": "Step", "range": "ConfigParameter", "inverse": "dependedOnBy", "label": "depends on",
         "definition": "A configuration parameter the step's behaviour depends on: compared to by one of its checks, read by "
                       "a guard of one of its transitions, or used by its action. Derived; never stated."}
     properties["affectedBy"] = {
+        "derived": True,
         "domain": "Check|Transition|Step|TestObligation", "range": "ConfigParameter", "inverse": "affects", "label": "affected by",
         "definition": "What a change of the parameter reaches: the check compared to it, the transition whose guard reads it, "
                       "the step whose action uses it, the test of a check compared to it. Derived; never stated."}
+    properties["requiresTest"] = {
+        "derived": True,
+        "domain": "Step", "range": "Check|Transition|Invariant", "inverse": "testRequiredBy", "label": "requires a test of",
+        "definition": "What a test of the step's implementation must exercise before the implementation is accepted: each of "
+                      "its checks (a pass and a fail case), each transition from it (a route), each invariant its checks "
+                      "enforce (a property). Derived; never stated. A TestObligation node is the same fact materialised, "
+                      "with an id code can cite."}
     properties["readBy"] = {
+        "derived": True,
         "domain": "Artifact", "range": "Step", "inverse": "consumesArtifact", "label": "read by",
         "definition": "A step that reads the artifact, required or optional. Derived from reads and readsOptional, so one "
                       "question covers both."}
@@ -425,8 +435,8 @@ QUESTIONS = {
               gaps=([edge("$STEP", "hasOutcome", "o"), not_edge("*", "onOutcome", "o")], "outcome has no transition")),
     "FL12": q("a test writer", "Which tests must exist for $STEP, derived mechanically from its checks, transitions and invariants?",
               "CQ12. A pass and a fail case per check, a route per transition, a property per invariant: the tests exist before the implementation.",
-              [edge("t", "forStep", "$STEP"), node("t", "TestObligation")], ["t.obligationKind", "t.label"], gate="non_empty", params=IMPL,
-              gaps=([not_edge("*", "forStep", "$STEP")], "no test obligation: the step has no check, transition or invariant")),
+              [edge("$STEP", "requiresTest", "x")], ["x.label", "x.type"], gate="non_empty", params=IMPL,
+              gaps=([not_edge("$STEP", "requiresTest", "*")], "no test to write: the step has no check, no transition and enforces no invariant")),
     "FL13": q("an engine builder", "Which state paths and config parameters do transition guards read?",
               "CQ13. The runner must expose exactly these paths to guards.",
               [node("t", "Transition", {"guard": {"exists": True}}), optional(edge("t", "usesParameter", "p"), node("p", "ConfigParameter"))],
@@ -458,9 +468,10 @@ QUESTIONS = {
               "A Claude step is a versioned prompt with a required output schema and a write scope; the cache key and the scope check come from these.",
               [node("$CLAUDE", "ClaudeStep")], ["$CLAUDE.promptRef", "$CLAUDE.promptVersion", "$CLAUDE.outputSchema", "$CLAUDE.writesOnly"],
               gate="non_empty", params={"CLAUDE": "ClaudeStep"}),
-    "FL21": q("a test writer", "What does test obligation $TEST exercise: which check, transition or invariant?",
-              "A test obligation names what it proves; the test writer cites it.",
-              [edge("$TEST", "tests", "x")], ["x.label", "x.type", "$TEST.obligationKind"], gate="non_empty", params={"TEST": "TestObligation"}),
+    "FL21": q("a test writer", "Which test obligations are recorded for $STEP, of what kind, exercising what?",
+              "The obligations materialised with an id code can cite (the port derives them as derive_tests.rq did); FL12 is the same fact derived from the step itself.",
+              [edge("t", "forStep", "$STEP"), node("t", "TestObligation"), edge("t", "tests", "x")], ["t.obligationKind", "t.label", "x.label", "x.type"],
+              gate="any", params=IMPL),
 }
 
 RULES = [
@@ -485,6 +496,15 @@ RULES = [
     {"id": "test-affected-by-parameter", "kind": "derive",
      "when": [edge("t", "tests", "c"), edge("c", "comparedTo", "p")], "then": {"edge": ["t", "affectedBy", "p"]},
      "why": "A test of a check compared to a parameter must be revisited when the parameter changes (CQ16).", "validated_by": ""},
+    {"id": "step-requires-test-of-check", "kind": "derive",
+     "when": [edge("s", "hasCheck", "c")], "then": {"edge": ["s", "requiresTest", "c"]},
+     "why": "Every check needs a pass case and a fail case before the step's implementation is accepted (CQ12).", "validated_by": ""},
+    {"id": "step-requires-test-of-transition", "kind": "derive",
+     "when": [edge("t", "from", "s"), node("t", "Transition")], "then": {"edge": ["s", "requiresTest", "t"]},
+     "why": "Every transition from the step needs a route test: given the outcome and the guard, the engine goes to the target (CQ12).", "validated_by": ""},
+    {"id": "step-requires-test-of-invariant", "kind": "derive",
+     "when": [edge("s", "hasCheck", "c"), edge("inv", "enforcedBy", "c"), node("inv", "Invariant")], "then": {"edge": ["s", "requiresTest", "inv"]},
+     "why": "An invariant a step's check enforces needs a property test on that step (CQ12).", "validated_by": ""},
     {"id": "artifact-read-by-step", "kind": "derive",
      "when": [edge("s", "reads|readsOptional", "a")], "then": {"edge": ["a", "readBy", "s"]},
      "why": "One relation for the consumers of an artifact, required or optional (CQ09).", "validated_by": ""},
@@ -503,7 +523,7 @@ BRIEFS = {
                        "params": {"STEP": IMPLEMENTABLE},
                        "required": ["FL1", "FL2", "FL3", "FL4", "FL5", "FL6", "FL8", "FL10", "FL11"], "optional": ["FL7", "FL9", "FL18"]},
     "write-tests": {"description": "An agent writes the tests a step's implementation must pass, before the implementation exists.",
-                    "params": {"STEP": IMPLEMENTABLE}, "required": ["FL4", "FL11", "FL12"], "optional": ["FL7", "FL3"]},
+                    "params": {"STEP": IMPLEMENTABLE}, "required": ["FL4", "FL11", "FL12"], "optional": ["FL7", "FL3", "FL21"]},
     "build-engine": {"description": "An agent writes the runner that executes the flow graph (state, guards, effects, human pauses).",
                      "params": {}, "required": ["FL13", "FL14", "FL15"], "optional": []},
     "impact-parameter": {"description": "A threshold or config value is about to change: what is affected?",
@@ -637,14 +657,18 @@ of that.
   (`Artifact.carries`, `Invariant.concerns`). What a concept means is its class's definition.
 - The questions the original wrote with `UNION` read one derived relation instead: `dependsOn`
   (a step and the parameters it depends on, FL6), `affectedBy` (what a parameter change reaches,
-  FL16), `readBy` (an artifact's consumers, FL9). The rules derive them.
+  FL16), `readBy` (an artifact's consumers, FL9), `requiresTest` (what the tests of a step must
+  exercise, FL12). The rules derive them; a relation declared `derived` is never captured.
+- The engine derives edges and attributes, not nodes, so a captured flow's test obligations are
+  the `requiresTest` edges; `TestObligation` nodes with an id code can cite are what the port
+  materialises (as `derive_tests.rq` did) and FL21 reads.
 - The original's `gaps_only` gate is `no_gaps`: the answer may be empty, a gap makes it unanswered.
 - Three names the report ontology uses for other things are renamed, new IRIs and all, so a
   project composes both: `Field` is `ArtifactField` (`hasArtifactField`), `Parameter` is
   `ConfigParameter`, `producedBy` is `outputOf`. The prompt reference and the review page are
   declared on `Step`, so one question (FL8) reads the execution spec of any step.
-- Test obligations are derived by the port (as `kgctl build` derived them with SPARQL CONSTRUCT),
-  so they are nodes of the sample, cited to `derive_tests.rq`.
+- Test obligations are materialised by the port (as `kgctl build` derived them with SPARQL
+  CONSTRUCT) in the fixture graph, cited to `derive_tests.rq`.
 - Four questions were added, so every term is cited by a question that runs: FL18 (phase and
   entrypoint), FL19 (effects and provenance), FL20 (a Claude step's prompt, schema and scope),
   FL21 (what a test obligation exercises).

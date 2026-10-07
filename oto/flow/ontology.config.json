@@ -217,6 +217,7 @@
       "definition": "The step that creates the artifact."
     },
     "dependsOn": {
+      "derived": true,
       "domain": "Step",
       "range": "ConfigParameter",
       "inverse": "dependedOnBy",
@@ -224,13 +225,23 @@
       "definition": "A configuration parameter the step's behaviour depends on: compared to by one of its checks, read by a guard of one of its transitions, or used by its action. Derived; never stated."
     },
     "affectedBy": {
+      "derived": true,
       "domain": "Check|Transition|Step|TestObligation",
       "range": "ConfigParameter",
       "inverse": "affects",
       "label": "affected by",
       "definition": "What a change of the parameter reaches: the check compared to it, the transition whose guard reads it, the step whose action uses it, the test of a check compared to it. Derived; never stated."
     },
+    "requiresTest": {
+      "derived": true,
+      "domain": "Step",
+      "range": "Check|Transition|Invariant",
+      "inverse": "testRequiredBy",
+      "label": "requires a test of",
+      "definition": "What a test of the step's implementation must exercise before the implementation is accepted: each of its checks (a pass and a fail case), each transition from it (a route), each invariant its checks enforce (a property). Derived; never stated. A TestObligation node is the same fact materialised, with an id code can cite."
+    },
     "readBy": {
+      "derived": true,
       "domain": "Artifact",
       "range": "Step",
       "inverse": "consumesArtifact",
