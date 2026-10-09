@@ -15,6 +15,6 @@ jobs:
           cache: pip
       - run: pip install -r requirements-dev.txt
       # The OTO port (tests/test_oto_port.py) needs the engine: the branch that holds the questions and shapes.
-      - run: pip install "oto-kg[rdf] @ git+https://github.com/Cynergis/oto.git@semantic-layer"
+      - run: pip install "oto-kg[rdf] @ git+https://github.com/Cynergis/oto.git@main"
       # Flow checks are skipped here: the flow instance lives with its owner (set FLOW_ROOT to run them).
       - run: pytest -q
