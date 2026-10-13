@@ -587,7 +587,7 @@
     },
     {
       "from": "check.s1_extract.enough_rows",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.s1_extract.row_count"
     },
     {

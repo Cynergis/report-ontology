@@ -156,11 +156,6 @@
       "range": "Phase",
       "definition": "The phase the step belongs to (template build, production run)."
     },
-    "measures": {
-      "domain": "Check",
-      "range": "Metric",
-      "definition": "A metric the check's expression reads. The step must record it (flow:records)."
-    },
     "onFail": {
       "domain": "Check",
       "range": "Outcome",
@@ -216,6 +211,11 @@
       "range": "Step",
       "definition": "The step that creates the artifact."
     },
+    "measuresMetric": {
+      "domain": "Check",
+      "range": "Metric",
+      "definition": "A metric the check's expression reads. The step must record it (flow:records)."
+    },
     "dependsOn": {
       "derived": true,
       "domain": "Step",
@@ -239,6 +239,21 @@
       "inverse": "testRequiredBy",
       "label": "requires a test of",
       "definition": "What a test of the step's implementation must exercise before the implementation is accepted: each of its checks (a pass and a fail case), each transition from it (a route), each invariant its checks enforce (a property). Derived; never stated. A TestObligation node is the same fact materialised, with an id code can cite."
+    },
+    "waitsFor": {
+      "domain": "Step",
+      "range": "Step",
+      "inverse": "awaitedBy",
+      "label": "waits for",
+      "definition": "A step that must have finished before this one starts. A flow declared as a graph of dependencies (a pipeline, a batch) states them; several make a join, and steps that wait for the same steps may run at the same time."
+    },
+    "after": {
+      "derived": true,
+      "domain": "Step",
+      "range": "Step",
+      "inverse": "before",
+      "label": "comes after",
+      "definition": "A step this one comes after, directly or through the steps it waits for. Derived from waitsFor; never stated. A step after itself is a cycle."
     },
     "readBy": {
       "derived": true,
@@ -313,6 +328,16 @@
       "reviewPage": {
         "type": "string",
         "definition": "The page shown to the person who must decide."
+      },
+      "stepKind": {
+        "type": "string",
+        "label": "step kind",
+        "definition": "What the step does, in the vocabulary of the flow's kind (copy_to_bronze, run_gate, build_output…): the executor type says who runs it, the kind says what it is for."
+      },
+      "parallelGroup": {
+        "type": "string",
+        "label": "parallel group",
+        "definition": "A name shared by steps that may run at the same time; none of them may read or write what another writes."
       }
     },
     "HumanStep": {
@@ -445,6 +470,21 @@
       "value": {
         "type": "string",
         "definition": ""
+      },
+      "flowKind": {
+        "type": "string",
+        "label": "flow kind",
+        "definition": "The kind of flow (medallion, template-build, …): which step vocabulary and which rules apply to it, so one project holds several flows and a rule names the kind it governs."
+      },
+      "trigger": {
+        "type": "string",
+        "label": "trigger",
+        "definition": "What starts a run: on_sources_ready, scheduled, manual, or an event the flow's kind names."
+      },
+      "resumable": {
+        "type": "boolean",
+        "label": "resumable",
+        "definition": "True when a failed run resumes from the failed step instead of starting over."
       }
     },
     "ArtifactField": {
@@ -507,7 +547,7 @@
         "hasStep",
         "implementedBy",
         "inPhase",
-        "measures",
+        "measuresMetric",
         "onFail",
         "onOutcome",
         "outputOf",

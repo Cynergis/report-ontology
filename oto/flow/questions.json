@@ -189,7 +189,7 @@
               {
                 "edge": [
                   "c",
-                  "measures",
+                  "measuresMetric",
                   "m"
                 ]
               },
@@ -247,7 +247,7 @@
           {
             "not_edge": [
               "c",
-              "measures",
+              "measuresMetric",
               "*"
             ]
           }
@@ -296,7 +296,7 @@
           {
             "edge": [
               "c",
-              "measures",
+              "measuresMetric",
               "m"
             ]
           },
@@ -1042,6 +1042,100 @@
           "t.label",
           "x.label",
           "x.type"
+        ]
+      },
+      "gate": "any"
+    },
+    "FL22": {
+      "who": "an engine builder",
+      "question": "Which steps must finish before $STEP, what kind of step is it, and with which steps may it run at the same time?",
+      "why": "A flow declared as a graph of dependencies (a pipeline, a batch) is run from these: the joins, the step's kind in its flow's vocabulary, and its parallel group.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "node": "$STEP",
+            "type": "Step"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$STEP",
+                  "waitsFor",
+                  "w"
+                ]
+              },
+              {
+                "node": "w",
+                "type": "Step"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "$STEP.stepKind",
+          "$STEP.parallelGroup",
+          "w.stepId",
+          "w.stepKind"
+        ]
+      },
+      "gate": "any"
+    },
+    "FL23": {
+      "who": "anyone",
+      "question": "Which flows are declared, of which kind, started by what, and can a failed run resume?",
+      "why": "One project may hold several flows (a pipeline's batch run, a report's template build); the kind says which step vocabulary and which rules govern each.",
+      "validated_by": "",
+      "ask": {
+        "when": [
+          {
+            "node": "f",
+            "type": "Flow"
+          }
+        ],
+        "select": [
+          "f.label",
+          "f.flowKind",
+          "f.trigger",
+          "f.resumable",
+          "f.value"
+        ]
+      },
+      "gate": "any"
+    },
+    "FL24": {
+      "who": "an engine builder",
+      "question": "Which steps come before $STEP, directly or through the steps it waits for?",
+      "why": "The order a declared flow implies; a step that comes before itself is a cycle and the flow cannot run.",
+      "validated_by": "",
+      "params": {
+        "STEP": {
+          "type": "Step"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$STEP",
+              "after",
+              "w"
+            ]
+          },
+          {
+            "node": "w",
+            "type": "Step"
+          }
+        ],
+        "select": [
+          "w.stepId",
+          "w.stepKind"
         ]
       },
       "gate": "any"

@@ -13981,7 +13981,7 @@
     },
     {
       "from": "check.b00_intake.opens",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b00_intake.encrypted"
     },
     {
@@ -13996,7 +13996,7 @@
     },
     {
       "from": "check.b00_intake.has_pages",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b00_intake.page_count"
     },
     {
@@ -14106,17 +14106,17 @@
     },
     {
       "from": "check.b01_inspect.all_classified",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b01_inspect.mixed_pages"
     },
     {
       "from": "check.b01_inspect.all_classified",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b01_inspect.raster_pages"
     },
     {
       "from": "check.b01_inspect.all_classified",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b01_inspect.vector_pages"
     },
     {
@@ -14211,7 +14211,7 @@
     },
     {
       "from": "check.b02_ocr.words_found",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b02_ocr.words"
     },
     {
@@ -14226,7 +14226,7 @@
     },
     {
       "from": "check.b02_ocr.confidence",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b02_ocr.low_conf_words"
     },
     {
@@ -14381,7 +14381,7 @@
     },
     {
       "from": "check.b04_layout.regions_found",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b04_layout.regions"
     },
     {
@@ -14396,7 +14396,7 @@
     },
     {
       "from": "check.b04_layout.text_assigned",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b04_layout.unassigned_text_ratio"
     },
     {
@@ -14516,7 +14516,7 @@
     },
     {
       "from": "check.b05_decompose.regions_covered",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b05_decompose.regions_labeled"
     },
     {
@@ -14531,7 +14531,7 @@
     },
     {
       "from": "check.b05_decompose.spans_covered",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b05_decompose.span_coverage"
     },
     {
@@ -14556,7 +14556,7 @@
     },
     {
       "from": "check.b05_decompose.no_new_components",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b05_decompose.new_components"
     },
     {
@@ -14706,7 +14706,7 @@
     },
     {
       "from": "check.b07_sample_data.no_gaps",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b07_sample_data.unparsed_values"
     },
     {
@@ -14826,7 +14826,7 @@
     },
     {
       "from": "check.b08_generate.no_project_code",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b08_generate.code_files"
     },
     {
@@ -14861,7 +14861,7 @@
     },
     {
       "from": "check.b08_generate.slot_coverage",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b08_generate.slot_coverage"
     },
     {
@@ -14876,7 +14876,7 @@
     },
     {
       "from": "check.b08_generate.no_hardcoding",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b08_generate.hardcoded_values"
     },
     {
@@ -14946,7 +14946,7 @@
     },
     {
       "from": "check.b09_render.rendered",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b09_render.exit_code"
     },
     {
@@ -14961,7 +14961,7 @@
     },
     {
       "from": "check.b09_render.page_count",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b09_render.pages_rendered"
     },
     {
@@ -15061,7 +15061,7 @@
     },
     {
       "from": "check.b10_verify.overflow",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b10_verify.overflow_count"
     },
     {
@@ -15076,7 +15076,7 @@
     },
     {
       "from": "check.b10_verify.fidelity",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b10_verify.fidelity_missing"
     },
     {
@@ -15091,7 +15091,7 @@
     },
     {
       "from": "check.b10_verify.visibility",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b10_verify.visibility_missing"
     },
     {
@@ -15106,7 +15106,7 @@
     },
     {
       "from": "check.b10_verify.similarity",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b10_verify.region_ssim_min"
     },
     {
@@ -15131,7 +15131,7 @@
     },
     {
       "from": "check.b10_verify.style",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b10_verify.style_deviations"
     },
     {
@@ -15336,7 +15336,7 @@
     },
     {
       "from": "check.b13_stress_data.coverage",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b13_stress_data.categories_covered"
     },
     {
@@ -15356,7 +15356,7 @@
     },
     {
       "from": "check.b13_stress_data.deterministic",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b13_stress_data.regen_identical"
     },
     {
@@ -15421,7 +15421,7 @@
     },
     {
       "from": "check.b14_stress_verify.all_pass",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b14_stress_verify.cases_failed"
     },
     {
@@ -15591,7 +15591,7 @@
     },
     {
       "from": "check.b16_freeze.unchanged_since_signoff",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b16_freeze.template_hash"
     },
     {
@@ -15606,7 +15606,7 @@
     },
     {
       "from": "check.b16_freeze.fonts_resolved",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b16_freeze.fonts_unresolved"
     },
     {
@@ -15621,7 +15621,7 @@
     },
     {
       "from": "check.b16_freeze.fonts_loaded",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b16_freeze.fonts_not_loaded"
     },
     {
@@ -15636,12 +15636,12 @@
     },
     {
       "from": "check.b16_freeze.reference_kind",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b16_freeze.reference_kind"
     },
     {
       "from": "check.b16_freeze.reference_kind",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.b16_freeze.waiver_present"
     },
     {
@@ -15791,7 +15791,7 @@
     },
     {
       "from": "check.r00_load_batch.engine_version",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.r00_load_batch.engine_version_match"
     },
     {
@@ -15806,12 +15806,12 @@
     },
     {
       "from": "check.r00_load_batch.all_loaded",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.r00_load_batch.documents"
     },
     {
       "from": "check.r00_load_batch.all_loaded",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.r00_load_batch.loaded"
     },
     {
@@ -15981,7 +15981,7 @@
     },
     {
       "from": "check.r03_verify.overflow",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.r03_verify.overflow_count"
     },
     {
@@ -15996,7 +15996,7 @@
     },
     {
       "from": "check.r03_verify.fidelity",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.r03_verify.fidelity_missing"
     },
     {
@@ -16011,7 +16011,7 @@
     },
     {
       "from": "check.r03_verify.visibility",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.r03_verify.visibility_missing"
     },
     {
@@ -16026,7 +16026,7 @@
     },
     {
       "from": "check.r03_verify.static_stable",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.r03_verify.static_ssim_min"
     },
     {
@@ -16141,12 +16141,12 @@
     },
     {
       "from": "check.r06_publish.all_published",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.r06_publish.approved"
     },
     {
       "from": "check.r06_publish.all_published",
-      "rel": "measures",
+      "rel": "measuresMetric",
       "to": "metric.r06_publish.published"
     },
     {

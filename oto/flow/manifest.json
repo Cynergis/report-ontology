@@ -1,6 +1,6 @@
 {
   "name": "flow",
-  "release": 1,
+  "release": 2,
   "domain": "software",
   "summary": "Executable process graphs: steps with typed executors (script, OCR, Claude, human, terminal), gated by checks against metrics and parameters, connected by guarded transitions with effects, exchanging artifacts with fields; invariants and the tests derived from them. The briefs an agent reads before implementing or testing a step, building the engine, or changing a parameter or an artifact.",
   "extends": [
@@ -19,6 +19,11 @@
   ],
   "maintainer": "Cynergis AI",
   "changelog": [
+    {
+      "release": 2,
+      "at": "2026-10-13",
+      "note": "A flow declared as dependencies: waitsFor (joins), the derived after, Step.stepKind and parallelGroup, Flow.flowKind, trigger and resumable; FL22-FL24; three policies (a step comes after the writer of what it reads, a parallel group shares no written artifact, no cycle of waits). measures is renamed measuresMetric, so a project composes flow with product."
+    },
     {
       "release": 1,
       "at": "2026-10-07",

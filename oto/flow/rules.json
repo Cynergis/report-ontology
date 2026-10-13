@@ -1,5 +1,5 @@
 {
-  "_about": "The relations the original's questions joined with UNION, derived; two policies naming the question each protects.",
+  "_about": "The relations the original's questions joined with UNION, and the order a declared flow implies, derived; the policies name the question each protects.",
   "rules": [
     {
       "id": "step-depends-on-checked-parameter",
@@ -292,6 +292,57 @@
       "validated_by": ""
     },
     {
+      "id": "step-after-the-steps-it-waits-for",
+      "kind": "derive",
+      "when": [
+        {
+          "edge": [
+            "s",
+            "waitsFor",
+            "w"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "s",
+          "after",
+          "w"
+        ]
+      },
+      "why": "A step comes after every step it waits for (FL24).",
+      "validated_by": ""
+    },
+    {
+      "id": "step-after-transitively",
+      "kind": "derive",
+      "when": [
+        {
+          "edge": [
+            "s",
+            "after",
+            "x"
+          ]
+        },
+        {
+          "edge": [
+            "x",
+            "after",
+            "w"
+          ]
+        }
+      ],
+      "then": {
+        "edge": [
+          "s",
+          "after",
+          "w"
+        ]
+      },
+      "why": "Waiting is transitive: what a step waits for has finished what it waited for (FL24).",
+      "validated_by": ""
+    },
+    {
       "id": "implemented-step-has-its-script",
       "kind": "policy",
       "severity": "blocking",
@@ -355,6 +406,154 @@
       "why": "Outcomes are the only thing transitions branch on.",
       "validated_by": "",
       "answers": "FL11"
+    },
+    {
+      "id": "step-waits-for-the-writer-of-what-it-reads",
+      "kind": "policy",
+      "severity": "blocking",
+      "when": [
+        {
+          "edge": [
+            "f",
+            "hasStep",
+            "s"
+          ]
+        },
+        {
+          "edge": [
+            "f",
+            "hasStep",
+            "x"
+          ]
+        },
+        {
+          "edge": [
+            "x",
+            "waitsFor",
+            "*"
+          ]
+        },
+        {
+          "edge": [
+            "s",
+            "reads",
+            "a"
+          ]
+        },
+        {
+          "edge": [
+            "w",
+            "writes",
+            "a"
+          ]
+        },
+        {
+          "edge": [
+            "f",
+            "hasStep",
+            "w"
+          ]
+        },
+        {
+          "node": "w",
+          "type": "Step",
+          "where": {
+            "id": {
+              "!=": "$s"
+            }
+          }
+        },
+        {
+          "not_edge": [
+            "s",
+            "after",
+            "w"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "the step reads an artifact another step of its flow writes, and does not come after it"
+      },
+      "why": "In a flow declared as dependencies, a step that reads what another writes must wait for it, directly or through others; otherwise it may run on what is not there yet.",
+      "validated_by": "",
+      "answers": "FL22"
+    },
+    {
+      "id": "parallel-steps-share-no-artifact",
+      "kind": "policy",
+      "severity": "blocking",
+      "when": [
+        {
+          "node": "s",
+          "type": "Step",
+          "where": {
+            "parallelGroup": {
+              "exists": true
+            }
+          }
+        },
+        {
+          "node": "t",
+          "type": "Step",
+          "where": {
+            "parallelGroup": "$s.parallelGroup",
+            "id": {
+              "!=": "$s"
+            }
+          }
+        },
+        {
+          "edge": [
+            "s",
+            "writes",
+            "a"
+          ]
+        },
+        {
+          "edge": [
+            "t",
+            "reads|writes",
+            "a"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "two steps of one parallel group touch the same artifact, and one writes it"
+      },
+      "why": "Steps that run at the same time cannot depend on each other's output.",
+      "validated_by": "",
+      "answers": "FL22"
+    },
+    {
+      "id": "no-step-waits-for-itself",
+      "kind": "policy",
+      "severity": "blocking",
+      "when": [
+        {
+          "node": "s",
+          "type": "Step"
+        },
+        {
+          "edge": [
+            "s",
+            "after",
+            "t"
+          ]
+        },
+        {
+          "node": "t",
+          "type": "Step",
+          "where": {
+            "id": "$s"
+          }
+        }
+      ],
+      "then": {
+        "flag": "the step comes after itself: its waits form a cycle"
+      },
+      "why": "A cycle of waits never starts.",
+      "validated_by": "",
+      "answers": "FL24"
     }
   ]
 }
