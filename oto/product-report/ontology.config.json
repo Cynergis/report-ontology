@@ -1,0 +1,52 @@
+{
+  "_about": "What a report product's specification must say beyond the product core: obligations typed by what they govern, linked to the report-domain terms they are about. Thin on purpose: the report types, templates, fields, columns and policies themselves are the `report` domain; the pipeline is design. A relation is {domain, range, inverse, definition}. Use A|B for a union.",
+  "_summary": "A report product's specification: which report types it must produce, where their data must come from, what layout and fidelity, which channels, which rules and sign-offs, what a run must guarantee, what must stay answerable afterwards, what identifies a document, who owns what, and when a report type is ready.",
+  "name": "Report product",
+  "ontology_version": 1,
+  "strict_domains": false,
+  "languages": [
+    "en"
+  ],
+  "classes": {},
+  "properties": {
+    "governs": {
+      "domain": "Requirement|Policy",
+      "range": "ReportType|Section|Field|TemplateRelease|Schedule|PublishPolicy|VerificationPolicy|ApprovalPolicy|ObservabilityPolicy|Parameter|Table|DataSource",
+      "inverse": "governed_by_spec",
+      "definition": "The report-domain thing a requirement or a policy of the product is about: the report type it must produce, the field it constrains, the channel it must deliver through. The link from what the product must do to the thing in the catalogue that does it.",
+      "label": "governs",
+      "inverse_label": "governed by"
+    },
+    "owned_by": {
+      "domain": "Product|Objective|Capability|Feature|SuccessCriterion|Risk|Requirement|Release|ReportType",
+      "range": "Role|Team",
+      "inverse": "owns",
+      "definition": "The role accountable for this. Ownership sits on a role, not a person, so it survives staff changes. Widened to a report type: the analyst who owns its definition.",
+      "label": "owned by",
+      "inverse_label": "owns"
+    }
+  },
+  "attributes": {
+    "Requirement": {
+      "concerns": {
+        "type": "enum:identity|data|layout|delivery|compliance|operations|audit|readiness",
+        "definition": "What a report product's requirement governs: the identity of a document (parameters), its data, its layout, its delivery, compliance, the operation of runs, what must stay answerable afterwards (audit), or readiness for production.",
+        "label": "concerns"
+      }
+    },
+    "Policy": {
+      "concerns": {
+        "type": "enum:identity|data|layout|delivery|compliance|operations|audit|readiness",
+        "definition": "What a report product's policy governs, the same way.",
+        "label": "concerns"
+      }
+    },
+    "Role": {
+      "verifies": {
+        "type": "enum:definition|mapping|release|publication",
+        "definition": "What this role signs off in a report product: the definition of a report type (the analyst), its data mapping (the data team), a release (the engineer), a publication (compliance).",
+        "label": "verifies"
+      }
+    }
+  }
+}

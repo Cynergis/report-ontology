@@ -1,0 +1,632 @@
+{
+  "_about": "What this ontology exists to answer. Each question runs over the graph in the pattern language of rules.json; `gate` says what an empty answer means; `gaps` says why it is empty; `terms` names the vocabulary the question covers. Reasoned about in `why`, confirmed in `validated_by`.",
+  "questions": {
+    "RP1": {
+      "who": "a report product owner",
+      "question": "Which report types must the product produce, under which requirements: for which audience, in which locales and formats, how often?",
+      "why": "Gate 1 question 1. The scope of a report product is the report types it must produce; each is a requirement about a report type.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)",
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "r",
+              "governs",
+              "rt"
+            ]
+          },
+          {
+            "node": "r",
+            "type": "Requirement",
+            "where": {
+              "concerns": "identity"
+            }
+          },
+          {
+            "node": "rt",
+            "type": "ReportType"
+          }
+        ],
+        "select": [
+          "r.label",
+          "r.priority",
+          "rt.reportId",
+          "rt.audience",
+          "rt.locale",
+          "rt.cadence"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "node": "rt",
+              "type": "ReportType"
+            },
+            {
+              "not_edge": [
+                "*",
+                "governs",
+                "rt"
+              ]
+            }
+          ],
+          "say": "a report type no requirement of the product names"
+        }
+      ]
+    },
+    "RP2": {
+      "who": "the data team",
+      "question": "Where must the data of $REPORTTYPE come from, may the product transform it, and which table does it read today?",
+      "why": "Gate 1 question 2. The data obligation decides whether the product reads finished columns or computes; the table is what it reads now.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)",
+      "params": {
+        "REPORTTYPE": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "r",
+              "governs",
+              "$REPORTTYPE"
+            ]
+          },
+          {
+            "node": "r",
+            "type": "Requirement",
+            "where": {
+              "concerns": "data"
+            }
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$REPORTTYPE",
+                  "readsTable",
+                  "t"
+                ]
+              },
+              {
+                "node": "t",
+                "type": "Table"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "r.label",
+          "r.priority",
+          "t.dataset",
+          "t.tableName"
+        ]
+      },
+      "gate": "any",
+      "gaps": [
+        {
+          "when": [
+            {
+              "not_edge": [
+                "*",
+                "governs",
+                "$REPORTTYPE"
+              ]
+            }
+          ],
+          "say": "no data requirement governs the report type"
+        }
+      ]
+    },
+    "RP3": {
+      "who": "a designer",
+      "question": "In what form does business provide the layout of $REPORTTYPE, and what fidelity must the output meet?",
+      "why": "Gate 1 question 3. The layout obligation and the verification threshold are what a produced document is held to.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)",
+      "params": {
+        "REPORTTYPE": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "r",
+              "governs",
+              "$REPORTTYPE"
+            ]
+          },
+          {
+            "node": "r",
+            "type": "Requirement",
+            "where": {
+              "concerns": "layout"
+            }
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$REPORTTYPE",
+                  "derivedFrom",
+                  "src"
+                ]
+              },
+              {
+                "node": "src",
+                "type": "SourceDocument"
+              }
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$REPORTTYPE",
+                  "releasedAs",
+                  "rel"
+                ]
+              },
+              {
+                "edge": [
+                  "rel",
+                  "hasVerificationPolicy",
+                  "v"
+                ]
+              },
+              {
+                "node": "v",
+                "type": "VerificationPolicy"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "r.label",
+          "src.role",
+          "src.repoUrl",
+          "v.goldenStaticSsimMin",
+          "v.fidelityMin"
+        ]
+      },
+      "gate": "any"
+    },
+    "RP4": {
+      "who": "operations",
+      "question": "Through which channels must documents of $REPORTTYPE be delivered, which leave the organisation, and how long are they kept?",
+      "why": "Gate 1 question 4. Delivery is an obligation of the product and a policy of the release; both must agree.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)",
+      "params": {
+        "REPORTTYPE": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "r",
+              "governs",
+              "$REPORTTYPE"
+            ]
+          },
+          {
+            "node": "r",
+            "type": "Requirement",
+            "where": {
+              "concerns": "delivery"
+            }
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$REPORTTYPE",
+                  "releasedAs",
+                  "rel"
+                ]
+              },
+              {
+                "edge": [
+                  "rel",
+                  "hasPublishPolicy",
+                  "p"
+                ]
+              },
+              {
+                "node": "p",
+                "type": "PublishPolicy"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "r.label",
+          "p.pathPattern",
+          "p.publishFormat",
+          "p.retentionDays"
+        ]
+      },
+      "gate": "any"
+    },
+    "RP5": {
+      "who": "compliance",
+      "question": "Which rules, regulatory and presentation, must every document of $REPORTTYPE obey, and who must sign off before publication?",
+      "why": "Gate 1 question 5. A policy of the product governs the report type; the role that enforces it is who signs off.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)",
+      "params": {
+        "REPORTTYPE": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "p",
+              "governs",
+              "$REPORTTYPE"
+            ]
+          },
+          {
+            "node": "p",
+            "type": "Policy"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "p",
+                  "enforced_by",
+                  "role"
+                ]
+              },
+              {
+                "node": "role",
+                "type": "Role"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "p.label",
+          "p.concerns",
+          "p.kind",
+          "p.authority",
+          "role.label",
+          "role.verifies"
+        ]
+      },
+      "gate": "any",
+      "gaps": [
+        {
+          "when": [
+            {
+              "not_edge": [
+                "*",
+                "governs",
+                "$REPORTTYPE"
+              ]
+            }
+          ],
+          "say": "no policy of the product governs the report type"
+        }
+      ]
+    },
+    "RP6": {
+      "who": "operations",
+      "question": "What must a production run of $REPORTTYPE guarantee: delivery deadline, tolerated failures, who is alerted, where the history is kept?",
+      "why": "Gate 1 question 6. The operational obligation of the product, and the release's observability policy that implements it.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)",
+      "params": {
+        "REPORTTYPE": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "r",
+              "governs",
+              "$REPORTTYPE"
+            ]
+          },
+          {
+            "node": "r",
+            "type": "Requirement",
+            "where": {
+              "concerns": "operations"
+            }
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$REPORTTYPE",
+                  "releasedAs",
+                  "rel"
+                ]
+              },
+              {
+                "edge": [
+                  "rel",
+                  "hasObservabilityPolicy",
+                  "o"
+                ]
+              },
+              {
+                "node": "o",
+                "type": "ObservabilityPolicy"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "r.label",
+          "o.deliverWithinHours",
+          "o.maxFailureRate",
+          "o.alertRecipient",
+          "o.runLog"
+        ]
+      },
+      "gate": "any"
+    },
+    "RP7": {
+      "who": "compliance",
+      "question": "What must stay answerable about $REPORTTYPE after the fact: what a document said, which data and template produced it, who approved it, and what the definition was at the time?",
+      "why": "Gate 1 question 7. The audit obligation, and whether the report type keeps the history that meets it.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)",
+      "params": {
+        "REPORTTYPE": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "r",
+              "governs",
+              "$REPORTTYPE"
+            ]
+          },
+          {
+            "node": "r",
+            "type": "Requirement",
+            "where": {
+              "concerns": "audit"
+            }
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$REPORTTYPE",
+                  "hasRevision",
+                  "v"
+                ]
+              },
+              {
+                "node": "v",
+                "type": "Revision"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "r.label",
+          "r.priority",
+          "v.order",
+          "v.at",
+          "v.changedBy"
+        ]
+      },
+      "gate": "any",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "r",
+                "governs",
+                "$REPORTTYPE"
+              ]
+            },
+            {
+              "node": "r",
+              "type": "Requirement",
+              "where": {
+                "concerns": "audit"
+              }
+            },
+            {
+              "not_edge": [
+                "$REPORTTYPE",
+                "hasRevision",
+                "*"
+              ]
+            }
+          ],
+          "say": "an audit obligation, and no accepted revision on record"
+        }
+      ]
+    },
+    "RP8": {
+      "who": "operations",
+      "question": "What identifies one document of $REPORTTYPE, and which universe of documents must a run cover?",
+      "why": "Gate 1 question 8. Identity is an obligation of the product and the parameters of the report type.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)",
+      "params": {
+        "REPORTTYPE": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "r",
+              "governs",
+              "$REPORTTYPE"
+            ]
+          },
+          {
+            "node": "r",
+            "type": "Requirement",
+            "where": {
+              "concerns": "identity"
+            }
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$REPORTTYPE",
+                  "hasParameter",
+                  "p"
+                ]
+              },
+              {
+                "node": "p",
+                "type": "Parameter"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "r.label",
+          "p.label",
+          "p.definition",
+          "p.allowedValue",
+          "p.boundBy"
+        ]
+      },
+      "gate": "any"
+    },
+    "RP9": {
+      "who": "anyone",
+      "question": "Who owns the definition of $REPORTTYPE, who verifies its data mapping, who approves a release, who signs a publication?",
+      "why": "Gate 1 question 9. The roles of a report product, by what each verifies.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)",
+      "params": {
+        "REPORTTYPE": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORTTYPE",
+              "owned_by",
+              "owner"
+            ]
+          },
+          {
+            "node": "owner",
+            "type": "Role"
+          },
+          {
+            "optional": [
+              {
+                "node": "verifier",
+                "type": "Role",
+                "where": {
+                  "verifies": {
+                    "exists": true
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "select": [
+          "owner.label",
+          "owner.holder",
+          "verifier.label",
+          "verifier.verifies"
+        ]
+      },
+      "gate": "any",
+      "gaps": {
+        "when": [
+          {
+            "not_edge": [
+              "$REPORTTYPE",
+              "owned_by",
+              "*"
+            ]
+          }
+        ],
+        "say": "no role owns the report type's definition"
+      }
+    },
+    "RP10": {
+      "who": "a release manager",
+      "question": "Which report types are not ready for production, and what blocks each: unmapped fields, a missing policy, no accepted revision?",
+      "why": "Gate 1 question 10. Readiness is computed from the domain, never declared.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)",
+      "ask": {
+        "when": [
+          {
+            "node": "rt",
+            "type": "ReportType",
+            "where": {
+              "lifecycleStatus": {
+                "!=": "in_production"
+              }
+            }
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "f",
+                  "inReport",
+                  "rt"
+                ]
+              },
+              {
+                "node": "f",
+                "type": "Field",
+                "where": {
+                  "lineageStatus": "unmapped"
+                }
+              }
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "req",
+                  "governs",
+                  "rt"
+                ]
+              },
+              {
+                "node": "req",
+                "type": "Requirement",
+                "where": {
+                  "concerns": "readiness"
+                }
+              }
+            ]
+          }
+        ],
+        "select": [
+          "rt.reportId",
+          "rt.lifecycleStatus",
+          "f.fieldId",
+          "req.label"
+        ]
+      },
+      "gate": "any"
+    }
+  }
+}

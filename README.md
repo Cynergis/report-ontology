@@ -299,6 +299,20 @@ oto ontology add https://github.com/Cynergis/report-ontology --path oto/report  
 oto init --name "Report catalogue" --slug catalogue --ontology report
 ```
 
+`oto/product-report/` is **the report product type**: what a report product's specification must
+say, on `product` (the engine's) and `report`. Thin by decision: obligations typed by what they
+govern (a document's identity, its data, layout, delivery, compliance, runs, audit, readiness),
+each linked to the report type, field, channel or policy it is about; RP1–RP10 are the questions a
+report product owner asks. A studio starts a report product from it
+(`--ontology product-report,...`), and the product-report pack embeds it. It was kept on one machine
+until release 3 and is maintained here since; `tests/test_product_report_unit.py` keeps it
+composing with `report` and `flow`.
+
+```bash
+oto ontology add https://github.com/Cynergis/report-ontology --path oto/product-report
+oto init --empty --pack prd-architecture-studio --ontology product-report,ddd,flow --project <root>
+```
+
 `ttl-port/report/` is **the Turtle's mirror in OTO**, written by `tools/oto_port.py`: the terms of
 `ontology/report.ttl` under their own IRIs, the 21 competency questions rewritten in OTO's
 pattern language, the shapes OTO holds as counts and the rest as policy rules, and the

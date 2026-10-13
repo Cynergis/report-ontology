@@ -1,0 +1,18 @@
+{
+  "_about": "Why each term exists and who confirmed it. The ten Gate 1 questions were confirmed by Chiheb Dkhil on 2026-10-06; the terms are what they need beyond the product core and the report domain.",
+  "classes": {},
+  "properties": {
+    "governs": {
+      "question": "Which report type, field or channel is this requirement or policy about?",
+      "why": "Without it a report product's requirements are prose about reports in general; with it each one points at the thing in the catalogue it constrains, and readiness is computable.",
+      "alternatives": "Reusing the core's `about` (Decision|OpenQuestion → …): rejected because a requirement is not a decision, and its range must be the report domain.",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)"
+    },
+    "owned_by": {
+      "question": "Who owns a report type's definition?",
+      "why": "The core's ownership relation widened to a report type, so the analyst responsible is a role the graph can ask, not a string on the report.",
+      "alternatives": "",
+      "validated_by": "Chiheb Dkhil, 2026-10-06 (Gate 1)"
+    }
+  }
+}

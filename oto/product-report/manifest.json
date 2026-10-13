@@ -1,0 +1,39 @@
+{
+  "name": "product-report",
+  "release": 3,
+  "domain": "reporting",
+  "product_type": "report",
+  "summary": "A report product's specification: which report types it must produce, where their data must come from, what layout and fidelity, which channels, which rules and sign-offs, what a run must guarantee, what must stay answerable afterwards, what identifies a document, who owns what, and when a report type is ready.",
+  "extends": [
+    "product",
+    "report"
+  ],
+  "namespace": "https://cynergis.ai/ont/product-report#",
+  "engine": ">=0.8",
+  "carries": [
+    "vocabulary",
+    "rationale",
+    "rules",
+    "questions",
+    "sample",
+    "readme"
+  ],
+  "maintainer": "Cynergis AI",
+  "changelog": [
+    {
+      "release": 3,
+      "at": "2026-10-07",
+      "note": "owned_by widens the portfolio's (the base of the chain since 2026-10-07): a report type may be owned by a role or a team."
+    },
+    {
+      "release": 2,
+      "at": "2026-10-07",
+      "note": "Declares its product type, report: a registry lists it as a kind of product a studio can start."
+    },
+    {
+      "release": 1,
+      "at": "2026-10-06",
+      "note": "First release: the ten Gate 1 questions of a report product owner, confirmed by Chiheb Dkhil on 2026-10-06; obligations typed by what they govern, linked to the report domain; thin by decision."
+    }
+  ]
+}
