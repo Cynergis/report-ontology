@@ -94,10 +94,14 @@ def flow_vocabulary(work):
     classes, properties, attributes, namespaces, rationale, notes = _import(_subgraph(whole, FLOW), work, "flow")
     for note in notes:
         print("  importer:", note)
-    # three names the report ontology uses for other things (a report's Field and Parameter, a
-    # release's producedBy); a project composes both, so the flow's are renamed, new IRIs and all
+    # names other ontologies use for other things (a report's Field and Parameter, a release's
+    # producedBy, the product's measures: a success criterion measures what it judges); a project
+    # composes them, so the flow's are renamed, new IRIs and all
     _rename(classes, properties, attributes, namespaces, {"Field": "ArtifactField", "Parameter": "ConfigParameter"},
-            {"hasField": "hasArtifactField", "producedBy": "outputOf"})
+            {"hasField": "hasArtifactField", "producedBy": "outputOf", "measures": "measuresMetric"})
+    for old, new in (("hasField", "hasArtifactField"), ("producedBy", "outputOf"), ("measures", "measuresMetric")):
+        if old in (rationale.get("properties") or {}):
+            rationale["properties"][new] = rationale["properties"].pop(old)
     # the prompt and the review page are selected on any step by FL8: declared on Step, not the kind
     for name in ("promptRef", "reviewPage"):
         for kind in ("ClaudeStep", "HumanStep"):
@@ -134,6 +138,33 @@ def flow_vocabulary(work):
                       "its checks (a pass and a fail case), each transition from it (a route), each invariant its checks "
                       "enforce (a property). Derived; never stated. A TestObligation node is the same fact materialised, "
                       "with an id code can cite."}
+    # Port-level terms (the TTL vocabulary is frozen until the software factory contract): what a
+    # declared flow needs beside a state machine of transitions. FL22 to FL24 ask for them.
+    properties["waitsFor"] = {
+        "domain": "Step", "range": "Step", "inverse": "awaitedBy", "label": "waits for",
+        "definition": "A step that must have finished before this one starts. A flow declared as a graph of dependencies "
+                      "(a pipeline, a batch) states them; several make a join, and steps that wait for the same steps may "
+                      "run at the same time."}
+    properties["after"] = {
+        "derived": True,
+        "domain": "Step", "range": "Step", "inverse": "before", "label": "comes after",
+        "definition": "A step this one comes after, directly or through the steps it waits for. Derived from waitsFor; never "
+                      "stated. A step after itself is a cycle."}
+    attributes.setdefault("Step", {}).update({
+        "stepKind": {"type": "string", "label": "step kind",
+                     "definition": "What the step does, in the vocabulary of the flow's kind (copy_to_bronze, run_gate, build_output…): "
+                                   "the executor type says who runs it, the kind says what it is for."},
+        "parallelGroup": {"type": "string", "label": "parallel group",
+                          "definition": "A name shared by steps that may run at the same time; none of them may read or write what "
+                                        "another writes."}})
+    attributes.setdefault("Flow", {}).update({
+        "flowKind": {"type": "string", "label": "flow kind",
+                     "definition": "The kind of flow (medallion, template-build, …): which step vocabulary and which rules apply to it, "
+                                   "so one project holds several flows and a rule names the kind it governs."},
+        "trigger": {"type": "string", "label": "trigger",
+                    "definition": "What starts a run: on_sources_ready, scheduled, manual, or an event the flow's kind names."},
+        "resumable": {"type": "boolean", "label": "resumable",
+                      "definition": "True when a failed run resumes from the failed step instead of starting over."}})
     properties["readBy"] = {
         "derived": True,
         "domain": "Artifact", "range": "Step", "inverse": "consumesArtifact", "label": "read by",
@@ -270,7 +301,7 @@ def sample(flow_root):
             if v["kind"] == "metric":
                 own = re.sub(r"state\.nodes\.\w+\.metrics\.\w+", "", v["check"])
                 for m in sorted(set(re.findall(r"metrics\.(\w+)", own))):
-                    link(cid, "measures", metric(n["id"], m))
+                    link(cid, "measuresMetric", metric(n["id"], m))
                 for ref in sorted(config_refs(v["check"])):
                     link(cid, "comparedTo", param(ref))
 
@@ -394,14 +425,14 @@ QUESTIONS = {
     "FL4": q("a builder", "Which checks gate $STEP: what does each measure, against which threshold, and what happens on failure?",
              "CQ04. The checks are the step's acceptance; a metric check that measures no metric cannot be implemented.",
              [edge("$STEP", "hasCheck", "c"), node("c", "Check"), edge("c", "onFail", "o"), node("o", "Outcome"),
-              optional(edge("c", "measures", "m"), node("m", "Metric")), optional(edge("c", "comparedTo", "p"), node("p", "ConfigParameter"))],
+              optional(edge("c", "measuresMetric", "m"), node("m", "Metric")), optional(edge("c", "comparedTo", "p"), node("p", "ConfigParameter"))],
              ["c.checkId", "c.checkKind", "c.expression", "m.metricName", "p.paramName", "p.value", "c.blocking", "c.readsStatePath", "o.outcomeName"],
              gate="no_gaps", params=STEP,
-             gaps=([edge("$STEP", "hasCheck", "c"), node("c", "Check", {"checkKind": "metric"}), not_edge("c", "measures", "*")], "metric check measures no metric")),
+             gaps=([edge("$STEP", "hasCheck", "c"), node("c", "Check", {"checkKind": "metric"}), not_edge("c", "measuresMetric", "*")], "metric check measures no metric")),
     "FL5": q("a builder", "Which metrics must $STEP record in state, and are all checked metrics recorded?",
              "CQ05. A check that reads a metric the step never records can never pass.",
              [edge("$STEP", "records", "m"), node("m", "Metric")], ["m.metricName"], gate="no_gaps", params=STEP,
-             gaps=([edge("$STEP", "hasCheck", "c"), edge("c", "measures", "m"), not_edge("$STEP", "records", "m")],
+             gaps=([edge("$STEP", "hasCheck", "c"), edge("c", "measuresMetric", "m"), not_edge("$STEP", "records", "m")],
                    "a check reads a metric the step does not declare as recorded")),
     "FL6": q("a builder", "Which configuration parameters does $STEP depend on, and their current values?",
              "CQ06. Thresholds, limits and seeds live in config; the step reads them, never owns them. A parameter without a value is a gap.",
@@ -472,6 +503,18 @@ QUESTIONS = {
               "The obligations materialised with an id code can cite (the port derives them as derive_tests.rq did); FL12 is the same fact derived from the step itself.",
               [edge("t", "forStep", "$STEP"), node("t", "TestObligation"), edge("t", "tests", "x")], ["t.obligationKind", "t.label", "x.label", "x.type"],
               gate="any", params=IMPL),
+    "FL22": q("an engine builder", "Which steps must finish before $STEP, what kind of step is it, and with which steps may it run at the same time?",
+              "A flow declared as a graph of dependencies (a pipeline, a batch) is run from these: the joins, the step's kind in its flow's "
+              "vocabulary, and its parallel group.",
+              [node("$STEP", "Step"), optional(edge("$STEP", "waitsFor", "w"), node("w", "Step"))],
+              ["$STEP.stepKind", "$STEP.parallelGroup", "w.stepId", "w.stepKind"], gate="any", params=STEP),
+    "FL23": q("anyone", "Which flows are declared, of which kind, started by what, and can a failed run resume?",
+              "One project may hold several flows (a pipeline's batch run, a report's template build); the kind says which step "
+              "vocabulary and which rules govern each.",
+              [node("f", "Flow")], ["f.label", "f.flowKind", "f.trigger", "f.resumable", "f.value"], gate="any"),
+    "FL24": q("an engine builder", "Which steps come before $STEP, directly or through the steps it waits for?",
+              "The order a declared flow implies; a step that comes before itself is a cycle and the flow cannot run.",
+              [edge("$STEP", "after", "w"), node("w", "Step")], ["w.stepId", "w.stepKind"], gate="any", params=STEP),
 }
 
 RULES = [
@@ -508,6 +551,12 @@ RULES = [
     {"id": "artifact-read-by-step", "kind": "derive",
      "when": [edge("s", "reads|readsOptional", "a")], "then": {"edge": ["a", "readBy", "s"]},
      "why": "One relation for the consumers of an artifact, required or optional (CQ09).", "validated_by": ""},
+    {"id": "step-after-the-steps-it-waits-for", "kind": "derive",
+     "when": [edge("s", "waitsFor", "w")], "then": {"edge": ["s", "after", "w"]},
+     "why": "A step comes after every step it waits for (FL24).", "validated_by": ""},
+    {"id": "step-after-transitively", "kind": "derive",
+     "when": [edge("s", "after", "x"), edge("x", "after", "w")], "then": {"edge": ["s", "after", "w"]},
+     "why": "Waiting is transitive: what a step waits for has finished what it waited for (FL24).", "validated_by": ""},
     {"id": "implemented-step-has-its-script", "kind": "policy", "severity": "blocking",
      "when": [node("s", "Step", {"isImplemented": True}), edge("s", "implementedBy", "i"), node("i", "Implementation", {"exists": False})],
      "then": {"flag": "a step marked implemented has no script on disk"},
@@ -516,6 +565,23 @@ RULES = [
      "when": [edge("s", "hasOutcome", "o"), not_edge("*", "onOutcome", "o"), node("s", "DeterministicStep|OcrStep|ClaudeStep|HumanStep")],
      "then": {"flag": "an outcome of a non-terminal step has no transition: a run that ends there is stranded"},
      "why": "Outcomes are the only thing transitions branch on.", "validated_by": "", "answers": "FL11"},
+    {"id": "step-waits-for-the-writer-of-what-it-reads", "kind": "policy", "severity": "blocking",
+     "when": [edge("f", "hasStep", "s"), edge("f", "hasStep", "x"), edge("x", "waitsFor", "*"),
+              edge("s", "reads", "a"), edge("w", "writes", "a"), edge("f", "hasStep", "w"), node("w", "Step", {"id": {"!=": "$s"}}),
+              not_edge("s", "after", "w")],
+     "then": {"flag": "the step reads an artifact another step of its flow writes, and does not come after it"},
+     "why": "In a flow declared as dependencies, a step that reads what another writes must wait for it, directly or through "
+            "others; otherwise it may run on what is not there yet.", "validated_by": "", "answers": "FL22"},
+    {"id": "parallel-steps-share-no-artifact", "kind": "policy", "severity": "blocking",
+     "when": [node("s", "Step", {"parallelGroup": {"exists": True}}),
+              node("t", "Step", {"parallelGroup": "$s.parallelGroup", "id": {"!=": "$s"}}),
+              edge("s", "writes", "a"), edge("t", "reads|writes", "a")],
+     "then": {"flag": "two steps of one parallel group touch the same artifact, and one writes it"},
+     "why": "Steps that run at the same time cannot depend on each other's output.", "validated_by": "", "answers": "FL22"},
+    {"id": "no-step-waits-for-itself", "kind": "policy", "severity": "blocking",
+     "when": [node("s", "Step"), edge("s", "after", "t"), node("t", "Step", {"id": "$s"})],
+     "then": {"flag": "the step comes after itself: its waits form a cycle"},
+     "why": "A cycle of waits never starts.", "validated_by": "", "answers": "FL24"},
 ]
 
 BRIEFS = {
@@ -588,7 +654,7 @@ def flow_sample():
     e("artifact.rows", "outputOf", "step.s1_extract"); e("artifact.rows", "hasArtifactField", "field.rows.0")
     e("step.s2_review", "readsOptional", "artifact.rows")
     e("step.s1_extract", "records", "metric.s1_extract.row_count"); e("step.s1_extract", "hasCheck", "check.s1_extract.enough_rows")
-    e("check.s1_extract.enough_rows", "measures", "metric.s1_extract.row_count"); e("check.s1_extract.enough_rows", "comparedTo", "param.min_rows")
+    e("check.s1_extract.enough_rows", "measuresMetric", "metric.s1_extract.row_count"); e("check.s1_extract.enough_rows", "comparedTo", "param.min_rows")
     e("check.s1_extract.enough_rows", "onFail", "outcome.s1_extract.fail")
     e("step.s1_extract", "hasOutcome", "outcome.s1_extract.pass"); e("step.s1_extract", "hasOutcome", "outcome.s1_extract.fail")
     e("step.s2_review", "hasOutcome", "outcome.s2_review.approve"); e("step.s2_review", "hasOutcome", "outcome.s2_review.reject")
@@ -630,6 +696,14 @@ def rationale(config, imported, about):
         record["classes"][name] = entry
     for name, entry in (imported.get("properties") or {}).items():
         record["properties"][name] = dict(entry, validated_by="")
+    for name, question, why in (
+            ("waitsFor", "FL22", "A declared flow (a pipeline, a batch) is a graph of dependencies with joins, not only a state machine: "
+                                 "the engine starts a step when what it waits for has finished."),
+            ("after", "FL24", "The order a declared flow implies, through any number of waits; the rules read it to find a step that "
+                              "reads what is not written yet, and a cycle.")):
+        record["properties"][name] = {"question": QUESTIONS[question]["question"], "why": why,
+                                      "alternatives": "Transitions alone: rejected because a state machine runs one step at a time and "
+                                                      "cannot say that a step waits for several.", "validated_by": ""}
     for name in ("dependsOn", "affectedBy", "readBy"):
         if name in config["properties"]:
             record["properties"][name] = {"question": "What does the original join with a UNION?",
@@ -663,15 +737,25 @@ of that.
   the `requiresTest` edges; `TestObligation` nodes with an id code can cite are what the port
   materialises (as `derive_tests.rq` did) and FL21 reads.
 - The original's `gaps_only` gate is `no_gaps`: the answer may be empty, a gap makes it unanswered.
-- Three names the report ontology uses for other things are renamed, new IRIs and all, so a
-  project composes both: `Field` is `ArtifactField` (`hasArtifactField`), `Parameter` is
-  `ConfigParameter`, `producedBy` is `outputOf`. The prompt reference and the review page are
+- Four names other ontologies use for other things are renamed, new IRIs and all, so a project
+  composes them: `Field` is `ArtifactField` (`hasArtifactField`), `Parameter` is
+  `ConfigParameter`, `producedBy` is `outputOf` (the report ontology's), and `measures` is
+  `measuresMetric` (the product ontology's `measures`: a success criterion measures what it judges). The prompt reference and the review page are
   declared on `Step`, so one question (FL8) reads the execution spec of any step.
 - Test obligations are materialised by the port (as `kgctl build` derived them with SPARQL
   CONSTRUCT) in the fixture graph, cited to `derive_tests.rq`.
 - Four questions were added, so every term is cited by a question that runs: FL18 (phase and
   entrypoint), FL19 (effects and provenance), FL20 (a Claude step's prompt, schema and scope),
   FL21 (what a test obligation exercises).
+- Release 2 adds what a flow declared as dependencies needs (a pipeline's batch run), beside the
+  state machine of transitions. These terms are the port's own: the TTL vocabulary stays frozen
+  until the software factory contract is written. `waitsFor` (a join: the steps that must finish
+  first), the derived `after` (through any number of waits), `Step.stepKind` (what the step does,
+  in its flow kind's vocabulary), `Step.parallelGroup`, and on `Flow` the `flowKind`, `trigger`
+  and `resumable`. FL22 to FL24 ask for them; three policies keep a declared flow runnable: a step
+  comes after the writer of what it reads, steps of one parallel group touch no artifact one of
+  them writes, and no step comes after itself. A flow kind's own vocabulary and rules (a medallion
+  pipeline's step kinds, gates and layers) live in that kind's ontology.
 
 ## The briefs
 
@@ -681,12 +765,24 @@ BLOCKED by name; without the step, the table for every implementable step (what 
 readiness` printed).
 """
 
-def manifest(name, summary, extends, namespace, note):
-    return {"name": name, "release": 1, "domain": "software", "summary": summary,
+#: The unit's releases, newest first; a release is added here when the port's output changes.
+CHANGELOG = [
+    {"release": 2, "at": "2026-10-13",
+     "note": "A flow declared as dependencies: waitsFor (joins), the derived after, Step.stepKind and parallelGroup, "
+             "Flow.flowKind, trigger and resumable; FL22-FL24; three policies (a step comes after the writer of what it reads, "
+             "a parallel group shares no written artifact, no cycle of waits). measures is renamed measuresMetric, so a project "
+             "composes flow with product."},
+    {"release": 1, "at": "2026-10-07",
+     "note": "Ported from report-ontology's flow ontology 0.1.1 (ontology/ontology.ttl, questions/competency_questions.yaml): "
+             "19 classes, 17 questions as FL1-FL17 plus FL18-FL21, 5 task types as briefs."},
+]
+
+
+def manifest(name, summary, extends, namespace, changelog):
+    return {"name": name, "release": changelog[0]["release"], "domain": "software", "summary": summary,
             "extends": extends, "namespace": namespace, "engine": ">=0.9",
             "carries": ["vocabulary", "rationale", "rules", "questions", "briefs", "sample", "readme"],
-            "maintainer": "Cynergis AI",
-            "changelog": [{"release": 1, "at": datetime.date.today().isoformat(), "note": note}]}
+            "maintainer": "Cynergis AI", "changelog": changelog}
 
 
 def _write(directory, files):
@@ -721,11 +817,9 @@ def main(argv=None):
                                               "Why each term exists; ported from the definitions of ontology/ontology.ttl. `validated_by` is "
                                               "empty until a person who knows the domain confirms the entry.")),
         ("sample.graph.json", flow_sample()),
-        ("rules.json", {"_about": "The relations the original's questions joined with UNION, derived; two policies naming the question "
-                                  "each protects.", "rules": RULES}),
-        ("manifest.json", manifest("flow", flow_config["_summary"], ["oto-core"], FLOW,
-                                   "Ported from report-ontology's flow ontology 0.1.1 (ontology/ontology.ttl, questions/competency_questions.yaml): "
-                                   "19 classes, 17 questions as FL1-FL17 plus FL18-FL21, 5 task types as briefs.")),
+        ("rules.json", {"_about": "The relations the original's questions joined with UNION, and the order a declared flow implies, "
+                                  "derived; the policies name the question each protects.", "rules": RULES}),
+        ("manifest.json", manifest("flow", flow_config["_summary"], ["oto-core"], FLOW, CHANGELOG)),
         ("README.md", FLOW_README),
     ])
     _questions.save(types.SimpleNamespace(data=OUT_FLOW), QUESTIONS)

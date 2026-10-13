@@ -33,7 +33,7 @@
     },
     "Flow": {
       "question": "Which phase is $STEP in, and which step does the phase start at?",
-      "why": "Needed by FL18: without it the graph cannot answer FL18.",
+      "why": "Needed by FL18, FL23: without it the graph cannot answer FL18.",
       "alternatives": "",
       "validated_by": ""
     },
@@ -81,7 +81,7 @@
     },
     "Step": {
       "question": "What is step $STEP for, and what kind of executor runs it?",
-      "why": "Needed by FL1, FL3, FL4, FL5, FL6, FL7, FL8, FL9, FL10, FL11, FL15, FL18, FL19: without it the graph cannot answer FL1.",
+      "why": "Needed by FL1, FL3, FL4, FL5, FL6, FL7, FL8, FL9, FL10, FL11, FL15, FL18, FL19, FL22, FL24: without it the graph cannot answer FL1.",
       "alternatives": "",
       "validated_by": ""
     },
@@ -117,6 +117,18 @@
     }
   },
   "properties": {
+    "waitsFor": {
+      "question": "Which steps must finish before $STEP, what kind of step is it, and with which steps may it run at the same time?",
+      "why": "A declared flow (a pipeline, a batch) is a graph of dependencies with joins, not only a state machine: the engine starts a step when what it waits for has finished.",
+      "alternatives": "Transitions alone: rejected because a state machine runs one step at a time and cannot say that a step waits for several.",
+      "validated_by": ""
+    },
+    "after": {
+      "question": "Which steps come before $STEP, directly or through the steps it waits for?",
+      "why": "The order a declared flow implies, through any number of waits; the rules read it to find a step that reads what is not written yet, and a cycle.",
+      "alternatives": "Transitions alone: rejected because a state machine runs one step at a time and cannot say that a step waits for several.",
+      "validated_by": ""
+    },
     "dependsOn": {
       "question": "What does the original join with a UNION?",
       "why": "The pattern language has no UNION; the rules derive one relation the question reads.",
