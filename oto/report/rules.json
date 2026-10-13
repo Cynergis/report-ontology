@@ -1,35 +1,30 @@
 {
-  "_about": "The shapes of report-shapes.ttl that are not counts, as policy rules; each names the question it protects.",
   "rules": [
     {
-      "id": "field-has-english-meaning",
+      "id": "field-is-mapped",
       "kind": "policy",
-      "severity": "blocking",
-      "answers": "CQ1",
+      "severity": "warn",
+      "answers": "Q4",
       "when": [
         {
           "node": "f",
-          "type": "Field"
-        },
-        {
-          "not_edge": [
-            "f",
-            "hasMeaning",
-            "*"
-          ]
+          "type": "Field",
+          "where": {
+            "lineageStatus": "unmapped"
+          }
         }
       ],
       "then": {
-        "flag": "Field has no meaning in any locale"
+        "flag": "a field has no column yet; a production release is blocked while it does not"
       },
-      "why": "A field without a meaning is a slot, not information; the English meaning is the one every reader and the catalogue rely on.",
+      "why": "An unmapped field renders nothing.",
       "validated_by": ""
     },
     {
       "id": "mapping-claims-a-column",
       "kind": "policy",
       "severity": "blocking",
-      "answers": "CQ5",
+      "answers": "Q4",
       "when": [
         {
           "node": "f",
@@ -52,16 +47,16 @@
         }
       ],
       "then": {
-        "flag": "Mapping says proposed/verified but no column is attached"
+        "flag": "the mapping says proposed or verified and names no column"
       },
-      "why": "A status without the column it claims is a mapping nobody can run.",
+      "why": "A status without its column is a mapping nobody can run.",
       "validated_by": ""
     },
     {
       "id": "column-in-the-reports-table",
       "kind": "policy",
       "severity": "blocking",
-      "answers": "CQ7",
+      "answers": "Q5",
       "when": [
         {
           "node": "f",
@@ -97,16 +92,16 @@
         }
       ],
       "then": {
-        "flag": "Field is mapped to a column outside the report's table"
+        "flag": "a field is mapped to a column outside the report's table"
       },
-      "why": "A report reads one table; a field read from another table is a join nobody declared.",
+      "why": "A report reads one table; a field read from another is a join nobody declared.",
       "validated_by": ""
     },
     {
       "id": "change-keeps-the-value-before",
       "kind": "policy",
       "severity": "blocking",
-      "answers": "CQ21",
+      "answers": "Q16",
       "when": [
         {
           "node": "c",
@@ -125,48 +120,16 @@
         }
       ],
       "then": {
-        "flag": "A changed or removed fact does not keep the value it had before"
+        "flag": "a changed or removed fact does not keep the value it had before"
       },
-      "why": "The value before is the whole point of supersession: without it the history says that a fact changed but not what was true.",
-      "validated_by": ""
-    },
-    {
-      "id": "parameter-has-a-universe",
-      "kind": "policy",
-      "severity": "warn",
-      "answers": "CQ12",
-      "when": [
-        {
-          "node": "p",
-          "type": "Parameter",
-          "where": {
-            "allowedValue": {
-              "exists": false
-            },
-            "boundBy": {
-              "exists": false
-            }
-          }
-        },
-        {
-          "not_edge": [
-            "p",
-            "universeQuery",
-            "*"
-          ]
-        }
-      ],
-      "then": {
-        "flag": "Parameter has no universe (query, values or run-time binding): the dispatcher cannot expand a batch"
-      },
-      "why": "A batch is expanded from the parameters' allowed values; a parameter with none produces no document.",
+      "why": "The value before is the whole point of a history.",
       "validated_by": ""
     },
     {
       "id": "field-has-french-meaning",
       "kind": "policy",
       "severity": "warn",
-      "answers": "CQ1",
+      "answers": "Q3",
       "when": [
         {
           "node": "f",
@@ -197,60 +160,16 @@
         }
       ],
       "then": {
-        "flag": "Field has no meaning although the report is offered in fr"
+        "flag": "a field has no meaning although the report is offered in French"
       },
-      "why": "A report offered in French with an English-only field prints a label nobody translated.",
-      "validated_by": ""
-    },
-    {
-      "id": "field-is-mapped",
-      "kind": "policy",
-      "severity": "warn",
-      "answers": "CQ5",
-      "when": [
-        {
-          "node": "f",
-          "type": "Field",
-          "where": {
-            "lineageStatus": "unmapped"
-          }
-        }
-      ],
-      "then": {
-        "flag": "Field not mapped to a column (blocks production release)"
-      },
-      "why": "An unmapped field renders nothing; a production release with one is incomplete.",
-      "validated_by": ""
-    },
-    {
-      "id": "report-reads-one-table",
-      "kind": "policy",
-      "severity": "warn",
-      "answers": "CQ7",
-      "when": [
-        {
-          "node": "r",
-          "type": "ReportType"
-        },
-        {
-          "not_edge": [
-            "r",
-            "readsTable",
-            "*"
-          ]
-        }
-      ],
-      "then": {
-        "flag": "Report does not name its table (blocks production release)"
-      },
-      "why": "The loader needs the one table that holds every column the report needs.",
+      "why": "A French report with an English-only field prints a label nobody translated.",
       "validated_by": ""
     },
     {
       "id": "report-names-an-owner",
       "kind": "policy",
       "severity": "warn",
-      "answers": "CQ14",
+      "answers": "Q1",
       "when": [
         {
           "node": "r",
@@ -263,62 +182,16 @@
         }
       ],
       "then": {
-        "flag": "Report names no owner"
+        "flag": "a report type names no owner"
       },
-      "why": "A report without an analyst responsible for its definition has nobody to verify its mapping.",
+      "why": "Without an analyst responsible for the definition nobody verifies the mapping.",
       "validated_by": ""
     },
     {
-      "id": "table-has-a-source",
+      "id": "frozen-release-has-its-contract",
       "kind": "policy",
       "severity": "warn",
-      "answers": "CQ7",
-      "when": [
-        {
-          "node": "t",
-          "type": "Table"
-        },
-        {
-          "not_edge": [
-            "t",
-            "inDataSource",
-            "*"
-          ]
-        }
-      ],
-      "then": {
-        "flag": "Table is not attached to a data source"
-      },
-      "why": "A table with no source is a name the loader cannot connect to.",
-      "validated_by": ""
-    },
-    {
-      "id": "release-is-frozen",
-      "kind": "policy",
-      "severity": "warn",
-      "answers": "CQ13",
-      "when": [
-        {
-          "node": "rel",
-          "type": "TemplateRelease",
-          "where": {
-            "frozen": {
-              "!=": true
-            }
-          }
-        }
-      ],
-      "then": {
-        "flag": "Template release not frozen"
-      },
-      "why": "Only a frozen release produces documents; an unfrozen one is still being built.",
-      "validated_by": ""
-    },
-    {
-      "id": "release-has-its-contract",
-      "kind": "policy",
-      "severity": "warn",
-      "answers": "CQ10",
+      "answers": "Q11",
       "when": [
         {
           "node": "rel",
@@ -336,43 +209,16 @@
         }
       ],
       "then": {
-        "flag": "Frozen release declares no schedule (blocks production)"
+        "flag": "a frozen release declares no schedule"
       },
-      "why": "A frozen release with no schedule is a release nobody can run.",
-      "validated_by": ""
-    },
-    {
-      "id": "release-has-observability",
-      "kind": "policy",
-      "severity": "warn",
-      "answers": "CQ17",
-      "when": [
-        {
-          "node": "rel",
-          "type": "TemplateRelease",
-          "where": {
-            "frozen": true
-          }
-        },
-        {
-          "not_edge": [
-            "rel",
-            "hasObservabilityPolicy",
-            "*"
-          ]
-        }
-      ],
-      "then": {
-        "flag": "Frozen release declares no observability policy (blocks production)"
-      },
-      "why": "A run nobody watches fails silently.",
+      "why": "A frozen release with no schedule is one nobody can run.",
       "validated_by": ""
     },
     {
       "id": "report-has-a-history",
       "kind": "policy",
       "severity": "warn",
-      "answers": "CQ20",
+      "answers": "Q15",
       "when": [
         {
           "node": "r",
@@ -387,10 +233,64 @@
         }
       ],
       "then": {
-        "flag": "Report has no accepted revision: its definition can change without a record (blocks production)"
+        "flag": "a report type has no accepted revision: its definition can change without a record"
       },
-      "why": "A warning, not a violation: reports written before 2.1.0 have no history yet and must keep compiling until someone accepts their definition.",
+      "why": "A warning rather than a violation: a report written before the history existed must keep compiling until someone accepts its definition.",
       "validated_by": ""
+    },
+    {
+      "id": "report-type-has-sections",
+      "kind": "policy",
+      "severity": "blocking",
+      "when": [
+        {
+          "node": "r",
+          "type": "ReportType",
+          "where": {
+            "lifecycleStatus": {
+              "in": [
+                "saved",
+                "in_validation",
+                "in_production"
+              ]
+            }
+          }
+        },
+        {
+          "not_edge": [
+            "r",
+            "hasSection",
+            "*"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "a report type past inception must have at least one section"
+      },
+      "why": "A product owner names a report type before anyone defines it (inception: a name and a purpose). Once saved, a report type without sections is not a report type. A shape cannot say 'past inception'; a policy can.",
+      "validated_by": "",
+      "answers": "Q7"
+    },
+    {
+      "id": "blocking-finding-is-open",
+      "kind": "policy",
+      "severity": "warn",
+      "when": [
+        {
+          "node": "f",
+          "type": "Finding",
+          "where": {
+            "state": "open",
+            "severity": "blocking"
+          }
+        }
+      ],
+      "then": {
+        "flag": "a blocking finding is still open: the run it was raised in did not pass"
+      },
+      "why": "A blocking failure nobody resolved or waived must stay visible.",
+      "validated_by": "",
+      "answers": "Q25"
     }
   ]
 }

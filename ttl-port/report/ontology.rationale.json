@@ -1,0 +1,144 @@
+{
+  "_about": "Why each class exists and who confirmed it; ported from the definitions' [CQ] citations and the meta: annotations of ontology/report.ttl. `validated_by` is empty until a person who knows the domain confirms the entry.",
+  "classes": {
+    "Component": {
+      "question": "Which Component does the report's template reuse from the document-template ontology?",
+      "why": "Reused from doctemplate so the report side and the rendering side name the same thing",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "SourceDocument": {
+      "question": "Which SourceDocument does the report's template reuse from the document-template ontology?",
+      "why": "Reused from doctemplate so the report side and the rendering side name the same thing",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "TemplateRelease": {
+      "question": "Which TemplateRelease does the report's template reuse from the document-template ontology?",
+      "why": "Reused from doctemplate so the report side and the rendering side name the same thing",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Approval": {
+      "question": "Which source document, run and approvals produced the template of report $REPORT?",
+      "why": "Needed by CQ3: without it the graph cannot answer CQ3",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "ApprovalPolicy": {
+      "question": "What verification thresholds and approval policy govern production runs of report $REPORT?",
+      "why": "Needed by CQ11: without it the graph cannot answer CQ11",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Change": {
+      "why": "A revision without its facts says that something changed, not what; questions about one field's history need the fact itself.",
+      "question": "How has the definition of report $REPORT changed: each accepted revision, who accepted it, when, from which date it applies, why, and which facts it added, changed or removed?",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Column": {
+      "question": "Which column of which table supplies each field of report $REPORT, what type is each field, and which fields are still unmapped?",
+      "why": "Needed by CQ5, CQ6, CQ7: without it the graph cannot answer CQ5",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "DataSource": {
+      "question": "Which data source and table does report $REPORT read, and which column carries each parameter?",
+      "why": "Needed by CQ7: without it the graph cannot answer CQ7",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Field": {
+      "question": "What does field $FIELD mean, and what is its label in each locale?",
+      "why": "Needed by CQ1, CQ4, CQ5, CQ6, CQ8, CQ9, CQ15, CQ18: without it the graph cannot answer CQ1",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "FieldMeaning": {
+      "question": "What does field $FIELD mean, and what is its label in each locale?",
+      "why": "Needed by CQ1: without it the graph cannot answer CQ1",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "ObservabilityPolicy": {
+      "question": "What is expected of each run of report $REPORT: delivery deadline and tolerated failures, who is alerted, and where is the run history?",
+      "why": "Needed by CQ17: without it the graph cannot answer CQ17",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Parameter": {
+      "question": "Which sections and fields make up report $REPORT, in order, and which are layout-dependent?",
+      "why": "Needed by CQ2: without it the graph cannot answer CQ2",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "PublishPolicy": {
+      "question": "What identifies one document of report $REPORT, where do the allowed values of each parameter come from, and where is the document published?",
+      "why": "Needed by CQ12: without it the graph cannot answer CQ12",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "ReportType": {
+      "question": "What does field $FIELD mean, and what is its label in each locale?",
+      "why": "Needed by CQ1, CQ2, CQ3, CQ4, CQ5, CQ6, CQ7, CQ8, CQ9, CQ10, CQ11, CQ12, CQ13, CQ14, CQ15, CQ16, CQ17, CQ18, CQ19: without it the graph cannot answer CQ1",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Revision": {
+      "why": "Without it a corrected meaning or column overwrites the old one, and 'what did this report say when that document was produced' has no answer. Compliance asks exactly that.",
+      "alternatives": "Relying on git history of the YAML files: rejected because the graph and its consumers cannot query it, it records who committed rather than who accepted, and it has no reason or effective date.",
+      "question": "How has the definition of report $REPORT changed: each accepted revision, who accepted it, when, from which date it applies, why, and which facts it added, changed or removed?",
+      "validated_by": ""
+    },
+    "Rule": {
+      "question": "Which fields of report $REPORT carry rules, and which rules are regulatory?",
+      "why": "Needed by CQ4: without it the graph cannot answer CQ4",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Run": {
+      "question": "Which source document, run and approvals produced the template of report $REPORT?",
+      "why": "Needed by CQ3: without it the graph cannot answer CQ3",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Schedule": {
+      "question": "When does report $REPORT run: cadence, day, as-of rule, calendar, timezone, and at which template version?",
+      "why": "Needed by CQ10: without it the graph cannot answer CQ10",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Section": {
+      "question": "Which sections and fields make up report $REPORT, in order, and which are layout-dependent?",
+      "why": "Needed by CQ2, CQ8: without it the graph cannot answer CQ2",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "StatusChange": {
+      "question": "Where is report $REPORT in its lifecycle: inception, saved to the graph, in validation, in production; and who recorded each step, when?",
+      "why": "Needed by CQ19: without it the graph cannot answer CQ19",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Table": {
+      "question": "Which column of which table supplies each field of report $REPORT, what type is each field, and which fields are still unmapped?",
+      "why": "Needed by CQ5, CQ6, CQ7: without it the graph cannot answer CQ5",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "UniverseQuery": {
+      "question": "What identifies one document of report $REPORT, where do the allowed values of each parameter come from, and where is the document published?",
+      "why": "Needed by CQ12: without it the graph cannot answer CQ12",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "VerificationPolicy": {
+      "question": "What verification thresholds and approval policy govern production runs of report $REPORT?",
+      "why": "Needed by CQ11: without it the graph cannot answer CQ11",
+      "alternatives": "",
+      "validated_by": ""
+    }
+  },
+  "properties": {}
+}

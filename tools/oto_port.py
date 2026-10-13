@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Port the report ontology to an OTO ontology unit: oto/report/.
+"""Port the report ontology's Turtle to an OTO ontology unit: ttl-port/report/.
+
+The port is the Turtle's mirror in OTO, tested against the original SPARQL. It is not the report
+ontology OTO projects use: that one, oto/report/, moved on in OTO from release 2 (2026-10-07) and is
+maintained there by hand.
 
     python tools/oto_port.py [--oto <path to the OTO repository>] [--check]
 
@@ -23,7 +27,7 @@ import tempfile
 import types
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(HERE, "oto", "report")
+OUT = os.path.join(HERE, "ttl-port", "report")
 RPT = "https://cynergis.ai/ont/report#"
 DT = "https://cynergis.ai/ont/doctemplate#"
 SH = "http://www.w3.org/ns/shacl#"
