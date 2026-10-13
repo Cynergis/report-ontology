@@ -286,25 +286,29 @@ python tools/kgctl.py rationale --strict   # exit 1 while a class, shape or ques
 
 ## As an OTO ontology unit
 
-`oto/report/` is the report ontology ported to [OTO](https://github.com/Cynergis/oto), the
-Cynergis knowledge-graph engine, by `tools/oto_port.py`: the terms of `ontology/report.ttl` under
-their own IRIs, the 21 competency questions rewritten in OTO's pattern language (`questions.json`,
-the form the engine runs and renders back to SPARQL), the shapes OTO holds as counts and the rest
-as policy rules, and the fund-profile-balanced fixture as the sample. It is installable as a
-project's vocabulary and answers the same questions the SPARQL does:
+`oto/report/` is **the report ontology OTO projects use**: the report pack embeds it, and
+`medallion-ontology`'s bridge extends it. It began as the port of the Turtle (release 1,
+2026-10-06) and moved on in OTO from release 2: exported from a project, `Component` renamed
+`Macro` (release 4), data lineage and quality folded in from report-generation (release 5:
+`Transformation`, `QualityCheck`, `Finding`, Q23–Q26). Its `manifest.json` records each release.
+It is maintained here, by hand, as an OTO unit; `tests/test_report_unit.py` keeps it composing, its
+sample answering every question, and composing with `flow`.
 
 ```bash
-oto init --name "Report catalogue" --slug catalogue --ontology ./oto/report
-oto build --project catalogue
-oto query --project catalogue questions                          # every question, and whether the graph answers it
-oto query --project catalogue ask CQ1 FIELD=mer                  # one question, run: the rows, or the gap
+oto ontology add https://github.com/Cynergis/report-ontology --path oto/report   # install it on a machine
+oto init --name "Report catalogue" --slug catalogue --ontology report
 ```
 
-`tests/test_oto_port.py` is the acceptance: for every question and every binding in the fixture,
+`ttl-port/report/` is **the Turtle's mirror in OTO**, written by `tools/oto_port.py`: the terms of
+`ontology/report.ttl` under their own IRIs, the 21 competency questions rewritten in OTO's
+pattern language, the shapes OTO holds as counts and the rest as policy rules, and the
+fund-profile-balanced fixture as the sample. It is kept while the Turtle serves the legacy
+tooling (kgctl, the report-ontology MCP server) and is not what projects install.
+`tests/test_oto_port.py` is its acceptance: for every question and every binding in the fixture,
 the original SPARQL and the port give the same answers, OTO's own SPARQL rendering agrees with its
 engine on this graph, and the committed unit is what the port writes. The port is regenerated
 with `python tools/oto_port.py --oto <OTO checkout> --check` after a change to the Turtle, the
-shapes or the questions; the questions in pattern form are edited in `tools/oto_port.py`.
+shapes or the questions.
 
 ### The flow ontology, ported
 
@@ -319,7 +323,7 @@ sample. Three names the report ontology uses for other things are renamed in the
 (`ArtifactField`, `ConfigParameter`, `outputOf`), so one project composes both:
 
 ```bash
-oto init --name "pdf-to-template" --slug ptt --ontology ./oto/flow,./oto/report --empty --project ptt
+oto init --name "pdf-to-template" --slug ptt --ontology ./oto/flow,./oto/report --empty --project ptt   # flow with the report ontology projects use
 cp fixtures/pdf-to-template/graph.json ptt/graph.json && oto build --project ptt
 oto query --project ptt brief implement-step                     # kgctl readiness: 8 READY, 10 BLOCKED FL3
 oto query --project ptt brief implement-step STEP=step.b10_verify   # kgctl brief: READY, every question's facts

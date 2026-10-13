@@ -1,4 +1,4 @@
-"""The OTO port of the report ontology (oto/report, written by tools/oto_port.py) answers what the
+"""The OTO port of the report ontology's Turtle (ttl-port/report, written by tools/oto_port.py) answers what the
 original does: every competency question, run by the original SPARQL over the fixture's compiled
 graph and by the OTO engine over the same facts as its sample, gives the same number of answers
 for every binding; two questions are compared value by value; OTO's own SPARQL rendering of each
@@ -15,7 +15,7 @@ import tempfile
 import pytest
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-UNIT = ROOT / "oto" / "report"
+UNIT = ROOT / "ttl-port" / "report"
 OTO = pathlib.Path(os.environ.get("OTO_HOME") or ROOT.parent / "oto")
 if (OTO / "oto" / "__init__.py").exists() and str(OTO) not in sys.path:
     sys.path.insert(0, str(OTO))
