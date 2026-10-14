@@ -1,0 +1,205 @@
+{
+  "_about": "Why each class and relation exists. `validated_by` is empty on purpose: confirmation in the source project does not carry to a new domain.",
+  "classes": {
+    "ReportType": {
+      "question": "Which report types exist: what is each for, for whom, in which locales and formats, how often, and where is it in its lifecycle?",
+      "why": "Needed by Q1, Q17: a thing with its own identity, dates or relationships, not a value about another; the catalogue is the first thing a reader asks for",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "StatusChange": {
+      "question": "Where is $REPORT in its lifecycle, and who recorded each step, when?",
+      "why": "Needed by Q17: a thing with its own identity, dates or relationships, not a value about another; the lifecycle log tells a draft from a report in production",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Parameter": {
+      "question": "What identifies one document of $REPORT, and where do the allowed values of each identifier come from at run time?",
+      "why": "Needed by Q2: a thing with its own identity, dates or relationships, not a value about another; a batch is expanded from the identifiers' universes",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "UniverseQuery": {
+      "question": "What identifies one document of $REPORT, and where do the allowed values of each identifier come from at run time?",
+      "why": "Needed by Q2: a thing with its own identity, dates or relationships, not a value about another; a batch is expanded from the identifiers' universes",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Section": {
+      "question": "Which sections and fields make up $REPORT, in what order, and which appear only in some layouts?",
+      "why": "Needed by Q7: a thing with its own identity, dates or relationships, not a value about another; the structure of a report is read from its sections in order",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Field": {
+      "question": "What does field $FIELD mean, and what label does it carry, in each language the report is offered in?",
+      "why": "Needed by Q3, Q4, Q7, Q16, Q20: a thing with its own identity, dates or relationships, not a value about another; a field's meaning per locale is what the report promises its reader",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "FieldMeaning": {
+      "question": "What does field $FIELD mean, and what label does it carry, in each language the report is offered in?",
+      "why": "Needed by Q3: a thing with its own identity, dates or relationships, not a value about another; a field's meaning per locale is what the report promises its reader",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Rule": {
+      "question": "Which fields of $REPORT carry rules, and which rules are regulatory?",
+      "why": "Needed by Q18: a thing with its own identity, dates or relationships, not a value about another; a regulatory rule is what compliance checks before a document goes out",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "DataSource": {
+      "question": "Which data source and table does $REPORT read, and which column carries each identifier?",
+      "why": "Needed by Q5: a thing with its own identity, dates or relationships, not a value about another; the loader needs the source, the table and the parameter columns",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Table": {
+      "question": "Which column of which table supplies each field of $REPORT, and which fields have no column yet?",
+      "why": "Needed by Q4, Q5: a thing with its own identity, dates or relationships, not a value about another; the mapping is the data team's contract; an unmapped field blocks production",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Column": {
+      "question": "Which column of which table supplies each field of $REPORT, and which fields have no column yet?",
+      "why": "Needed by Q4, Q5, Q6: a thing with its own identity, dates or relationships, not a value about another; the mapping is the data team's contract; an unmapped field blocks production",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Run": {
+      "question": "Which source document, run and approvals produced the template of $REPORT?",
+      "why": "Needed by Q14: a thing with its own identity, dates or relationships, not a value about another; provenance of a template: the sample, the run, the decisions",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Approval": {
+      "question": "Which source document, run and approvals produced the template of $REPORT?",
+      "why": "Needed by Q14: a thing with its own identity, dates or relationships, not a value about another; provenance of a template: the sample, the run, the decisions",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Schedule": {
+      "question": "When does $REPORT run: cadence, day, as-of rule, calendar, timezone, and at which template version?",
+      "why": "Needed by Q11: a thing with its own identity, dates or relationships, not a value about another; the dispatcher reads the schedule from the release",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "VerificationPolicy": {
+      "question": "Which sample document does the template of $REPORT reproduce, and what thresholds must a produced document meet?",
+      "why": "Needed by Q9, Q19: a thing with its own identity, dates or relationships, not a value about another; the template is held to the sample and to its thresholds",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "ApprovalPolicy": {
+      "question": "What verification thresholds and approval policy govern production runs of $REPORT?",
+      "why": "Needed by Q19: a thing with its own identity, dates or relationships, not a value about another; a produced document must meet its thresholds and get the review its policy says",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "PublishPolicy": {
+      "question": "Where do documents of $REPORT go, in which formats, and for how long are they kept?",
+      "why": "Needed by Q10: a thing with its own identity, dates or relationships, not a value about another; where documents go and how long they stay is a promise to readers",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "ObservabilityPolicy": {
+      "question": "What must a run of $REPORT achieve, who is alerted when it does not, and where is the run history?",
+      "why": "Needed by Q12: a thing with its own identity, dates or relationships, not a value about another; what a run must achieve, and who hears when it does not, is the operating promise",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Revision": {
+      "question": "How has the definition of $REPORT changed: each revision, who accepted it, when, from when it applies, why, and which facts changed?",
+      "why": "Needed by Q15, Q16: a thing with its own identity, dates or relationships, not a value about another; a definition corrected in place loses what was true when earlier documents went out",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Change": {
+      "question": "How has the definition of $REPORT changed: each revision, who accepted it, when, from when it applies, why, and which facts changed?",
+      "why": "Needed by Q15, Q16: a thing with its own identity, dates or relationships, not a value about another; a definition corrected in place loses what was true when earlier documents went out",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "TemplateRelease": {
+      "question": "Which component renders field $FIELD, in which template release, and which other reports use that component?",
+      "why": "Needed by Q8, Q9, Q11, Q13: a thing with its own identity, dates or relationships, not a value about another; a change to a component must be checked against the fields it draws",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Macro": {
+      "question": "Which component renders field $FIELD, in which template release, and which other reports use that component?",
+      "why": "Needed by Q8: a thing with its own identity, dates or relationships, not a value about another; a change to a component must be checked against the fields it draws",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "SourceDocument": {
+      "question": "Which sample document does the template of $REPORT reproduce, and what thresholds must a produced document meet?",
+      "why": "Needed by Q9, Q14: a thing with its own identity, dates or relationships, not a value about another; the template is held to the sample and to its thresholds",
+      "alternatives": "",
+      "validated_by": ""
+    },
+    "Transformation": {
+      "question": "Where does a computed field come from? (Q23)",
+      "why": "A field read from one column has a column; one that is computed has a transformation, or its lineage is a story nobody can check.",
+      "alternatives": "The lineage note on the field: kept for the words; the transformation is what a test runs.",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)"
+    },
+    "QualityCheck": {
+      "question": "What guards this field, column or table, and how severe is a failure? (Q24)",
+      "why": "A production release is refused while a field is unmapped; a quality check is how a mapped field stays right every run.",
+      "alternatives": "Checks as flow checks only: rejected, a quality rule is the analyst's, a flow check the engine's.",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)"
+    },
+    "Finding": {
+      "question": "Which findings are open, raised where, affecting what? (Q25, Q26)",
+      "why": "A failed check in a run is a fact with a date and a resolution; without it the run's verdict is a log line.",
+      "alternatives": "",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)"
+    }
+  },
+  "properties": {
+    "producedBy": {
+      "question": "Which run produced the template release of $REPORT, and what did it use?",
+      "why": "Provenance of a release reaches the run directly, not only through the source document; added at Chiheb's decision on 2026-10-07.",
+      "alternatives": "Reaching the run through usedSource only (Q14): rejected because a run may use a source and produce no release.",
+      "validated_by": ""
+    },
+    "computedBy": {
+      "question": "Which transformation computes this field? (Q23)",
+      "why": "Folded from report-generation on 2026-10-07: the lineage of a computed field, the guard on a value, the failure in a run.",
+      "alternatives": "",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)"
+    },
+    "usesInput": {
+      "question": "What does the transformation read? (Q23)",
+      "why": "Folded from report-generation on 2026-10-07: the lineage of a computed field, the guard on a value, the failure in a run.",
+      "alternatives": "",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)"
+    },
+    "guards": {
+      "question": "What does this check guard? (Q24)",
+      "why": "Folded from report-generation on 2026-10-07: the lineage of a computed field, the guard on a value, the failure in a run.",
+      "alternatives": "",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)"
+    },
+    "raisedBy": {
+      "question": "Which check raised this finding? (Q25)",
+      "why": "Folded from report-generation on 2026-10-07: the lineage of a computed field, the guard on a value, the failure in a run.",
+      "alternatives": "",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)"
+    },
+    "raisedIn": {
+      "question": "In which run was it raised? (Q25)",
+      "why": "Folded from report-generation on 2026-10-07: the lineage of a computed field, the guard on a value, the failure in a run.",
+      "alternatives": "",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)"
+    },
+    "affects": {
+      "question": "What does the finding affect? (Q26)",
+      "why": "Folded from report-generation on 2026-10-07: the lineage of a computed field, the guard on a value, the failure in a run.",
+      "alternatives": "",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)"
+    }
+  }
+}

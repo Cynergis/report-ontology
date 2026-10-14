@@ -1,0 +1,17 @@
+{
+  "name": "product-report",
+  "displayName": "Report product (OTO pack)",
+  "description": "A report product's specification: which report types it must produce, where their data must come from, what layout and fidelity, which channels, which rules and sign-offs, what a run must guarantee, what must stay answerable afterwards, what identifies a document, who owns what, and when a report type is ready.",
+  "version": "2.0.0",
+  "author": {
+    "name": "Cynergis"
+  },
+  "dependencies": [
+    "oto"
+  ],
+  "keywords": [
+    "reporting",
+    "oto",
+    "knowledge-graph"
+  ]
+}

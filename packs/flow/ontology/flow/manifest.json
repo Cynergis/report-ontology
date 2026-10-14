@@ -1,0 +1,38 @@
+{
+  "name": "flow",
+  "release": 2,
+  "domain": "software",
+  "summary": "Executable process graphs: steps with typed executors (script, OCR, Claude, human, terminal), gated by checks against metrics and parameters, connected by guarded transitions with effects, exchanging artifacts with fields; invariants and the tests derived from them. The briefs an agent reads before implementing or testing a step, building the engine, or changing a parameter or an artifact.",
+  "extends": [
+    "oto-core"
+  ],
+  "namespace": "https://cynergis.ai/ont/flow#",
+  "engine": ">=0.9",
+  "carries": [
+    "vocabulary",
+    "rationale",
+    "rules",
+    "questions",
+    "briefs",
+    "sample",
+    "readme"
+  ],
+  "maintainer": "Cynergis AI",
+  "changelog": [
+    {
+      "release": 2,
+      "at": "2026-10-13",
+      "note": "A flow declared as dependencies: waitsFor (joins), the derived after, Step.stepKind and parallelGroup, Flow.flowKind, trigger and resumable; FL22-FL24; three policies (a step comes after the writer of what it reads, a parallel group shares no written artifact, no cycle of waits). measures is renamed measuresMetric, so a project composes flow with product."
+    },
+    {
+      "release": 1,
+      "at": "2026-10-07",
+      "note": "Ported from report-ontology's flow ontology 0.1.1 (ontology/ontology.ttl, questions/competency_questions.yaml): 19 classes, 17 questions as FL1-FL17 plus FL18-FL21, 5 task types as briefs."
+    }
+  ],
+  "source": "https://github.com/Cynergis/report-ontology",
+  "path": "oto/flow",
+  "commit": "7ec9a4e",
+  "fetched_at": "2026-10-13T17:01:33+00:00",
+  "_about": "The ontology's identity: its release rises on every published change, `extends` names what it composes on top of, `carries` what the directory holds."
+}

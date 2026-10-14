@@ -313,6 +313,19 @@ oto ontology add https://github.com/Cynergis/report-ontology --path oto/product-
 oto init --empty --pack prd-architecture-studio --ontology product-report,ddd,flow --project <root>
 ```
 
+### The packs
+
+`packs/report`, `packs/product-report` and `packs/flow` are the OTO packs of these units, kept here
+beside what they embed and published from here to [Cynergis/oto-registry](https://github.com/Cynergis/oto-registry)
+(they were kept on one machine until 2026-10-14). `tests/test_packs.py` checks that each checks clean
+and embeds exactly the committed unit and the engine's copy of every base. After a unit changes,
+refresh the pack and publish it on a registry branch:
+
+```bash
+oto pack refresh packs/report
+oto pack publish --from packs/report --to https://github.com/Cynergis/oto-registry.git --ref <branch> --note "<what changed>"
+```
+
 `ttl-port/report/` is **the Turtle's mirror in OTO**, written by `tools/oto_port.py`: the terms of
 `ontology/report.ttl` under their own IRIs, the 21 competency questions rewritten in OTO's
 pattern language, the shapes OTO holds as counts and the rest as policy rules, and the

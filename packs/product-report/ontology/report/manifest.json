@@ -1,0 +1,51 @@
+{
+  "name": "report",
+  "release": 5,
+  "summary": "A report type: its meaning per locale, its sections and fields, the rules that apply, the column that supplies each value, the runs and approvals that produced its template, its operating contract, its lifecycle and the accepted history of its definition.",
+  "extends": [
+    "oto-core"
+  ],
+  "namespace": "https://cynergis.ai/ont/report#",
+  "engine": ">=0.8",
+  "carries": [
+    "vocabulary",
+    "rationale",
+    "rules",
+    "questions",
+    "sample",
+    "readme"
+  ],
+  "maintainer": "Cynergis AI",
+  "changelog": [
+    {
+      "release": 5,
+      "at": "2026-10-07",
+      "note": "Data lineage and quality folded in from report-generation (decided with Chiheb Dkhil, 2026-10-07, B7): Transformation, QualityCheck, Finding, Q23-Q26, a policy on open blocking findings. report-generation and report-technical retire."
+    },
+    {
+      "release": 4,
+      "at": "2026-10-07",
+      "note": "Component is Macro: a template macro of the shared library. Renamed so a project that composes the report domain with software-architecture keeps one Component, the estate's. Found by the first merge of product-report with ddd. A report type at inception needs no section: the hasSection shape is the policy report-type-has-sections, blocking past inception (answers Q7)."
+    },
+    {
+      "release": 3,
+      "at": "2026-10-07",
+      "note": "Exported from the project Report domain."
+    },
+    {
+      "release": 2,
+      "at": "2026-10-07",
+      "note": "Exported from the project Report domain."
+    },
+    {
+      "release": 1,
+      "at": "2026-10-06",
+      "note": "Ported from report-ontology 2.1.0 (ontology/report.ttl, questions/report_cq.yaml, ontology/report-shapes.ttl, the fund-profile-balanced fixture as the sample)."
+    }
+  ],
+  "source": "https://github.com/Cynergis/report-ontology",
+  "path": "oto/report",
+  "commit": "7ec9a4e",
+  "fetched_at": "2026-10-13T15:45:59+00:00",
+  "_about": "The ontology's identity: its release rises on every published change, `extends` names what it composes on top of, `carries` what the directory holds."
+}

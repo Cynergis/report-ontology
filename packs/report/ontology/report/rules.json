@@ -1,0 +1,296 @@
+{
+  "rules": [
+    {
+      "id": "field-is-mapped",
+      "kind": "policy",
+      "severity": "warn",
+      "answers": "Q4",
+      "when": [
+        {
+          "node": "f",
+          "type": "Field",
+          "where": {
+            "lineageStatus": "unmapped"
+          }
+        }
+      ],
+      "then": {
+        "flag": "a field has no column yet; a production release is blocked while it does not"
+      },
+      "why": "An unmapped field renders nothing.",
+      "validated_by": ""
+    },
+    {
+      "id": "mapping-claims-a-column",
+      "kind": "policy",
+      "severity": "blocking",
+      "answers": "Q4",
+      "when": [
+        {
+          "node": "f",
+          "type": "Field",
+          "where": {
+            "lineageStatus": {
+              "in": [
+                "proposed",
+                "verified"
+              ]
+            }
+          }
+        },
+        {
+          "not_edge": [
+            "f",
+            "sourcedFrom",
+            "*"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "the mapping says proposed or verified and names no column"
+      },
+      "why": "A status without its column is a mapping nobody can run.",
+      "validated_by": ""
+    },
+    {
+      "id": "column-in-the-reports-table",
+      "kind": "policy",
+      "severity": "blocking",
+      "answers": "Q5",
+      "when": [
+        {
+          "node": "f",
+          "type": "Field"
+        },
+        {
+          "edge": [
+            "f",
+            "sourcedFrom",
+            "c"
+          ]
+        },
+        {
+          "edge": [
+            "c",
+            "inTable",
+            "t"
+          ]
+        },
+        {
+          "edge": [
+            "f",
+            "inReport",
+            "r"
+          ]
+        },
+        {
+          "not_edge": [
+            "r",
+            "readsTable",
+            "t"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "a field is mapped to a column outside the report's table"
+      },
+      "why": "A report reads one table; a field read from another is a join nobody declared.",
+      "validated_by": ""
+    },
+    {
+      "id": "change-keeps-the-value-before",
+      "kind": "policy",
+      "severity": "blocking",
+      "answers": "Q16",
+      "when": [
+        {
+          "node": "c",
+          "type": "Change",
+          "where": {
+            "changeKind": {
+              "in": [
+                "changed",
+                "removed"
+              ]
+            },
+            "previousValue": {
+              "exists": false
+            }
+          }
+        }
+      ],
+      "then": {
+        "flag": "a changed or removed fact does not keep the value it had before"
+      },
+      "why": "The value before is the whole point of a history.",
+      "validated_by": ""
+    },
+    {
+      "id": "field-has-french-meaning",
+      "kind": "policy",
+      "severity": "warn",
+      "answers": "Q3",
+      "when": [
+        {
+          "node": "f",
+          "type": "Field"
+        },
+        {
+          "edge": [
+            "f",
+            "inReport",
+            "r"
+          ]
+        },
+        {
+          "node": "r",
+          "type": "ReportType",
+          "where": {
+            "locale": {
+              "contains": "fr"
+            }
+          }
+        },
+        {
+          "not_edge": [
+            "f",
+            "hasMeaning",
+            "*"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "a field has no meaning although the report is offered in French"
+      },
+      "why": "A French report with an English-only field prints a label nobody translated.",
+      "validated_by": ""
+    },
+    {
+      "id": "report-names-an-owner",
+      "kind": "policy",
+      "severity": "warn",
+      "answers": "Q1",
+      "when": [
+        {
+          "node": "r",
+          "type": "ReportType",
+          "where": {
+            "owner": {
+              "exists": false
+            }
+          }
+        }
+      ],
+      "then": {
+        "flag": "a report type names no owner"
+      },
+      "why": "Without an analyst responsible for the definition nobody verifies the mapping.",
+      "validated_by": ""
+    },
+    {
+      "id": "frozen-release-has-its-contract",
+      "kind": "policy",
+      "severity": "warn",
+      "answers": "Q11",
+      "when": [
+        {
+          "node": "rel",
+          "type": "TemplateRelease",
+          "where": {
+            "frozen": true
+          }
+        },
+        {
+          "not_edge": [
+            "rel",
+            "hasSchedule",
+            "*"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "a frozen release declares no schedule"
+      },
+      "why": "A frozen release with no schedule is one nobody can run.",
+      "validated_by": ""
+    },
+    {
+      "id": "report-has-a-history",
+      "kind": "policy",
+      "severity": "warn",
+      "answers": "Q15",
+      "when": [
+        {
+          "node": "r",
+          "type": "ReportType"
+        },
+        {
+          "not_edge": [
+            "r",
+            "hasRevision",
+            "*"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "a report type has no accepted revision: its definition can change without a record"
+      },
+      "why": "A warning rather than a violation: a report written before the history existed must keep compiling until someone accepts its definition.",
+      "validated_by": ""
+    },
+    {
+      "id": "report-type-has-sections",
+      "kind": "policy",
+      "severity": "blocking",
+      "when": [
+        {
+          "node": "r",
+          "type": "ReportType",
+          "where": {
+            "lifecycleStatus": {
+              "in": [
+                "saved",
+                "in_validation",
+                "in_production"
+              ]
+            }
+          }
+        },
+        {
+          "not_edge": [
+            "r",
+            "hasSection",
+            "*"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "a report type past inception must have at least one section"
+      },
+      "why": "A product owner names a report type before anyone defines it (inception: a name and a purpose). Once saved, a report type without sections is not a report type. A shape cannot say 'past inception'; a policy can.",
+      "validated_by": "",
+      "answers": "Q7"
+    },
+    {
+      "id": "blocking-finding-is-open",
+      "kind": "policy",
+      "severity": "warn",
+      "when": [
+        {
+          "node": "f",
+          "type": "Finding",
+          "where": {
+            "state": "open",
+            "severity": "blocking"
+          }
+        }
+      ],
+      "then": {
+        "flag": "a blocking finding is still open: the run it was raised in did not pass"
+      },
+      "why": "A blocking failure nobody resolved or waived must stay visible.",
+      "validated_by": "",
+      "answers": "Q25"
+    }
+  ]
+}

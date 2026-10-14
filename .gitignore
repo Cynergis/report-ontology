@@ -4,9 +4,13 @@ build/
 # the OTO unit's sample is written by tools/oto_port.py and committed: a unit must be whole when checked out
 !oto/report/sample.graph.json
 !oto/flow/sample.graph.json
+!oto/product-report/sample.graph.json
 fixtures/**/semantic/report.md
 
 __pycache__/
 .pytest_cache/
 .venv/
 .DS_Store
+
+# a pack embeds its ontologies with their samples: never ignore those
+!packs/*/ontology/*/sample.graph.json
