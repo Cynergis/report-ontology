@@ -39,7 +39,7 @@ def test_it_is_a_product_type_on_product_and_report_with_its_whole_history():
 def test_it_composes_with_report_and_flow():
     from oto.model import ontologies
     _config, _sample, _readme, _rationale, report = ontologies.merge(["product-report", "flow"], roots=[str(UNIT.parent)])
-    # `product` refines the description of oto-core's Document, which flow keeps as is: the same class,
-    # and the merge keeps the refined one. Any other clash is two ontologies meaning different things.
-    core = set(ontologies.composed("oto-core")["config"]["classes"])
-    assert {kind for kind, _first, _second in report["class_clashes"]} <= core, report["class_clashes"]
+    assert not report["class_clashes"], report["class_clashes"]
+    # `product` refines oto-core's Document, which flow keeps as is: the merge keeps the refined one
+    # and records it as a refinement (engine 0.11.15), not a clash
+    assert ("Document", "product-report", "flow") in report["class_refinements"]
