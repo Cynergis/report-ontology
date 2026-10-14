@@ -5,6 +5,8 @@
   var St = window.Studio;
   var D = (St && St.data) || {};
   var esc = St.esc;
+  // a page's address (index.html named when the site is opened from disk; older kits: the folder)
+  var page = St.page || function (path) { return path; };
   var STATUS = {inception: "Just started", saved: "Defined", in_validation: "Being validated", in_production: "In production"};
   var CADENCE = {daily: "Daily", weekly: "Weekly", monthly: "Monthly", quarterly: "Quarterly", semi_annual: "Twice a year",
                  annual: "Yearly", on_demand: "On demand"};
@@ -47,7 +49,7 @@
       place.pages.forEach(function (n) {
         var p = byName[n];
         if (!p || p.place === "technical") return;
-        cards.push('<a class="front-page" href="../' + esc(p.path) + '"><div class="studio-card"><strong>' + esc(p.title) + "</strong>" +
+        cards.push('<a class="front-page" href="' + esc(page("../" + p.path)) + '"><div class="studio-card"><strong>' + esc(p.title) + "</strong>" +
                    (p.summary ? '<br><span class="studio-muted">' + esc(p.summary) + "</span>" : "") + "</div></a>");
       });
     });
@@ -63,7 +65,7 @@
       (D.open[name] || []).forEach(function (e) { count += (e.items || []).length; });
       var p = byName[name];
       if (count && p) {
-        lines.push('<li><a href="../' + esc(p.path) + '#studio-open">' + esc(p.title) + "</a>: " +
+        lines.push('<li><a href="' + esc(page("../" + p.path)) + '#studio-open">' + esc(p.title) + "</a>: " +
                    (count === 1 ? "one thing is still open" : count + " things are still open") + ".</li>");
       }
     });
