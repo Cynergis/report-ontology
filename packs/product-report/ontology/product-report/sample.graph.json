@@ -1,0 +1,279 @@
+{
+  "_about": "Obligations of an invented report product, governing the fund-profile-balanced report type of the `report` sample.",
+  "nodes": [
+    {
+      "id": "requirement.produce-fund-profile",
+      "type": "Requirement",
+      "label": "Produce the fund profile monthly, in English and French, as PDF",
+      "summary": "Produce the fund profile monthly, in English and French, as PDF",
+      "attributes": {
+        "kind": "functional",
+        "priority": "must",
+        "concerns": "identity"
+      },
+      "as_of": "2026-10-06",
+      "valid_from": "2026-10-06",
+      "source_doc": "report-product-spec",
+      "status": "current",
+      "sources": [
+        "report-product-spec"
+      ],
+      "aliases": [],
+      "tags": [
+        "sample"
+      ]
+    },
+    {
+      "id": "requirement.read-finished-columns",
+      "type": "Requirement",
+      "label": "Read every value from a finished column of the report's table; never compute",
+      "summary": "Read every value from a finished column of the report's table; never compute",
+      "attributes": {
+        "kind": "functional",
+        "priority": "must",
+        "concerns": "data"
+      },
+      "as_of": "2026-10-06",
+      "valid_from": "2026-10-06",
+      "source_doc": "report-product-spec",
+      "status": "current",
+      "sources": [
+        "report-product-spec"
+      ],
+      "aliases": [],
+      "tags": [
+        "sample"
+      ]
+    },
+    {
+      "id": "requirement.reproduce-sample-pdf",
+      "type": "Requirement",
+      "label": "Reproduce the sample PDF the analyst provided, within the verification thresholds",
+      "summary": "Reproduce the sample PDF the analyst provided, within the verification thresholds",
+      "attributes": {
+        "kind": "functional",
+        "priority": "must",
+        "concerns": "layout"
+      },
+      "as_of": "2026-10-06",
+      "valid_from": "2026-10-06",
+      "source_doc": "report-product-spec",
+      "status": "current",
+      "sources": [
+        "report-product-spec"
+      ],
+      "aliases": [],
+      "tags": [
+        "sample"
+      ]
+    },
+    {
+      "id": "requirement.publish-to-portal",
+      "type": "Requirement",
+      "label": "Publish each document to the client portal path and keep it seven years",
+      "summary": "Publish each document to the client portal path and keep it seven years",
+      "attributes": {
+        "kind": "functional",
+        "priority": "must",
+        "concerns": "delivery"
+      },
+      "as_of": "2026-10-06",
+      "valid_from": "2026-10-06",
+      "source_doc": "report-product-spec",
+      "status": "current",
+      "sources": [
+        "report-product-spec"
+      ],
+      "aliases": [],
+      "tags": [
+        "sample"
+      ]
+    },
+    {
+      "id": "requirement.run-within-deadline",
+      "type": "Requirement",
+      "label": "Deliver a monthly batch within 24 hours of the as-of date, alert operations on failure",
+      "summary": "Deliver a monthly batch within 24 hours of the as-of date, alert operations on failure",
+      "attributes": {
+        "kind": "functional",
+        "priority": "must",
+        "concerns": "operations"
+      },
+      "as_of": "2026-10-06",
+      "valid_from": "2026-10-06",
+      "source_doc": "report-product-spec",
+      "status": "current",
+      "sources": [
+        "report-product-spec"
+      ],
+      "aliases": [],
+      "tags": [
+        "sample"
+      ]
+    },
+    {
+      "id": "requirement.keep-definition-history",
+      "type": "Requirement",
+      "label": "Keep every accepted revision of a report type's definition, with who and why",
+      "summary": "Keep every accepted revision of a report type's definition, with who and why",
+      "attributes": {
+        "kind": "functional",
+        "priority": "must",
+        "concerns": "audit"
+      },
+      "as_of": "2026-10-06",
+      "valid_from": "2026-10-06",
+      "source_doc": "report-product-spec",
+      "status": "current",
+      "sources": [
+        "report-product-spec"
+      ],
+      "aliases": [],
+      "tags": [
+        "sample"
+      ]
+    },
+    {
+      "id": "requirement.block-unmapped",
+      "type": "Requirement",
+      "label": "Refuse a production release while a field is unmapped",
+      "summary": "Refuse a production release while a field is unmapped",
+      "attributes": {
+        "kind": "functional",
+        "priority": "should",
+        "concerns": "readiness"
+      },
+      "as_of": "2026-10-06",
+      "valid_from": "2026-10-06",
+      "source_doc": "report-product-spec",
+      "status": "current",
+      "sources": [
+        "report-product-spec"
+      ],
+      "aliases": [],
+      "tags": [
+        "sample"
+      ]
+    },
+    {
+      "id": "policy.regulatory-disclaimer",
+      "type": "Policy",
+      "label": "Every fund profile carries the regulatory disclaimer, signed off by compliance",
+      "summary": "Compliance signs off every published document.",
+      "attributes": {
+        "kind": "compliance",
+        "authority": "securities regulator",
+        "concerns": "compliance"
+      },
+      "as_of": "2026-10-06",
+      "valid_from": "2026-10-06",
+      "source_doc": "report-product-spec",
+      "status": "current",
+      "sources": [
+        "report-product-spec"
+      ],
+      "aliases": [],
+      "tags": [
+        "sample"
+      ]
+    },
+    {
+      "id": "role.report-analyst",
+      "type": "Role",
+      "label": "Report analyst",
+      "summary": "Owns the definition of a report type and verifies its mapping.",
+      "attributes": {
+        "kind": "owner",
+        "holder": "the report analyst on duty",
+        "mandate": "Define report types and verify their data mapping.",
+        "verifies": "definition"
+      },
+      "as_of": "2026-10-06",
+      "valid_from": "2026-10-06",
+      "source_doc": "report-product-spec",
+      "status": "current",
+      "sources": [
+        "report-product-spec"
+      ],
+      "aliases": [],
+      "tags": [
+        "sample"
+      ]
+    },
+    {
+      "id": "role.compliance-reviewer",
+      "type": "Role",
+      "label": "Compliance reviewer",
+      "summary": "Signs off a publication.",
+      "attributes": {
+        "kind": "decider",
+        "holder": "compliance",
+        "mandate": "Approve every document before publication.",
+        "verifies": "publication"
+      },
+      "as_of": "2026-10-06",
+      "valid_from": "2026-10-06",
+      "source_doc": "report-product-spec",
+      "status": "current",
+      "sources": [
+        "report-product-spec"
+      ],
+      "aliases": [],
+      "tags": [
+        "sample"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "requirement.produce-fund-profile",
+      "rel": "governs",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "requirement.read-finished-columns",
+      "rel": "governs",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "requirement.reproduce-sample-pdf",
+      "rel": "governs",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "requirement.publish-to-portal",
+      "rel": "governs",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "requirement.run-within-deadline",
+      "rel": "governs",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "requirement.keep-definition-history",
+      "rel": "governs",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "requirement.block-unmapped",
+      "rel": "governs",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "policy.regulatory-disclaimer",
+      "rel": "governs",
+      "to": "report.fund-profile-balanced"
+    },
+    {
+      "from": "policy.regulatory-disclaimer",
+      "rel": "enforced_by",
+      "to": "role.compliance-reviewer"
+    },
+    {
+      "from": "report.fund-profile-balanced",
+      "rel": "owned_by",
+      "to": "role.report-analyst"
+    }
+  ]
+}

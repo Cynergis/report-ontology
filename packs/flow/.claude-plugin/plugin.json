@@ -1,0 +1,17 @@
+{
+  "name": "flow",
+  "displayName": "Flow (OTO pack)",
+  "description": "Executable process graphs: steps with typed executors (script, OCR, Claude, human, terminal), gated by checks against metrics and parameters, connected by guarded transitions with effects, exchanging artifacts with fields; invariants and the tests derived from them. The briefs an agent reads before implementing or testing a step, building the engine, or changing a parameter or an artifact.",
+  "version": "2.0.0",
+  "author": {
+    "name": "Cynergis"
+  },
+  "dependencies": [
+    "oto"
+  ],
+  "keywords": [
+    "software",
+    "oto",
+    "knowledge-graph"
+  ]
+}

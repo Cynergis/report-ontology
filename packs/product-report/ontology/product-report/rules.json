@@ -1,0 +1,67 @@
+{
+  "_about": "Policies of a report product, each naming the question it protects.",
+  "rules": [
+    {
+      "id": "report-type-has-a-requirement",
+      "kind": "policy",
+      "severity": "warn",
+      "answers": "RP1",
+      "when": [
+        {
+          "node": "rt",
+          "type": "ReportType"
+        },
+        {
+          "not_edge": [
+            "*",
+            "governs",
+            "rt"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "a report type in the catalogue that no requirement of the product names"
+      },
+      "why": "A report type nobody asked the product to produce is scope creep or an orphan.",
+      "validated_by": ""
+    },
+    {
+      "id": "audit-obligation-has-history",
+      "kind": "policy",
+      "severity": "warn",
+      "answers": "RP7",
+      "when": [
+        {
+          "edge": [
+            "r",
+            "governs",
+            "rt"
+          ]
+        },
+        {
+          "node": "r",
+          "type": "Requirement",
+          "where": {
+            "concerns": "audit"
+          }
+        },
+        {
+          "node": "rt",
+          "type": "ReportType"
+        },
+        {
+          "not_edge": [
+            "rt",
+            "hasRevision",
+            "*"
+          ]
+        }
+      ],
+      "then": {
+        "flag": "the product promises an audit trail for this report type, and it keeps no accepted revision"
+      },
+      "why": "An obligation the catalogue cannot meet must be visible before a document goes out.",
+      "validated_by": ""
+    }
+  ]
+}

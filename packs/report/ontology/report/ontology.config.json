@@ -1,0 +1,980 @@
+{
+  "_about": "Starter vocabulary exported from the project 'Report domain'. A FIRST DRAFT to edit, not a finished model. A relation is {domain, range, inverse, definition}. Use A|B for a union.",
+  "_summary": "A report type: its meaning per locale, its sections and fields, the rules that apply, the column that supplies each value, the runs and approvals that produced its template, its operating contract, its lifecycle and the accepted history of its definition.",
+  "name": "Report domain",
+  "ontology_version": 1,
+  "strict_domains": false,
+  "languages": [
+    "en"
+  ],
+  "classes": {
+    "ReportType": {
+      "definition": "A family of documents sharing one purpose, one set of sections and fields, one table and one template; identified by id and version, with a lifecycle and an owner."
+    },
+    "StatusChange": {
+      "definition": "One step in the lifecycle of a report type: the status it reached, who recorded it and when. Appended, never rewritten; the last one is the report's current status."
+    },
+    "Parameter": {
+      "definition": "A value that identifies one document of a report type (fund, series, as-of month, locale), with where its allowed values come from at run time."
+    },
+    "UniverseQuery": {
+      "definition": "A named query that lists the allowed values of a parameter at run time."
+    },
+    "Section": {
+      "definition": "A named part of a report with one purpose, rendered by one component, holding an ordered set of fields; present in every layout or only in some."
+    },
+    "Field": {
+      "definition": "A piece of information the report shows: typed, ordered in its section, with a meaning per locale, rules, and the column that supplies it. Shared across reports by its id."
+    },
+    "FieldMeaning": {
+      "definition": "The label and definition of a field in one locale."
+    },
+    "Rule": {
+      "definition": "A constraint or regulatory requirement on a field or on the report as a whole."
+    },
+    "DataSource": {
+      "definition": "A database the analyst names as the origin of a report's data: a kind and a database; credentials never here."
+    },
+    "Table": {
+      "definition": "A table of a data source, identified by dataset and name; a report reads one."
+    },
+    "Column": {
+      "definition": "A column of a table; the one that supplies a field's value, or binds a parameter."
+    },
+    "Run": {
+      "definition": "One execution of the template-build flow: which flow and engine version, which source documents it used, what it produced."
+    },
+    "Approval": {
+      "definition": "A recorded human decision at a gate of a run: reviewer, decision, time."
+    },
+    "Schedule": {
+      "definition": "When documents of a release are produced: cadence, day, as-of rule, calendar, timezone."
+    },
+    "VerificationPolicy": {
+      "definition": "Thresholds a produced document must meet: static-region similarity, overflow, fidelity."
+    },
+    "ApprovalPolicy": {
+      "definition": "How much human review a production batch gets: sample rate and minimum, full review after a release, reviewer role."
+    },
+    "PublishPolicy": {
+      "definition": "Where produced documents go: path pattern, formats, retention."
+    },
+    "ObservabilityPolicy": {
+      "definition": "What a production run must achieve and who hears when it does not: deadline, tolerated failure rate, alert recipients, where the run history is recorded."
+    },
+    "Revision": {
+      "definition": "One accepted revision of a report type's definition: who accepted it, when, from which date it applies, why, and the facts it changed."
+    },
+    "Change": {
+      "definition": "One fact a revision added, changed or removed, with its value before and after."
+    },
+    "TemplateRelease": {
+      "definition": "The versioned, frozen template folder that renders documents of a report type, carrying the operating contract and what it needs to render."
+    },
+    "Macro": {
+      "definition": "A template macro of the shared library that draws a section; shared across reports. Named Macro, not Component, so a project that composes the report domain with the estate keeps the estate's Component."
+    },
+    "SourceDocument": {
+      "definition": "The sample PDF the analyst provided, which the template reproduces, with its fingerprint."
+    },
+    "Transformation": {
+      "definition": "The logic that computes a field's value from columns and other fields when it is not read from one column: a calculation, a mapping, a filter, an aggregation, a lookup, with its expression. Folded from report-generation on 2026-10-07; a product whose rule is 'never compute' declares none."
+    },
+    "QualityCheck": {
+      "definition": "A rule that guards a field, a column or a table: what it tests, its threshold, how severe a failure is. Folded from report-generation on 2026-10-07."
+    },
+    "Finding": {
+      "definition": "One dated failure of a quality check in one run, with its severity and whether it is resolved. Folded from report-generation on 2026-10-07."
+    }
+  },
+  "properties": {
+    "hasSection": {
+      "domain": "ReportType",
+      "range": "Section",
+      "inverse": "sectionOf",
+      "definition": "The report type is made of this section. A report type past inception has at least one (the policy report-type-has-sections); at inception it is a name and a purpose."
+    },
+    "hasField": {
+      "domain": "Section",
+      "range": "Field",
+      "inverse": "inSection",
+      "definition": "The section shows this field.",
+      "min": 1
+    },
+    "inSection": {
+      "domain": "Field",
+      "range": "Section",
+      "inverse": "hasField",
+      "definition": "The one section that shows the field.",
+      "min": 1,
+      "max": 1
+    },
+    "inReport": {
+      "domain": "Field",
+      "range": "ReportType",
+      "inverse": "fieldOf",
+      "definition": "The report type the field belongs to, stated on the field so fields compare across reports.",
+      "min": 1
+    },
+    "hasMeaning": {
+      "domain": "Field",
+      "range": "FieldMeaning",
+      "inverse": "meaningOf",
+      "definition": "The label and definition of the field in one locale.",
+      "min": 1
+    },
+    "hasRule": {
+      "domain": "Field|ReportType",
+      "range": "Rule",
+      "inverse": "ruleOf",
+      "definition": "A constraint or regulatory requirement that applies to the field, or to the report as a whole."
+    },
+    "renderedBy": {
+      "domain": "Section",
+      "range": "Macro",
+      "inverse": "renders",
+      "definition": "The component that draws the section.",
+      "max": 1
+    },
+    "hasParameter": {
+      "domain": "ReportType|TemplateRelease",
+      "range": "Parameter",
+      "inverse": "parameterOf",
+      "definition": "A value that identifies one document; from a release, with where its allowed values come from at that version."
+    },
+    "universeQuery": {
+      "domain": "Parameter",
+      "range": "UniverseQuery",
+      "inverse": "universeOf",
+      "definition": "The query that lists the parameter's allowed values at run time.",
+      "max": 1
+    },
+    "boundToColumn": {
+      "domain": "Parameter",
+      "range": "Column",
+      "inverse": "bindsParameter",
+      "definition": "The column whose value selects the rows of one document.",
+      "max": 1
+    },
+    "hasStatusChange": {
+      "domain": "ReportType",
+      "range": "StatusChange",
+      "inverse": "statusChangeOf",
+      "definition": "A step in the report type's lifecycle; together they are its history."
+    },
+    "readsTable": {
+      "domain": "ReportType",
+      "range": "Table",
+      "inverse": "readBy",
+      "definition": "The table that holds every column the report needs.",
+      "max": 1
+    },
+    "inDataSource": {
+      "domain": "Table",
+      "range": "DataSource",
+      "inverse": "holdsTable",
+      "definition": "The data source the table lives in.",
+      "min": 1,
+      "max": 1
+    },
+    "inTable": {
+      "domain": "Column",
+      "range": "Table",
+      "inverse": "hasColumn",
+      "definition": "The table the column belongs to.",
+      "min": 1,
+      "max": 1
+    },
+    "sourcedFrom": {
+      "domain": "Field",
+      "range": "Column",
+      "inverse": "supplies",
+      "definition": "The column that supplies the field's value: the mapping, proposed by the agent and verified by the analyst.",
+      "max": 1
+    },
+    "derivedFrom": {
+      "domain": "ReportType",
+      "range": "SourceDocument",
+      "inverse": "reproducedBy",
+      "definition": "The sample PDF the report's template reproduces."
+    },
+    "releasedAs": {
+      "domain": "ReportType",
+      "range": "TemplateRelease",
+      "inverse": "ofReport",
+      "definition": "The versioned template that renders documents of the report type."
+    },
+    "usedSource": {
+      "domain": "Run",
+      "range": "SourceDocument",
+      "inverse": "usedBy",
+      "definition": "A source document the run read as input."
+    },
+    "hasApproval": {
+      "domain": "Run",
+      "range": "Approval",
+      "inverse": "approvalOf",
+      "definition": "A human decision recorded at a gate of the run."
+    },
+    "hasSchedule": {
+      "domain": "TemplateRelease",
+      "range": "Schedule",
+      "inverse": "scheduleOf",
+      "definition": "When documents of the release are produced.",
+      "max": 1
+    },
+    "hasVerificationPolicy": {
+      "domain": "TemplateRelease",
+      "range": "VerificationPolicy",
+      "inverse": "verificationPolicyOf",
+      "definition": "The thresholds every produced document must meet.",
+      "max": 1
+    },
+    "hasApprovalPolicy": {
+      "domain": "TemplateRelease",
+      "range": "ApprovalPolicy",
+      "inverse": "approvalPolicyOf",
+      "definition": "How much human review a production batch gets.",
+      "max": 1
+    },
+    "hasPublishPolicy": {
+      "domain": "TemplateRelease",
+      "range": "PublishPolicy",
+      "inverse": "publishPolicyOf",
+      "definition": "Where produced documents go, in which formats, for how long.",
+      "max": 1
+    },
+    "hasObservabilityPolicy": {
+      "domain": "TemplateRelease",
+      "range": "ObservabilityPolicy",
+      "inverse": "observabilityPolicyOf",
+      "definition": "What a run must achieve and who is alerted.",
+      "max": 1
+    },
+    "hasRevision": {
+      "domain": "ReportType",
+      "range": "Revision",
+      "inverse": "revisionOf",
+      "definition": "An accepted revision of the report type's definition; together they are its history."
+    },
+    "hasChange": {
+      "domain": "Revision",
+      "range": "Change",
+      "inverse": "changeOf",
+      "definition": "A fact the revision added, changed or removed."
+    },
+    "producedBy": {
+      "domain": "TemplateRelease",
+      "range": "Run",
+      "inverse": "produced",
+      "definition": "The run of the template-build flow that produced the release.",
+      "max": 1
+    },
+    "computedBy": {
+      "domain": "Field",
+      "range": "Transformation",
+      "inverse": "computes",
+      "definition": "The transformation that computes this field, when it is not read from one column.",
+      "max": 1
+    },
+    "usesInput": {
+      "domain": "Transformation",
+      "range": "Column|Field",
+      "inverse": "inputOf",
+      "definition": "A column or field the transformation reads: the lineage of a computed value."
+    },
+    "guards": {
+      "domain": "QualityCheck",
+      "range": "Field|Column|Table",
+      "inverse": "guardedBy",
+      "definition": "What the check tests, each run."
+    },
+    "raisedBy": {
+      "domain": "Finding",
+      "range": "QualityCheck",
+      "inverse": "raised",
+      "definition": "The check that failed.",
+      "max": 1
+    },
+    "raisedIn": {
+      "domain": "Finding",
+      "range": "Run",
+      "inverse": "raisedFindings",
+      "definition": "The run in which the check failed.",
+      "max": 1
+    },
+    "affects": {
+      "domain": "Finding",
+      "range": "Field|Column|Table",
+      "inverse": "affectedByFinding",
+      "definition": "What the failure touches: the field, column or table the check guards."
+    }
+  },
+  "attributes": {
+    "ReportType": {
+      "reportId": {
+        "type": "string",
+        "definition": "Identifier of the report type (lower case, hyphens).",
+        "required": true
+      },
+      "version": {
+        "type": "string",
+        "definition": "Semantic version of the definition."
+      },
+      "kind": {
+        "type": "string",
+        "definition": "The family the report type belongs to, used to group the catalogue."
+      },
+      "purpose": {
+        "type": "string",
+        "definition": "What the report is for: the question it answers for its reader.",
+        "required": true
+      },
+      "owner": {
+        "type": "string",
+        "definition": "The analyst responsible for the definition and for verifying its mapping."
+      },
+      "lifecycleStatus": {
+        "type": "enum:inception|saved|in_validation|in_production",
+        "definition": "Where the report type is in its lifecycle.",
+        "required": true
+      },
+      "audience": {
+        "type": "list",
+        "definition": "The groups of readers the report is written for."
+      },
+      "cadence": {
+        "type": "enum:daily|weekly|monthly|quarterly|semi_annual|annual|on_demand",
+        "definition": "How often documents are produced, as declared on the report type."
+      },
+      "locale": {
+        "type": "list",
+        "definition": "The languages the report is offered in."
+      },
+      "layout": {
+        "type": "string",
+        "definition": "The named arrangement of components the report type uses."
+      }
+    },
+    "StatusChange": {
+      "order": {
+        "type": "integer",
+        "definition": "Position of the step in the lifecycle, from 1.",
+        "required": true
+      },
+      "lifecycleStatus": {
+        "type": "enum:inception|saved|in_validation|in_production",
+        "definition": "The status reached.",
+        "required": true
+      },
+      "changedBy": {
+        "type": "string",
+        "definition": "Who recorded the step.",
+        "required": true
+      },
+      "at": {
+        "type": "string",
+        "definition": "When it was recorded.",
+        "required": true
+      },
+      "note": {
+        "type": "string",
+        "definition": "A remark on the step."
+      }
+    },
+    "Parameter": {
+      "label": {
+        "type": "string",
+        "definition": "The parameter's name.",
+        "required": true
+      },
+      "definition": {
+        "type": "string",
+        "definition": "What the parameter identifies."
+      },
+      "allowedValue": {
+        "type": "list",
+        "definition": "The allowed values, when they are a fixed list."
+      },
+      "boundBy": {
+        "type": "string",
+        "definition": "What binds the value at run time when neither a list nor a query does (the schedule)."
+      }
+    },
+    "UniverseQuery": {
+      "sql": {
+        "type": "string",
+        "definition": "The query, illustrative or real.",
+        "required": true
+      },
+      "returnsParameter": {
+        "type": "string",
+        "definition": "The parameter the query lists values for."
+      }
+    },
+    "Section": {
+      "order": {
+        "type": "integer",
+        "definition": "Position of the section in the report, from 1.",
+        "required": true
+      },
+      "purpose": {
+        "type": "string",
+        "definition": "What the section is for.",
+        "required": true
+      },
+      "presentWhen": {
+        "type": "string",
+        "definition": "Layout condition under which the section appears; absent means always."
+      }
+    },
+    "Field": {
+      "fieldId": {
+        "type": "string",
+        "definition": "Identifier of the field, unique in its report; the snake_case form of its English label.",
+        "required": true
+      },
+      "fieldType": {
+        "type": "enum:text|enum|number|integer|percent|currency|currency_pair|percent_by_series|date|list|grouped_list|series|list_of_text|boolean",
+        "definition": "How the value is shaped and formatted.",
+        "required": true
+      },
+      "order": {
+        "type": "integer",
+        "definition": "Position of the field in its section, from 1."
+      },
+      "rowStructure": {
+        "type": "string",
+        "definition": "For list-like fields, the shape of one row as JSON."
+      },
+      "members": {
+        "type": "string",
+        "definition": "For a composite field, its named members and their definitions, as JSON."
+      },
+      "alias": {
+        "type": "list",
+        "definition": "Other names readers use for the field."
+      },
+      "lineageStatus": {
+        "type": "enum:unmapped|proposed|verified",
+        "definition": "How far the field's mapping has got.",
+        "required": true
+      },
+      "lineageNote": {
+        "type": "string",
+        "definition": "A remark on the mapping: why unmapped, what remains to confirm."
+      }
+    },
+    "FieldMeaning": {
+      "locale": {
+        "type": "enum:en|fr",
+        "definition": "The language of this meaning.",
+        "required": true
+      },
+      "label": {
+        "type": "string",
+        "definition": "The text the report shows for the field in that locale."
+      },
+      "definition": {
+        "type": "string",
+        "definition": "What the field means, in that locale.",
+        "required": true
+      }
+    },
+    "Rule": {
+      "ruleText": {
+        "type": "string",
+        "definition": "The rule, in one sentence.",
+        "required": true
+      },
+      "regulatory": {
+        "type": "boolean",
+        "definition": "True when the rule comes from regulation or compliance."
+      }
+    },
+    "DataSource": {
+      "sourceKind": {
+        "type": "string",
+        "definition": "The database technology, which tells the loader which connection to use.",
+        "required": true
+      },
+      "database": {
+        "type": "string",
+        "definition": "The database or project that holds the dataset."
+      }
+    },
+    "Table": {
+      "dataset": {
+        "type": "string",
+        "definition": "The dataset or schema the table sits in.",
+        "required": true
+      },
+      "tableName": {
+        "type": "string",
+        "definition": "Name of the table.",
+        "required": true
+      }
+    },
+    "Column": {
+      "columnName": {
+        "type": "string",
+        "definition": "Name of the column in its table.",
+        "required": true
+      }
+    },
+    "Run": {
+      "flow": {
+        "type": "string",
+        "definition": "The flow that ran."
+      },
+      "flowVersion": {
+        "type": "string",
+        "definition": "Its version.",
+        "required": true
+      },
+      "engineVersion": {
+        "type": "string",
+        "definition": "The engine version.",
+        "required": true
+      },
+      "startedAt": {
+        "type": "string",
+        "definition": "When the run started."
+      },
+      "result": {
+        "type": "enum:draft|signed_off|frozen",
+        "definition": "What the run produced.",
+        "required": true
+      }
+    },
+    "Approval": {
+      "gate": {
+        "type": "string",
+        "definition": "The gate of the run the decision was taken at.",
+        "required": true
+      },
+      "decision": {
+        "type": "string",
+        "definition": "The decision.",
+        "required": true
+      },
+      "reviewer": {
+        "type": "string",
+        "definition": "Who decided.",
+        "required": true
+      },
+      "at": {
+        "type": "string",
+        "definition": "When."
+      }
+    },
+    "Schedule": {
+      "cadence": {
+        "type": "enum:daily|weekly|monthly|quarterly|semi_annual|annual|on_demand",
+        "definition": "How often documents are produced.",
+        "required": true
+      },
+      "runOn": {
+        "type": "string",
+        "definition": "The day within the cadence.",
+        "required": true
+      },
+      "asOfRule": {
+        "type": "string",
+        "definition": "How the as-of date is derived.",
+        "required": true
+      },
+      "calendar": {
+        "type": "string",
+        "definition": "The business calendar, when one applies."
+      },
+      "timezone": {
+        "type": "string",
+        "definition": "The timezone the schedule is read in.",
+        "required": true
+      }
+    },
+    "VerificationPolicy": {
+      "goldenStaticSsimMin": {
+        "type": "number",
+        "definition": "Minimum static-region similarity to the golden images.",
+        "required": true
+      },
+      "overflowBlocking": {
+        "type": "boolean",
+        "definition": "Whether an overflow blocks the document.",
+        "required": true
+      },
+      "fidelityMin": {
+        "type": "number",
+        "definition": "Minimum fidelity to the sample."
+      }
+    },
+    "ApprovalPolicy": {
+      "sampleRate": {
+        "type": "number",
+        "definition": "The share of a batch a reviewer sees.",
+        "required": true
+      },
+      "sampleMin": {
+        "type": "integer",
+        "definition": "The minimum number of documents reviewed.",
+        "required": true
+      },
+      "fullReviewAfterRelease": {
+        "type": "boolean",
+        "definition": "Whether the first batch after a new release is reviewed in full."
+      },
+      "reviewerRole": {
+        "type": "string",
+        "definition": "The role that reviews."
+      }
+    },
+    "PublishPolicy": {
+      "pathPattern": {
+        "type": "string",
+        "definition": "The path pattern over the parameters.",
+        "required": true
+      },
+      "publishFormat": {
+        "type": "list",
+        "definition": "The formats published."
+      },
+      "retentionDays": {
+        "type": "integer",
+        "definition": "How long documents are kept."
+      }
+    },
+    "ObservabilityPolicy": {
+      "deliverWithinHours": {
+        "type": "integer",
+        "definition": "The delivery deadline after the as-of date.",
+        "required": true
+      },
+      "maxFailureRate": {
+        "type": "number",
+        "definition": "The tolerated failure rate, 0 to 1.",
+        "required": true
+      },
+      "alertRecipient": {
+        "type": "list",
+        "definition": "Who is alerted when a run misses its promise.",
+        "required": true
+      },
+      "runLog": {
+        "type": "string",
+        "definition": "Where the run history is recorded.",
+        "required": true
+      }
+    },
+    "Revision": {
+      "order": {
+        "type": "integer",
+        "definition": "Position in the history of the definition, from 1.",
+        "required": true
+      },
+      "changedBy": {
+        "type": "string",
+        "definition": "Who accepted the revision.",
+        "required": true
+      },
+      "at": {
+        "type": "string",
+        "definition": "When it was recorded.",
+        "required": true
+      },
+      "effectiveFrom": {
+        "type": "string",
+        "definition": "From which date it applies."
+      },
+      "reason": {
+        "type": "string",
+        "definition": "Why it was accepted.",
+        "required": true
+      }
+    },
+    "Change": {
+      "fact": {
+        "type": "string",
+        "definition": "The fact, named by its file and path.",
+        "required": true
+      },
+      "changeKind": {
+        "type": "enum:added|changed|removed",
+        "definition": "What happened to the fact.",
+        "required": true
+      },
+      "previousValue": {
+        "type": "string",
+        "definition": "The value before, for a changed or removed fact."
+      },
+      "newValue": {
+        "type": "string",
+        "definition": "The value after, for an added or changed fact."
+      }
+    },
+    "TemplateRelease": {
+      "version": {
+        "type": "string",
+        "definition": "The release's version.",
+        "required": true
+      },
+      "frozen": {
+        "type": "boolean",
+        "definition": "Whether the release is frozen; only a frozen release produces documents."
+      },
+      "engineVersion": {
+        "type": "string",
+        "definition": "The engine version pinned."
+      },
+      "ontologyVersion": {
+        "type": "string",
+        "definition": "The ontology version the release was written for."
+      },
+      "libraryVersion": {
+        "type": "string",
+        "definition": "The component library version."
+      },
+      "font": {
+        "type": "list",
+        "definition": "The fonts the release renders with."
+      },
+      "fileHash": {
+        "type": "list",
+        "definition": "The fingerprint of each file of the release."
+      },
+      "assetPending": {
+        "type": "list",
+        "definition": "Assets still pending."
+      },
+      "waiver": {
+        "type": "list",
+        "definition": "Waivers granted."
+      },
+      "repoUrl": {
+        "type": "string",
+        "definition": "Where the template folder is stored in a repository."
+      },
+      "sha256": {
+        "type": "list",
+        "definition": "The fingerprint of each source document the release was built from."
+      }
+    },
+    "SourceDocument": {
+      "repoUrl": {
+        "type": "string",
+        "definition": "Where the document is stored.",
+        "required": true
+      },
+      "sha256": {
+        "type": "list",
+        "definition": "The fingerprint that identifies it.",
+        "required": true
+      },
+      "role": {
+        "type": "string",
+        "definition": "What the document is used for: primary, alternate, reference."
+      },
+      "referenceKind": {
+        "type": "string",
+        "definition": "For a reference document, what kind."
+      }
+    },
+    "Transformation": {
+      "kind": {
+        "type": "enum:calculation|mapping|filter|aggregation|lookup",
+        "definition": "What sort of logic it is."
+      },
+      "expression": {
+        "type": "string",
+        "definition": "The logic, as written: a formula, a SQL fragment, a rule in words."
+      }
+    },
+    "QualityCheck": {
+      "test": {
+        "type": "string",
+        "definition": "What is tested, in words or as an expression."
+      },
+      "threshold": {
+        "type": "string",
+        "definition": "The value a failure is measured against."
+      },
+      "severity": {
+        "type": "enum:info|warn|blocking",
+        "definition": "What a failure means for the run."
+      }
+    },
+    "Finding": {
+      "severity": {
+        "type": "enum:info|warn|blocking",
+        "definition": "How bad the failure is."
+      },
+      "state": {
+        "type": "enum:open|resolved|waived",
+        "definition": "Whether it has been dealt with.",
+        "required": true
+      },
+      "detail": {
+        "type": "string",
+        "definition": "What was observed."
+      }
+    }
+  },
+  "namespaces": {
+    "dt": {
+      "iri": "https://cynergis.ai/ont/doctemplate#",
+      "terms": [
+        "Macro",
+        "SourceDocument",
+        "TemplateRelease"
+      ]
+    },
+    "rpt": {
+      "iri": "https://cynergis.ai/ont/report#",
+      "terms": [
+        "Approval",
+        "ApprovalPolicy",
+        "Change",
+        "Column",
+        "DataSource",
+        "Field",
+        "FieldMeaning",
+        "ObservabilityPolicy",
+        "Parameter",
+        "PublishPolicy",
+        "ReportType",
+        "Revision",
+        "Rule",
+        "Run",
+        "Schedule",
+        "Section",
+        "StatusChange",
+        "Table",
+        "UniverseQuery",
+        "VerificationPolicy",
+        "alertRecipient",
+        "alias",
+        "allowedValue",
+        "asOfRule",
+        "assetPending",
+        "at",
+        "audience",
+        "boundBy",
+        "boundToColumn",
+        "cadence",
+        "calendar",
+        "changeKind",
+        "changedBy",
+        "columnName",
+        "database",
+        "dataset",
+        "decision",
+        "definition",
+        "deliverWithinHours",
+        "derivedFrom",
+        "effectiveFrom",
+        "engineVersion",
+        "fact",
+        "fidelityMin",
+        "fieldId",
+        "fieldType",
+        "fileHash",
+        "flow",
+        "flowVersion",
+        "font",
+        "frozen",
+        "fullReviewAfterRelease",
+        "gate",
+        "goldenStaticSsimMin",
+        "hasApproval",
+        "hasApprovalPolicy",
+        "hasChange",
+        "hasField",
+        "hasMeaning",
+        "hasObservabilityPolicy",
+        "hasParameter",
+        "hasPublishPolicy",
+        "hasRevision",
+        "hasRule",
+        "hasSchedule",
+        "hasSection",
+        "hasStatusChange",
+        "hasVerificationPolicy",
+        "inDataSource",
+        "inReport",
+        "inSection",
+        "inTable",
+        "kind",
+        "label",
+        "layout",
+        "libraryVersion",
+        "lifecycleStatus",
+        "lineageNote",
+        "lineageStatus",
+        "locale",
+        "maxFailureRate",
+        "members",
+        "newValue",
+        "note",
+        "ontologyVersion",
+        "order",
+        "overflowBlocking",
+        "owner",
+        "pathPattern",
+        "presentWhen",
+        "previousValue",
+        "producedBy",
+        "publishFormat",
+        "purpose",
+        "readsTable",
+        "reason",
+        "referenceKind",
+        "regulatory",
+        "releasedAs",
+        "renderedBy",
+        "repoUrl",
+        "reportId",
+        "result",
+        "retentionDays",
+        "returnsParameter",
+        "reviewer",
+        "reviewerRole",
+        "role",
+        "rowStructure",
+        "ruleText",
+        "runLog",
+        "runOn",
+        "sampleMin",
+        "sampleRate",
+        "sha256",
+        "sourceKind",
+        "sourcedFrom",
+        "sql",
+        "startedAt",
+        "tableName",
+        "timezone",
+        "universeQuery",
+        "usedSource",
+        "version",
+        "waiver",
+        "Transformation",
+        "QualityCheck",
+        "Finding",
+        "computedBy",
+        "usesInput",
+        "guards",
+        "raisedBy",
+        "raisedIn",
+        "affects",
+        "kind",
+        "expression",
+        "test",
+        "threshold",
+        "severity",
+        "state",
+        "detail"
+      ]
+    }
+  },
+  "_exported_from_version": 1
+}

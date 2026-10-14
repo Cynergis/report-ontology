@@ -1,0 +1,1802 @@
+{
+  "_about": "What this ontology exists to answer. Each question runs over the graph in the pattern language of rules.json; `gate` says what an empty answer means; `gaps` says why it is empty; `terms` names the vocabulary the question covers. Reasoned about in `why`, confirmed in `validated_by`.",
+  "questions": {
+    "Q1": {
+      "who": "analyst",
+      "question": "Which report types exist: what is each for, for whom, in which locales and formats, how often, and where is it in its lifecycle?",
+      "why": "Q1 of Gate 1 (confirmed 2026-10-07): the catalogue is the first thing a reader asks for.",
+      "validated_by": "",
+      "ask": {
+        "when": [
+          {
+            "node": "r",
+            "type": "ReportType"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "r",
+                  "releasedAs",
+                  "rel"
+                ]
+              },
+              {
+                "node": "rel",
+                "type": "TemplateRelease"
+              },
+              {
+                "optional": [
+                  {
+                    "edge": [
+                      "rel",
+                      "hasSchedule",
+                      "s"
+                    ]
+                  },
+                  {
+                    "node": "s",
+                    "type": "Schedule"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "select": [
+          "r.reportId",
+          "r.label",
+          "r.purpose",
+          "r.kind",
+          "r.audience",
+          "r.locale",
+          "r.cadence",
+          "s.cadence",
+          "r.lifecycleStatus",
+          "r.owner",
+          "rel.version",
+          "rel.frozen"
+        ]
+      },
+      "gate": "non_empty",
+      "terms": [
+        "ReportType.version",
+        "ReportType.layout"
+      ]
+    },
+    "Q2": {
+      "who": "operations",
+      "question": "What identifies one document of $REPORT, and where do the allowed values of each identifier come from at run time?",
+      "why": "Q2 of Gate 1 (confirmed 2026-10-07): a batch is expanded from the identifiers' universes.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "hasParameter",
+              "p"
+            ]
+          },
+          {
+            "node": "p",
+            "type": "Parameter"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "p",
+                  "universeQuery",
+                  "u"
+                ]
+              },
+              {
+                "node": "u",
+                "type": "UniverseQuery"
+              }
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "p",
+                  "boundToColumn",
+                  "c"
+                ]
+              },
+              {
+                "node": "c",
+                "type": "Column"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "p.label",
+          "p.definition",
+          "p.allowedValue",
+          "p.boundBy",
+          "u.label",
+          "u.sql",
+          "u.returnsParameter",
+          "c.columnName"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "not_edge": [
+                "$REPORT",
+                "hasParameter",
+                "*"
+              ]
+            }
+          ],
+          "say": "nothing identifies a document of the report"
+        },
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "hasParameter",
+                "p"
+              ]
+            },
+            {
+              "node": "p",
+              "type": "Parameter",
+              "where": {
+                "allowedValue": {
+                  "exists": false
+                },
+                "boundBy": {
+                  "exists": false
+                }
+              }
+            },
+            {
+              "not_edge": [
+                "p",
+                "universeQuery",
+                "*"
+              ]
+            }
+          ],
+          "say": "a parameter has no universe: a batch cannot be expanded"
+        }
+      ]
+    },
+    "Q3": {
+      "who": "analyst",
+      "question": "What does field $FIELD mean, and what label does it carry, in each language the report is offered in?",
+      "why": "Q3 of Gate 1 (confirmed 2026-10-07): a field's meaning per locale is what the report promises its reader.",
+      "validated_by": "",
+      "params": {
+        "FIELD": {
+          "type": "Field"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$FIELD",
+              "hasMeaning",
+              "m"
+            ]
+          },
+          {
+            "node": "m",
+            "type": "FieldMeaning"
+          }
+        ],
+        "select": [
+          "m.locale",
+          "m.label",
+          "m.definition"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "$FIELD",
+                "inReport",
+                "r"
+              ]
+            },
+            {
+              "node": "r",
+              "type": "ReportType",
+              "where": {
+                "locale": {
+                  "contains": "fr"
+                }
+              }
+            },
+            {
+              "not_edge": [
+                "$FIELD",
+                "hasMeaning",
+                "*"
+              ]
+            }
+          ],
+          "say": "no meaning in a language the report is offered in"
+        }
+      ]
+    },
+    "Q4": {
+      "who": "data team",
+      "question": "Which column of which table supplies each field of $REPORT, and which fields have no column yet?",
+      "why": "Q4 of Gate 1 (confirmed 2026-10-07): the mapping is the data team's contract; an unmapped field blocks production.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "f",
+              "inReport",
+              "$REPORT"
+            ]
+          },
+          {
+            "node": "f",
+            "type": "Field"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "f",
+                  "sourcedFrom",
+                  "c"
+                ]
+              },
+              {
+                "node": "c",
+                "type": "Column"
+              },
+              {
+                "edge": [
+                  "c",
+                  "inTable",
+                  "t"
+                ]
+              },
+              {
+                "node": "t",
+                "type": "Table"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "f.fieldId",
+          "f.fieldType",
+          "f.lineageStatus",
+          "t.dataset",
+          "t.tableName",
+          "c.columnName",
+          "f.lineageNote"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "f",
+                "inReport",
+                "$REPORT"
+              ]
+            },
+            {
+              "node": "f",
+              "type": "Field",
+              "where": {
+                "lineageStatus": "unmapped"
+              }
+            }
+          ],
+          "say": "a field has no column yet"
+        }
+      ]
+    },
+    "Q5": {
+      "who": "data team",
+      "question": "Which data source and table does $REPORT read, and which column carries each identifier?",
+      "why": "Q5 of Gate 1 (confirmed 2026-10-07): the loader needs the source, the table and the parameter columns.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "readsTable",
+              "t"
+            ]
+          },
+          {
+            "node": "t",
+            "type": "Table"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "t",
+                  "inDataSource",
+                  "s"
+                ]
+              },
+              {
+                "node": "s",
+                "type": "DataSource"
+              }
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$REPORT",
+                  "hasParameter",
+                  "p"
+                ]
+              },
+              {
+                "node": "p",
+                "type": "Parameter"
+              },
+              {
+                "edge": [
+                  "p",
+                  "boundToColumn",
+                  "c"
+                ]
+              },
+              {
+                "node": "c",
+                "type": "Column"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "s.label",
+          "s.sourceKind",
+          "s.database",
+          "t.dataset",
+          "t.tableName",
+          "p.label",
+          "c.columnName"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "not_edge": [
+                "$REPORT",
+                "readsTable",
+                "*"
+              ]
+            }
+          ],
+          "say": "the report names no table"
+        },
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "readsTable",
+                "t"
+              ]
+            },
+            {
+              "not_edge": [
+                "t",
+                "inDataSource",
+                "*"
+              ]
+            }
+          ],
+          "say": "the table is attached to no data source"
+        }
+      ]
+    },
+    "Q6": {
+      "who": "data team",
+      "question": "If column $COLUMN changes, which fields of which reports are affected?",
+      "why": "Q6 of Gate 1 (confirmed 2026-10-07): a column change must be checked against every field that reads it.",
+      "validated_by": "",
+      "params": {
+        "COLUMN": {
+          "type": "Column"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$COLUMN",
+              "inTable",
+              "t"
+            ]
+          },
+          {
+            "node": "t",
+            "type": "Table"
+          },
+          {
+            "edge": [
+              "f",
+              "sourcedFrom",
+              "$COLUMN"
+            ]
+          },
+          {
+            "node": "f",
+            "type": "Field"
+          },
+          {
+            "edge": [
+              "f",
+              "inReport",
+              "r"
+            ]
+          }
+        ],
+        "select": [
+          "r",
+          "f.fieldId",
+          "f.lineageStatus",
+          "t.dataset",
+          "t.tableName"
+        ]
+      },
+      "gate": "any"
+    },
+    "Q7": {
+      "who": "analyst",
+      "question": "Which sections and fields make up $REPORT, in what order, and which appear only in some layouts?",
+      "why": "Q7 of Gate 1 (confirmed 2026-10-07): the structure of a report is read from its sections in order.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "hasSection",
+              "s"
+            ]
+          },
+          {
+            "node": "s",
+            "type": "Section"
+          },
+          {
+            "edge": [
+              "s",
+              "hasField",
+              "f"
+            ]
+          },
+          {
+            "node": "f",
+            "type": "Field"
+          }
+        ],
+        "select": [
+          "s.order",
+          "s",
+          "s.purpose",
+          "s.presentWhen",
+          "f.order",
+          "f.fieldId"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "not_edge": [
+                "$REPORT",
+                "hasSection",
+                "*"
+              ]
+            }
+          ],
+          "say": "the report has no section"
+        }
+      ]
+    },
+    "Q8": {
+      "who": "engineer",
+      "question": "Which component renders field $FIELD, in which template release, and which other reports use that component?",
+      "why": "Q8 of Gate 1 (confirmed 2026-10-07): a change to a component must be checked against the fields it draws.",
+      "validated_by": "",
+      "params": {
+        "FIELD": {
+          "type": "Field"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$FIELD",
+              "inSection",
+              "s"
+            ]
+          },
+          {
+            "node": "s",
+            "type": "Section"
+          },
+          {
+            "edge": [
+              "s",
+              "renderedBy",
+              "c"
+            ]
+          },
+          {
+            "node": "c",
+            "type": "Macro"
+          },
+          {
+            "edge": [
+              "$FIELD",
+              "inReport",
+              "r"
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "r",
+                  "releasedAs",
+                  "rel"
+                ]
+              },
+              {
+                "node": "rel",
+                "type": "TemplateRelease"
+              }
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "o",
+                  "renderedBy",
+                  "c"
+                ]
+              },
+              {
+                "node": "o",
+                "type": "Section"
+              },
+              {
+                "edge": [
+                  "other",
+                  "hasSection",
+                  "o"
+                ]
+              },
+              {
+                "node": "other",
+                "type": "ReportType",
+                "where": {
+                  "id": {
+                    "!=": "$r"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "select": [
+          "s",
+          "c",
+          "rel.version",
+          "rel.frozen",
+          "other.reportId"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "not_edge": [
+                "$FIELD",
+                "inSection",
+                "*"
+              ]
+            }
+          ],
+          "say": "the field sits in no section"
+        }
+      ]
+    },
+    "Q9": {
+      "who": "engineer",
+      "question": "Which sample document does the template of $REPORT reproduce, and what thresholds must a produced document meet?",
+      "why": "Q9 of Gate 1 (confirmed 2026-10-07): the template is held to the sample and to its thresholds.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "derivedFrom",
+              "src"
+            ]
+          },
+          {
+            "node": "src",
+            "type": "SourceDocument"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$REPORT",
+                  "releasedAs",
+                  "rel"
+                ]
+              },
+              {
+                "edge": [
+                  "rel",
+                  "hasVerificationPolicy",
+                  "v"
+                ]
+              },
+              {
+                "node": "v",
+                "type": "VerificationPolicy"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "src.repoUrl",
+          "src.sha256",
+          "src.role",
+          "src.referenceKind",
+          "v.goldenStaticSsimMin",
+          "v.overflowBlocking",
+          "v.fidelityMin"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "not_edge": [
+                "$REPORT",
+                "derivedFrom",
+                "*"
+              ]
+            }
+          ],
+          "say": "the report has no sample document"
+        }
+      ]
+    },
+    "Q10": {
+      "who": "operations",
+      "question": "Where do documents of $REPORT go, in which formats, and for how long are they kept?",
+      "why": "Q10 of Gate 1 (confirmed 2026-10-07): where documents go and how long they stay is a promise to readers.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "releasedAs",
+              "rel"
+            ]
+          },
+          {
+            "node": "rel",
+            "type": "TemplateRelease"
+          },
+          {
+            "edge": [
+              "rel",
+              "hasPublishPolicy",
+              "p"
+            ]
+          },
+          {
+            "node": "p",
+            "type": "PublishPolicy"
+          }
+        ],
+        "select": [
+          "rel.version",
+          "p.pathPattern",
+          "p.publishFormat",
+          "p.retentionDays"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "releasedAs",
+                "rel"
+              ]
+            },
+            {
+              "not_edge": [
+                "rel",
+                "hasPublishPolicy",
+                "*"
+              ]
+            }
+          ],
+          "say": "the release declares no publish policy"
+        }
+      ]
+    },
+    "Q11": {
+      "who": "operations",
+      "question": "When does $REPORT run: cadence, day, as-of rule, calendar, timezone, and at which template version?",
+      "why": "Q11 of Gate 1 (confirmed 2026-10-07): the dispatcher reads the schedule from the release.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "releasedAs",
+              "rel"
+            ]
+          },
+          {
+            "node": "rel",
+            "type": "TemplateRelease"
+          },
+          {
+            "edge": [
+              "rel",
+              "hasSchedule",
+              "s"
+            ]
+          },
+          {
+            "node": "s",
+            "type": "Schedule"
+          }
+        ],
+        "select": [
+          "rel.version",
+          "rel.frozen",
+          "s.cadence",
+          "s.runOn",
+          "s.asOfRule",
+          "s.calendar",
+          "s.timezone"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "releasedAs",
+                "rel"
+              ]
+            },
+            {
+              "not_edge": [
+                "rel",
+                "hasSchedule",
+                "*"
+              ]
+            }
+          ],
+          "say": "the release declares no schedule"
+        }
+      ]
+    },
+    "Q12": {
+      "who": "operations",
+      "question": "What must a run of $REPORT achieve, who is alerted when it does not, and where is the run history?",
+      "why": "Q12 of Gate 1 (confirmed 2026-10-07): what a run must achieve, and who hears when it does not, is the operating promise.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "releasedAs",
+              "rel"
+            ]
+          },
+          {
+            "node": "rel",
+            "type": "TemplateRelease"
+          },
+          {
+            "edge": [
+              "rel",
+              "hasObservabilityPolicy",
+              "o"
+            ]
+          },
+          {
+            "node": "o",
+            "type": "ObservabilityPolicy"
+          }
+        ],
+        "select": [
+          "rel.version",
+          "o.deliverWithinHours",
+          "o.maxFailureRate",
+          "o.alertRecipient",
+          "o.runLog"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "releasedAs",
+                "rel"
+              ]
+            },
+            {
+              "not_edge": [
+                "rel",
+                "hasObservabilityPolicy",
+                "*"
+              ]
+            }
+          ],
+          "say": "the release declares no observability policy"
+        }
+      ]
+    },
+    "Q13": {
+      "who": "engineer",
+      "question": "What does the release of $REPORT need to render: engine, ontology and library versions, fonts, files, and what is still pending?",
+      "why": "Q13 of Gate 1 (confirmed 2026-10-07): a release that does not pin what it renders with cannot be reproduced.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "releasedAs",
+              "rel"
+            ]
+          },
+          {
+            "node": "rel",
+            "type": "TemplateRelease"
+          }
+        ],
+        "select": [
+          "rel.version",
+          "rel.engineVersion",
+          "rel.ontologyVersion",
+          "rel.libraryVersion",
+          "rel.font",
+          "rel.fileHash",
+          "rel.assetPending",
+          "rel.waiver"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "releasedAs",
+                "rel"
+              ]
+            },
+            {
+              "node": "rel",
+              "type": "TemplateRelease",
+              "where": {
+                "frozen": true,
+                "engineVersion": {
+                  "exists": false
+                }
+              }
+            }
+          ],
+          "say": "a frozen release pins no engine version"
+        },
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "releasedAs",
+                "rel"
+              ]
+            },
+            {
+              "node": "rel",
+              "type": "TemplateRelease",
+              "where": {
+                "assetPending": {
+                  "exists": true
+                }
+              }
+            }
+          ],
+          "say": "an asset is still pending"
+        }
+      ]
+    },
+    "Q14": {
+      "who": "compliance",
+      "question": "Which source document, run and approvals produced the template of $REPORT?",
+      "why": "Q14 of Gate 1 (confirmed 2026-10-07): provenance of a template: the sample, the run, the decisions.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "derivedFrom",
+              "src"
+            ]
+          },
+          {
+            "node": "src",
+            "type": "SourceDocument"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "run",
+                  "usedSource",
+                  "src"
+                ]
+              },
+              {
+                "node": "run",
+                "type": "Run"
+              },
+              {
+                "optional": [
+                  {
+                    "edge": [
+                      "run",
+                      "hasApproval",
+                      "a"
+                    ]
+                  },
+                  {
+                    "node": "a",
+                    "type": "Approval"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "select": [
+          "src.repoUrl",
+          "run",
+          "run.flow",
+          "run.flowVersion",
+          "run.engineVersion",
+          "run.startedAt",
+          "run.result",
+          "a.gate",
+          "a.decision",
+          "a.reviewer",
+          "a.at"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "not_edge": [
+                "$REPORT",
+                "derivedFrom",
+                "*"
+              ]
+            }
+          ],
+          "say": "the report has no source document"
+        }
+      ]
+    },
+    "Q15": {
+      "who": "compliance",
+      "question": "How has the definition of $REPORT changed: each revision, who accepted it, when, from when it applies, why, and which facts changed?",
+      "why": "Q15 of Gate 1 (confirmed 2026-10-07): a definition corrected in place loses what was true when earlier documents went out.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "hasRevision",
+              "v"
+            ]
+          },
+          {
+            "node": "v",
+            "type": "Revision"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "v",
+                  "hasChange",
+                  "c"
+                ]
+              },
+              {
+                "node": "c",
+                "type": "Change"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "v.order",
+          "v.at",
+          "v.changedBy",
+          "v.effectiveFrom",
+          "v.reason",
+          "c.fact",
+          "c.changeKind",
+          "c.previousValue",
+          "c.newValue"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "not_edge": [
+                "$REPORT",
+                "hasRevision",
+                "*"
+              ]
+            }
+          ],
+          "say": "no accepted revision: the definition can change without a record"
+        }
+      ]
+    },
+    "Q16": {
+      "who": "analyst",
+      "question": "Has anything about field $FIELD changed in any report: its meaning, label, type or column; what was it before, and since when?",
+      "why": "Q16 of Gate 1 (confirmed 2026-10-07): before trusting a figure, an analyst must know whether its meaning or column moved.",
+      "validated_by": "",
+      "params": {
+        "FIELD": {
+          "type": "Field"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "node": "r",
+            "type": "ReportType"
+          },
+          {
+            "edge": [
+              "r",
+              "hasRevision",
+              "v"
+            ]
+          },
+          {
+            "node": "v",
+            "type": "Revision"
+          },
+          {
+            "edge": [
+              "v",
+              "hasChange",
+              "c"
+            ]
+          },
+          {
+            "node": "c",
+            "type": "Change",
+            "where": {
+              "fact": {
+                "contains": "fields.$FIELD.fieldId."
+              }
+            }
+          }
+        ],
+        "select": [
+          "r.reportId",
+          "v.order",
+          "v.at",
+          "v.effectiveFrom",
+          "v.changedBy",
+          "v.reason",
+          "c.fact",
+          "c.changeKind",
+          "c.previousValue",
+          "c.newValue"
+        ]
+      },
+      "gate": "any",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "$FIELD",
+                "inReport",
+                "r"
+              ]
+            },
+            {
+              "not_edge": [
+                "r",
+                "hasRevision",
+                "*"
+              ]
+            }
+          ],
+          "say": "the report keeps no history: earlier changes to this field were not recorded"
+        }
+      ]
+    },
+    "Q17": {
+      "who": "operations",
+      "question": "Where is $REPORT in its lifecycle, and who recorded each step, when?",
+      "why": "Q17 of Gate 1 (confirmed 2026-10-07): the lifecycle log tells a draft from a report in production.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "hasStatusChange",
+              "c"
+            ]
+          },
+          {
+            "node": "c",
+            "type": "StatusChange"
+          }
+        ],
+        "select": [
+          "c.order",
+          "c.lifecycleStatus",
+          "c.changedBy",
+          "c.at",
+          "c.note",
+          "$REPORT.lifecycleStatus"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "not_edge": [
+                "$REPORT",
+                "hasStatusChange",
+                "*"
+              ]
+            }
+          ],
+          "say": "the report records no lifecycle step"
+        }
+      ]
+    },
+    "Q18": {
+      "who": "compliance",
+      "question": "Which fields of $REPORT carry rules, and which rules are regulatory?",
+      "why": "Q18 of Gate 1 (confirmed 2026-10-07): a regulatory rule is what compliance checks before a document goes out.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "f",
+              "inReport",
+              "$REPORT"
+            ]
+          },
+          {
+            "node": "f",
+            "type": "Field"
+          },
+          {
+            "edge": [
+              "f",
+              "hasRule",
+              "ru"
+            ]
+          },
+          {
+            "node": "ru",
+            "type": "Rule"
+          }
+        ],
+        "select": [
+          "f.fieldId",
+          "ru.ruleText",
+          "ru.regulatory"
+        ]
+      },
+      "gate": "any"
+    },
+    "Q19": {
+      "who": "compliance",
+      "question": "What verification thresholds and approval policy govern production runs of $REPORT?",
+      "why": "Q19 of Gate 1 (confirmed 2026-10-07): a produced document must meet its thresholds and get the review its policy says.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "releasedAs",
+              "rel"
+            ]
+          },
+          {
+            "node": "rel",
+            "type": "TemplateRelease"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "rel",
+                  "hasVerificationPolicy",
+                  "v"
+                ]
+              },
+              {
+                "node": "v",
+                "type": "VerificationPolicy"
+              }
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "rel",
+                  "hasApprovalPolicy",
+                  "ap"
+                ]
+              },
+              {
+                "node": "ap",
+                "type": "ApprovalPolicy"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "rel.version",
+          "v.goldenStaticSsimMin",
+          "v.overflowBlocking",
+          "v.fidelityMin",
+          "ap.sampleRate",
+          "ap.sampleMin",
+          "ap.fullReviewAfterRelease",
+          "ap.reviewerRole"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "releasedAs",
+                "rel"
+              ]
+            },
+            {
+              "not_edge": [
+                "rel",
+                "hasVerificationPolicy",
+                "*"
+              ]
+            }
+          ],
+          "say": "no verification policy"
+        },
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "releasedAs",
+                "rel"
+              ]
+            },
+            {
+              "not_edge": [
+                "rel",
+                "hasApprovalPolicy",
+                "*"
+              ]
+            }
+          ],
+          "say": "no approval policy"
+        }
+      ]
+    },
+    "Q20": {
+      "who": "analyst",
+      "question": "Which fields does the catalogue already define: id, type, meaning, the other names readers use; and which reports share a field?",
+      "why": "Q20 of Gate 1 (confirmed 2026-10-07): a new report reuses a field instead of inventing a second name for the same information.",
+      "validated_by": "",
+      "ask": {
+        "when": [
+          {
+            "node": "f",
+            "type": "Field"
+          },
+          {
+            "edge": [
+              "f",
+              "inReport",
+              "r"
+            ]
+          },
+          {
+            "edge": [
+              "f",
+              "hasMeaning",
+              "m"
+            ]
+          },
+          {
+            "node": "m",
+            "type": "FieldMeaning",
+            "where": {
+              "locale": "en"
+            }
+          }
+        ],
+        "select": [
+          "f.fieldId",
+          "f.fieldType",
+          "r",
+          "m.label",
+          "m.definition",
+          "f.alias",
+          "f.rowStructure",
+          "f.members"
+        ]
+      },
+      "gate": "non_empty"
+    },
+    "Q21": {
+      "who": "engineer",
+      "question": "Which run produced the template release of $REPORT, with which flow and engine version, and what did it use?",
+      "why": "Q21 of Gate 1 (added 2026-10-07): the provenance of a release is the run that built it.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "releasedAs",
+              "rel"
+            ]
+          },
+          {
+            "node": "rel",
+            "type": "TemplateRelease"
+          },
+          {
+            "edge": [
+              "rel",
+              "producedBy",
+              "run"
+            ]
+          },
+          {
+            "node": "run",
+            "type": "Run"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "run",
+                  "usedSource",
+                  "src"
+                ]
+              },
+              {
+                "node": "src",
+                "type": "SourceDocument"
+              }
+            ]
+          }
+        ],
+        "select": [
+          "rel.version",
+          "run",
+          "run.flow",
+          "run.flowVersion",
+          "run.engineVersion",
+          "run.result",
+          "src.repoUrl"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "releasedAs",
+                "rel"
+              ]
+            },
+            {
+              "not_edge": [
+                "rel",
+                "producedBy",
+                "*"
+              ]
+            }
+          ],
+          "say": "the release records no run that produced it"
+        }
+      ]
+    },
+    "Q22": {
+      "who": "engineer",
+      "question": "Where is the template of $REPORT stored, and which fingerprints identify what it was built from?",
+      "why": "Q22 of Gate 1 (added 2026-10-07): a release a person cannot open or verify is not reproducible.",
+      "validated_by": "",
+      "params": {
+        "REPORT": {
+          "type": "ReportType"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$REPORT",
+              "releasedAs",
+              "rel"
+            ]
+          },
+          {
+            "node": "rel",
+            "type": "TemplateRelease"
+          }
+        ],
+        "select": [
+          "rel.version",
+          "rel.repoUrl",
+          "rel.sha256"
+        ]
+      },
+      "gate": "non_empty",
+      "gaps": [
+        {
+          "when": [
+            {
+              "edge": [
+                "$REPORT",
+                "releasedAs",
+                "rel"
+              ]
+            },
+            {
+              "node": "rel",
+              "type": "TemplateRelease",
+              "where": {
+                "repoUrl": {
+                  "exists": false
+                }
+              }
+            }
+          ],
+          "say": "the release says not where it is stored"
+        }
+      ]
+    },
+    "Q23": {
+      "who": "data team",
+      "question": "Where does field $FIELD come from when it is computed: which transformation, of what kind, from which columns and fields?",
+      "why": "A computed field's lineage is its transformation and its inputs; the product that never computes answers with nothing.",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)",
+      "params": {
+        "FIELD": {
+          "type": "Field"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "$FIELD",
+              "computedBy",
+              "t"
+            ]
+          },
+          {
+            "node": "t",
+            "type": "Transformation"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "t",
+                  "usesInput",
+                  "i"
+                ]
+              }
+            ]
+          }
+        ],
+        "select": [
+          "t.label",
+          "t.kind",
+          "t.expression",
+          "i.label",
+          "i.type"
+        ]
+      },
+      "gate": "any"
+    },
+    "Q24": {
+      "who": "data team",
+      "question": "What quality checks guard $THING: what does each test, at what threshold, with what severity?",
+      "why": "The guards on a value are what keep a mapped field right every run.",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)",
+      "params": {
+        "THING": {
+          "type": "Field|Column|Table"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "edge": [
+              "qc",
+              "guards",
+              "$THING"
+            ]
+          },
+          {
+            "node": "qc",
+            "type": "QualityCheck"
+          }
+        ],
+        "select": [
+          "qc.label",
+          "qc.test",
+          "qc.threshold",
+          "qc.severity"
+        ]
+      },
+      "gate": "any"
+    },
+    "Q25": {
+      "who": "analyst",
+      "question": "Which findings are open: how severe, raised by which check, in which run, affecting what?",
+      "why": "An open finding is a run's verdict that somebody still has to act on.",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)",
+      "ask": {
+        "when": [
+          {
+            "node": "f",
+            "type": "Finding",
+            "where": {
+              "state": "open"
+            }
+          },
+          {
+            "edge": [
+              "f",
+              "raisedBy",
+              "qc"
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "f",
+                  "raisedIn",
+                  "r"
+                ]
+              },
+              {
+                "node": "r",
+                "type": "Run"
+              }
+            ]
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "f",
+                  "affects",
+                  "x"
+                ]
+              }
+            ]
+          }
+        ],
+        "select": [
+          "f.label",
+          "f.severity",
+          "f.detail",
+          "qc.label",
+          "r.label",
+          "x.label",
+          "x.type"
+        ]
+      },
+      "gate": "any"
+    },
+    "Q26": {
+      "who": "analyst",
+      "question": "What does finding $FINDING affect, and is it resolved?",
+      "why": "One failure, what it touches, whether it is dealt with.",
+      "validated_by": "Chiheb Dkhil, 2026-10-07 (B7 fold)",
+      "params": {
+        "FINDING": {
+          "type": "Finding"
+        }
+      },
+      "ask": {
+        "when": [
+          {
+            "node": "$FINDING",
+            "type": "Finding"
+          },
+          {
+            "optional": [
+              {
+                "edge": [
+                  "$FINDING",
+                  "affects",
+                  "x"
+                ]
+              }
+            ]
+          }
+        ],
+        "select": [
+          "$FINDING.severity",
+          "$FINDING.state",
+          "$FINDING.detail",
+          "x.label",
+          "x.type"
+        ]
+      },
+      "gate": "any"
+    }
+  }
+}
