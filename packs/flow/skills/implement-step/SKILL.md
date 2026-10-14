@@ -16,14 +16,22 @@ parameters). A brief is what an agent must know before a task, as the questions 
 answer; the engine runs it and says READY, with every fact, or BLOCKED, naming the questions and
 their gaps. **No code before READY.**
 
+## Talking with the person
+
+- **Plain, natural language, in the person's words.** Never say question numbers, ids, class or
+  field names, file names or commands, and never paste what a command printed.
+- **Technical details only when the person asks for them.** Never offer them, not even as a choice.
+- **The same clear shape every time:** say what we are about to do, ask a few questions at a time,
+  read back what you understood in plain sentences, confirm, then say what is next.
+
 ## 1. Which step, and is it ready
 
 ```bash
 oto query --project <root> brief implement-step            # every implementable step: READY or BLOCKED FLn
 ```
 
-`kg_brief implement-step` without a parameter is the same table. Pick the step; say what blocks
-the others in the engine's words.
+`kg_brief implement-step` without a parameter is the same table. Pick the step; say in plain words what
+holds the others back.
 
 ## 2. Tests first
 

@@ -10,6 +10,14 @@ A report product's specification: which report types it must produce, where thei
 
 This skill comes with the `product-report` pack. The ontology is inside the pack, so nothing is fetched.
 
+## Talking with the person
+
+- **Plain, natural language, in the person's words.** Never say question numbers, ids, class or
+  field names, file names or commands, and never paste what a command printed.
+- **Technical details only when the person asks for them.** Never offer them, not even as a choice.
+- **The same clear shape every time:** say what we are about to do, ask a few questions at a time,
+  read back what you understood in plain sentences, confirm, then say what is next.
+
 1. **Start a project from this pack.**
 
    ```bash
@@ -17,7 +25,7 @@ This skill comes with the `product-report` pack. The ontology is inside the pack
    ```
 
    `${CLAUDE_PLUGIN_ROOT}` is this pack's directory; Claude Code fills it in. Outside Claude Code,
-   with the pack on the machine (`oto pack add product-report` from the cynergis registry), `oto init --pack product-report` does the same.
+   with the pack on the machine (`oto pack add product-report`), `oto init --pack product-report` does the same.
    The project records the ontology's origin, so `oto status` says when a newer release exists and
    `oto ontology diff` shows what changed. Add `--ontology <name>,...` to merge other ontologies
    with the pack's (a product type, the flow).
