@@ -1,0 +1,33 @@
+name: publishable
+
+# This repository is public: what it publishes names no client, no programme, no private repository
+# and holds no credential. `oto publishable --strict` scans what git tracks with the Cynergis
+# organisation's deny terms (the OTO_DENY_TERMS organisation secret, never written in a file) and
+# names each finding by file and line, never by its text, since this log is public.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  publishable:
+    name: no client data or credentials
+    runs-on: ubuntu-latest
+    # A fork cannot read the organisation secret, and --strict refuses to pass without terms: the
+    # scan runs for this repository's own branches.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: The engine, at its release
+        run: python -m pip install --upgrade pip && python -m pip install "oto-kg @ git+https://github.com/Cynergis/oto@v0.11.16"
+      - name: Scan
+        env:
+          OTO_DENY_TERMS: ${{ secrets.OTO_DENY_TERMS }}
+        run: oto publishable --strict
