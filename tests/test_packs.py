@@ -84,3 +84,24 @@ def test_every_pack_skill_talks_in_plain_language():
     for skill in ("new-report", "ask-reports"):
         text = (ROOT / "packs" / "report" / "skills" / skill / "SKILL.md").read_text(encoding="utf-8").lower()
         assert "fund" not in text, skill
+
+
+def test_product_report_brings_the_front_page_of_a_report_products_studio():
+    """The product type's pack gives the studio its front page: the report types it produces, who it is
+    for, the product's other pages and what is still open on them, in plain words."""
+    from oto.apps import manifest as apps
+    from oto.apps import projection
+    from oto.model import ontologies
+    view = ROOT / "packs" / "product-report" / "views" / "report-product"
+    app = json.load(open(view / "app.json", encoding="utf-8"))
+    assert app["portal"] is True and app["place"] == "front" and app["title"] == "Overview"
+    assert apps.problems(str(view)) == []
+    sample = ontologies.composed("product-report", roots=[str(ROOT / "packs" / "product-report" / "ontology")])["sample"]
+    front = projection.Projector({"nodes": sample["nodes"], "edges": sample["edges"]}, str(view)).evaluate(
+        {"$include": "projections/front.json"})
+    assert front["product"]["name"] and front["reports"], "the sample's product and its report types"
+    assert all(r["name"] and "status" in r for r in front["reports"])
+    page = (view / "index.html").read_text(encoding="utf-8") + (view / "app.js").read_text(encoding="utf-8")
+    assert "../_studio/studio.js" in page and "Still open" in page
+    for gone in ("BMAD", "reporttype.", "lifecycleStatus"):
+        assert gone not in page, gone

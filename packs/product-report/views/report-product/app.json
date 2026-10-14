@@ -1,0 +1,27 @@
+{
+ "name": "report-product",
+ "title": "Overview",
+ "place": "front",
+ "portal": true,
+ "summary": "The report product at a glance: the reports it produces and for whom, its pages, and what is still open.",
+ "entry": "index.html",
+ "engine": ">=0.11.25",
+ "data": [
+  {
+   "file": "data.js",
+   "format": "js-globals",
+   "globals": {
+    "__FRONT__": {
+     "$include": "projections/front.json"
+    }
+   }
+  }
+ ],
+ "requires": {
+  "classes": [
+   "Product",
+   "ReportType",
+   "Persona"
+  ]
+ }
+}
