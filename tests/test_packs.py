@@ -105,3 +105,30 @@ def test_product_report_brings_the_front_page_of_a_report_products_studio():
     assert "../_studio/studio.js" in page and "Still open" in page
     for gone in ("BMAD", "reporttype.", "lifecycleStatus"):
         assert gone not in page, gone
+
+
+@pytest.mark.parametrize("pack,view,place,global_name", [("report", "reports", "domain", "reports"), ("flow", "progress", "build", "steps")])
+def test_the_report_and_flow_packs_bring_their_studio_pages(pack, view, place, global_name):
+    """The report catalogue and the build's progress: each page declares its place in the studio,
+    builds from its pack's sample, and shows no raw ids or field names."""
+    from oto.apps import manifest as apps
+    from oto.apps import projection
+    from oto.model import ontologies
+    directory = ROOT / "packs" / pack / "views" / view
+    app = json.load(open(directory / "app.json", encoding="utf-8"))
+    assert app["place"] == place and app["shows"] and app["open"]
+    assert apps.problems(str(directory)) == []
+    sample = ontologies.composed(pack, roots=[str(ROOT / "packs" / pack / "ontology")])["sample"]
+    data = projection.Projector({"nodes": sample["nodes"], "edges": sample["edges"]}, str(directory)).evaluate(
+        {"$include": app["data"][0]["globals"][next(iter(app["data"][0]["globals"]))]["$include"]})
+    assert data[global_name], "the sample fills the page"
+    if pack == "report":
+        report = data["reports"][0]
+        assert report["sections"] and any(s["fields"] for s in report["sections"])
+        assert any(m["label"] for s in report["sections"] for f in s["fields"] for m in f["meanings"]), "labels per language"
+    else:
+        assert {s["type"] for s in data["steps"]} >= {"DeterministicStep", "HumanStep", "TerminalStep"}
+    page = (directory / "index.html").read_text(encoding="utf-8") + (directory / "app.js").read_text(encoding="utf-8")
+    assert "../_studio/studio.js" in page and "studio-open" in page
+    for gone in ("BMAD", "reporttype.", "lifecycleStatus", "stepKind", "attr."):
+        assert gone not in page, gone

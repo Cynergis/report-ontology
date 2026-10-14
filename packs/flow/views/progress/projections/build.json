@@ -1,0 +1,442 @@
+{
+ "flows": {
+  "$nodes": "Flow",
+  "$sort": "label",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "summary": "$summary",
+   "value": "$attr.value",
+   "trigger": "$attr.trigger",
+   "resumable": "$attr.resumable",
+   "kind": "$attr.flowKind",
+   "steps": {
+    "$out": "hasStep",
+    "$sort": "attr.stepId",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "summary": "$summary",
+     "type": "$type",
+     "kind": "$attr.stepKind",
+     "implemented": "$attr.isImplemented",
+     "retries": "$attr.retryMax",
+     "options": "$attr.decisionOption",
+     "required": "$attr.requiredField",
+     "waits": {
+      "$out": "waitsFor",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "after": {
+      "$out": "after",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "reads": {
+      "$out": "reads",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "maybe": {
+      "$out": "readsOptional",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "writes": {
+      "$out": "writes",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "checks": {
+      "$out": "hasCheck",
+      "$select": {
+       "id": "$id",
+       "name": "$label",
+       "blocking": "$attr.blocking",
+       "kind": "$attr.checkKind"
+      }
+     },
+     "phase": {
+      "$out": "inPhase",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "implementation": {
+      "$out": "implementedBy",
+      "$select": {
+       "id": "$id",
+       "name": "$label",
+       "exists": "$attr.exists"
+      }
+     },
+     "outcomes": {
+      "$out": "hasOutcome",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "settings": {
+      "$out": "usesParameter",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "depends": {
+      "$out": "dependsOn",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "owed": {
+      "$in": "forStep",
+      "$select": {
+       "id": "$id",
+       "name": "$label",
+       "kind": "$attr.obligationKind"
+      }
+     },
+     "next": {
+      "$in": "from",
+      "$select": {
+       "id": "$id",
+       "name": "$label",
+       "to": {
+        "$out": "to",
+        "$select": {
+         "id": "$id",
+         "name": "$label"
+        }
+       },
+       "on": {
+        "$out": "onOutcome",
+        "$select": {
+         "id": "$id",
+         "name": "$label"
+        }
+       }
+      }
+     },
+     "stepId": "$attr.stepId"
+    }
+   }
+  }
+ },
+ "steps": {
+  "$nodes": [
+   "Step",
+   "DeterministicStep",
+   "OcrStep",
+   "ClaudeStep",
+   "HumanStep",
+   "TerminalStep"
+  ],
+  "$sort": "attr.stepId",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "summary": "$summary",
+   "type": "$type",
+   "kind": "$attr.stepKind",
+   "implemented": "$attr.isImplemented",
+   "retries": "$attr.retryMax",
+   "options": "$attr.decisionOption",
+   "required": "$attr.requiredField",
+   "waits": {
+    "$out": "waitsFor",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "after": {
+    "$out": "after",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "reads": {
+    "$out": "reads",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "maybe": {
+    "$out": "readsOptional",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "writes": {
+    "$out": "writes",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "checks": {
+    "$out": "hasCheck",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "blocking": "$attr.blocking",
+     "kind": "$attr.checkKind"
+    }
+   },
+   "phase": {
+    "$out": "inPhase",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "implementation": {
+    "$out": "implementedBy",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "exists": "$attr.exists"
+    }
+   },
+   "outcomes": {
+    "$out": "hasOutcome",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "settings": {
+    "$out": "usesParameter",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "depends": {
+    "$out": "dependsOn",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "owed": {
+    "$in": "forStep",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "kind": "$attr.obligationKind"
+    }
+   },
+   "next": {
+    "$in": "from",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "to": {
+      "$out": "to",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "on": {
+      "$out": "onOutcome",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     }
+    }
+   },
+   "flow": {
+    "$in": "hasStep",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "stepId": "$attr.stepId"
+  }
+ },
+ "phases": {
+  "$nodes": "Phase",
+  "$sort": "label",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "summary": "$summary",
+   "starts": {
+    "$out": "entrypoint",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "steps": {
+    "$in": "inPhase",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   }
+  }
+ },
+ "artifacts": {
+  "$nodes": "Artifact",
+  "$sort": "label",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "summary": "$summary",
+   "format": "$attr.format",
+   "optional": "$attr.optional",
+   "written_by": {
+    "$in": "writes",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "read_by": {
+    "$in": "reads",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "fields": {
+    "$out": "hasArtifactField",
+    "$select": {
+     "name": "$label",
+     "path": "$attr.fieldPath"
+    }
+   }
+  }
+ },
+ "settings": {
+  "$nodes": "ConfigParameter",
+  "$sort": "label",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "summary": "$summary",
+   "value": "$attr.value",
+   "param": "$attr.paramName",
+   "used_by": {
+    "$in": "usesParameter",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "type": "$type"
+    }
+   },
+   "compared_by": {
+    "$in": "comparedTo",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   }
+  }
+ },
+ "checks": {
+  "$nodes": "Check",
+  "$sort": "label",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "summary": "$summary",
+   "blocking": "$attr.blocking",
+   "kind": "$attr.checkKind",
+   "on": {
+    "$in": "hasCheck",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "against": {
+    "$out": "comparedTo",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "value": "$attr.value"
+    }
+   },
+   "on_fail": {
+    "$out": "onFail",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "enforces": {
+    "$in": "enforcedBy",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   }
+  }
+ },
+ "obligations": {
+  "$nodes": "TestObligation",
+  "$sort": "label",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "summary": "$summary",
+   "kind": "$attr.obligationKind",
+   "step": {
+    "$out": "forStep",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   },
+   "tests": {
+    "$out": "tests",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "type": "$type"
+    }
+   }
+  }
+ },
+ "invariants": {
+  "$nodes": "Invariant",
+  "$sort": "label",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "summary": "$summary",
+   "statement": "$attr.statement",
+   "enforced_by": {
+    "$out": "enforcedBy",
+    "$select": {
+     "id": "$id",
+     "name": "$label"
+    }
+   }
+  }
+ }
+}

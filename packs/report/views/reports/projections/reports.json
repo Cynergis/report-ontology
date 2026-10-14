@@ -1,0 +1,207 @@
+{
+ "reports": {
+  "$nodes": "ReportType",
+  "$sort": "label",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "summary": "$summary",
+   "purpose": "$attr.purpose",
+   "kind": "$attr.kind",
+   "owner": "$attr.owner",
+   "status": "$attr.lifecycleStatus",
+   "audience": "$attr.audience",
+   "cadence": "$attr.cadence",
+   "locales": "$attr.locale",
+   "layout": "$attr.layout",
+   "version": "$attr.version",
+   "sections": {
+    "$out": "hasSection",
+    "$sort": "attr.order",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "summary": "$summary",
+     "order": "$attr.order",
+     "purpose": "$attr.purpose",
+     "when": "$attr.presentWhen",
+     "fields": {
+      "$out": "hasField",
+      "$sort": "attr.order",
+      "$select": {
+       "id": "$id",
+       "name": "$label",
+       "summary": "$summary",
+       "type": "$attr.fieldType",
+       "order": "$attr.order",
+       "lineage": "$attr.lineageStatus",
+       "meanings": {
+        "$out": "hasMeaning",
+        "$select": {
+         "locale": "$attr.locale",
+         "label": "$attr.label",
+         "definition": "$attr.definition"
+        }
+       },
+       "column": {
+        "$out": "sourcedFrom",
+        "$select": {
+         "id": "$id",
+         "name": "$label",
+         "pipeline": {
+          "$optional": {
+           "$out": "is_field",
+           "$select": {
+            "id": "$id",
+            "name": "$label"
+           }
+          }
+         }
+        }
+       },
+       "rules": {
+        "$out": "hasRule",
+        "$select": {
+         "id": "$id",
+         "name": "$label",
+         "text": "$attr.ruleText",
+         "regulatory": "$attr.regulatory"
+        }
+       },
+       "computed": {
+        "$out": "computedBy",
+        "$select": {
+         "kind": "$attr.kind",
+         "expression": "$attr.expression",
+         "inputs": {
+          "$out": "usesInput",
+          "$select": {
+           "id": "$id",
+           "name": "$label"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "parameters": {
+    "$out": "hasParameter",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "definition": "$attr.definition",
+     "bound": {
+      "$out": "boundToColumn",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     }
+    }
+   },
+   "table": {
+    "$out": "readsTable",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "source": {
+      "$out": "inDataSource",
+      "$select": {
+       "id": "$id",
+       "name": "$label"
+      }
+     },
+     "pipeline": {
+      "$optional": {
+       "$out": "is_dataset",
+       "$select": {
+        "id": "$id",
+        "name": "$label"
+       }
+      }
+     }
+    }
+   },
+   "rules": {
+    "$out": "hasRule",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "text": "$attr.ruleText",
+     "regulatory": "$attr.regulatory"
+    }
+   },
+   "releases": {
+    "$out": "releasedAs",
+    "$select": {
+     "id": "$id",
+     "name": "$label",
+     "version": "$attr.version",
+     "frozen": "$attr.frozen",
+     "schedule": {
+      "$out": "hasSchedule",
+      "$select": {
+       "cadence": "$attr.cadence",
+       "runOn": "$attr.runOn",
+       "asOf": "$attr.asOfRule",
+       "calendar": "$attr.calendar",
+       "timezone": "$attr.timezone"
+      }
+     },
+     "publish": {
+      "$out": "hasPublishPolicy",
+      "$select": {
+       "formats": "$attr.publishFormat",
+       "retention": "$attr.retentionDays"
+      }
+     },
+     "watch": {
+      "$out": "hasObservabilityPolicy",
+      "$select": {
+       "within": "$attr.deliverWithinHours",
+       "maxFailure": "$attr.maxFailureRate",
+       "alert": "$attr.alertRecipient"
+      }
+     },
+     "approval": {
+      "$out": "hasApprovalPolicy",
+      "$select": {
+       "sampleRate": "$attr.sampleRate",
+       "sampleMin": "$attr.sampleMin",
+       "fullReview": "$attr.fullReviewAfterRelease",
+       "reviewer": "$attr.reviewerRole"
+      }
+     }
+    }
+   },
+   "history": {
+    "$out": "hasStatusChange",
+    "$sort": "attr.order",
+    "$select": {
+     "status": "$attr.lifecycleStatus",
+     "by": "$attr.changedBy",
+     "at": "$attr.at",
+     "note": "$attr.note"
+    }
+   },
+   "revisions": {
+    "$out": "hasRevision",
+    "$sort": "attr.order",
+    "$select": {
+     "by": "$attr.changedBy",
+     "at": "$attr.at",
+     "reason": "$attr.reason",
+     "changes": {
+      "$out": "hasChange",
+      "$select": {
+       "fact": "$attr.fact",
+       "kind": "$attr.changeKind"
+      }
+     }
+    }
+   }
+  }
+ }
+}

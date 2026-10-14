@@ -1,0 +1,43 @@
+{
+ "name": "progress",
+ "title": "How it is built",
+ "place": "build",
+ "summary": "The steps the product runs, in order: what each reads and writes, the checks that guard it, the settings it depends on, whether it is built yet, and the tests it still owes.",
+ "shows": [
+  "Step",
+  "DeterministicStep",
+  "OcrStep",
+  "ClaudeStep",
+  "HumanStep",
+  "TerminalStep",
+  "Flow",
+  "Phase",
+  "Artifact",
+  "Check",
+  "ConfigParameter",
+  "TestObligation",
+  "Invariant"
+ ],
+ "open": [
+  "FL"
+ ],
+ "entry": "index.html",
+ "engine": ">=0.11.25",
+ "data": [
+  {
+   "file": "data.js",
+   "format": "js-globals",
+   "globals": {
+    "__BUILD__": {
+     "$include": "projections/build.json"
+    }
+   }
+  }
+ ],
+ "requires": {
+  "classes": [
+   "Flow",
+   "Step"
+  ]
+ }
+}

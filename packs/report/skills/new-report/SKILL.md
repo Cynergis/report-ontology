@@ -132,3 +132,9 @@ sample PDF (`pdf-to-template`) and the flow that builds and runs it (`flow` pack
 If `Q20` now shows another report sharing many fields with this one, say so.
 
 Do not edit the facts of other reports, the vocabulary, or anything outside this report's scope.
+
+## Where people see it
+
+The report shows on the product's studio page **The reports**: its sections and fields, what each
+value means in each language and where it comes from, its rules, when it runs and where it goes, and
+its history, with what is still open. Say so when a group is saved, in plain words.
