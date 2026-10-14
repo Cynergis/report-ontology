@@ -30,7 +30,7 @@ runs:
       - {step: B04_layout,  tool: scripts/sample_colors.py, outputs: [work/palette.json], notes: colors sampled per element}
       - {step: B05_decompose, executor: claude, prompt: decompose.md@1.0.0, outputs: [work/blueprint.json], note: "performed interactively in this first run; cached output to be regenerated through the engine"}
       - {step: B08_generate, executor: claude, prompt: generate.md@1.0.0, outputs: [template/]}
-      - {step: B09_render,  tool: scripts/render.py, outputs: [out/bluewater_A_en.pdf]}
+      - {step: B09_render,  tool: scripts/render.py, outputs: [out/sample_A_en.pdf]}
       - {step: B10_verify,  tool: scripts/diff.py, outputs: [out/comparison.png], metrics: {layout_ssim: 0.44, overflow: 0}}
     decisions:
       - {gate: B06_blueprint_review, decision: approve, reviewer: "example-reviewer", at: 2026-10-02T16:00:00-04:00}

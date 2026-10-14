@@ -482,13 +482,13 @@
     {
       "id": "report.fund-profile-balanced.source.src-001",
       "type": "SourceDocument",
-      "label": "Mackenzie Bluewater Canadian Growth Balanced Fund — Series A — Fund Profile",
+      "label": "Sample Canadian Balanced Fund — Series A — Fund Profile",
       "aliases": [],
       "summary": "",
       "attributes": {
-        "repoUrl": "https://github.com/<org>/report-sources/blob/main/fund-profile/MP2-Fund_Profile-230926-194524.pdf",
+        "repoUrl": "https://github.com/<org>/report-sources/blob/main/fund-profile/SYNTHETIC-balanced.pdf",
         "sha256": [
-          "cacc2f7888f341aabc3d3140a645dd1a46ca00611f7348db099ac4f1f6ea2002"
+          "4c3dde0d4aa53b1e76b9489b5f7351ce87f537b1d4d80061491eba932afb3b11"
         ],
         "role": "primary",
         "referenceKind": "raster"
@@ -505,7 +505,7 @@
         {
           "doc": "fund-profile-balanced-provenance",
           "where": "SourceDocument",
-          "quote": "Mackenzie Bluewater Canadian Growth Balanced Fund — Series A — Fund Profile"
+          "quote": "Sample Canadian Balanced Fund — Series A — Fund Profile"
         }
       ]
     },
@@ -589,7 +589,7 @@
         ],
         "repoUrl": "https://github.com/<org>/report-templates/tree/main/fund-profile-balanced",
         "sha256": [
-          "cacc2f7888f341aabc3d3140a645dd1a46ca00611f7348db099ac4f1f6ea2002"
+          "4c3dde0d4aa53b1e76b9489b5f7351ce87f537b1d4d80061491eba932afb3b11"
         ]
       },
       "tags": [],
