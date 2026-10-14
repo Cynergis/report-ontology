@@ -84,3 +84,9 @@ stops listing it and the engine builder's brief (`build-engine`) stays true.
 Before changing a threshold: `kg_brief impact-parameter PARAM=<parameter>` — the checks,
 transitions, steps and tests it reaches. Before changing an artifact's structure: `kg_brief
 impact-artifact ARTIFACT=<artifact>` — who writes it, who reads it.
+
+## Where people see it
+
+The flow shows on the product's studio page **How it is built**: its steps in order, what each reads
+and writes, the checks that guard it, whether it is built yet, and the tests it still owes. Say so
+when a step is done, in plain words.

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The reports</title>
+<link rel="stylesheet" href="../_studio/studio.css">
+<style>
+.page-toc { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 8px; padding: 0; list-style: none; font-size: 14px; }
+.page-toc a { color: var(--st-muted); }
+section, .studio-card, tr { scroll-margin-top: 72px; }
+.facts { color: var(--st-muted); font-size: 15px; margin: 6px 0 0; }
+.facts span { display: block; }
+.facts ul { margin: 2px 0 6px; padding-left: 20px; }
+.tag { display: inline-block; font-size: 13px; padding: 1px 8px; border-radius: 99px; border: 1px solid var(--st-line); color: var(--st-muted); margin-right: 6px; }
+.tag.on { color: var(--st-accent); border-color: var(--st-accent); }
+.table-wrap { overflow-x: auto; margin: 8px 0 4px; }
+table.fields { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--st-panel); }
+table.fields th, table.fields td { text-align: left; vertical-align: top; padding: 7px 9px; border-bottom: 1px solid var(--st-line); }
+table.fields th { color: var(--st-muted); font-weight: 600; white-space: nowrap; }
+table.fields td.label strong { display: block; }
+table.fields .other { color: var(--st-muted); font-size: 13px; }
+.report { margin-top: 40px; }
+</style>
+<script src="../_studio/data.js"></script>
+<script src="../_studio/studio.js"></script>
+<script src="data.js"></script>
+</head>
+<body>
+<main class="studio-page">
+  <h1>The reports</h1>
+  <p class="studio-lead">Each report the product produces: what it shows, what each value means and where it comes from, when it runs and where it goes.</p>
+  <ul class="page-toc" id="toc"></ul>
+  <div id="reports"></div>
+  <div id="studio-open"></div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

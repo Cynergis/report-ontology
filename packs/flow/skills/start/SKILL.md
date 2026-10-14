@@ -61,3 +61,7 @@ This skill comes with the `flow` pack. The ontology is inside the pack, so nothi
 - **Transition**: A directed edge from a step, taken on an outcome when its guard holds; may apply effects to run state.
 - **ArtifactField**: A named path inside a structured artifact (e.g. pages[].regions[].bbox).
 - **ConfigParameter**: A configuration value (threshold, limit, seed) owned by config, never by steps.
+
+## The views it ships
+
+- `progress`: `oto serve --http <port> --view progress`, or `oto build --target site --view progress`

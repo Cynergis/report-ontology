@@ -1,0 +1,41 @@
+{
+ "name": "reports",
+ "title": "The reports",
+ "place": "domain",
+ "summary": "Each report the product produces: its sections and fields, what each value means in each language and where it comes from, its rules, when it runs and where it goes, and its history.",
+ "shows": [
+  "ReportType",
+  "Section",
+  "Field",
+  "Parameter",
+  "Table",
+  "Column",
+  "DataSource",
+  "Rule",
+  "TemplateRelease"
+ ],
+ "open": [
+  "Q",
+  "RP"
+ ],
+ "entry": "index.html",
+ "engine": ">=0.11.25",
+ "data": [
+  {
+   "file": "data.js",
+   "format": "js-globals",
+   "globals": {
+    "__REPORTS__": {
+     "$include": "projections/reports.json"
+    }
+   }
+  }
+ ],
+ "requires": {
+  "classes": [
+   "ReportType",
+   "Section",
+   "Field"
+  ]
+ }
+}
