@@ -18,6 +18,14 @@ at `inception` or `saved`, and the catalogue answers the report ontology's quest
 The template is then built from the sample PDF with the `pdf-to-template` skill, and the flow runs
 it.
 
+## Talking with the person
+
+- **Plain, natural language, in the person's words.** Never say question numbers, ids, class or
+  field names, file names or commands, and never paste what a command printed.
+- **Technical details only when the person asks for them.** Never offer them, not even as a choice.
+- **The same clear shape every time:** say what we are about to do, ask a few questions at a time,
+  read back what you understood in plain sentences, confirm, then say what is next.
+
 ## The ontology decides what to ask
 
 Run the interview with OTO's **capture-form** skill: it reads the project's `capture.json`, asks
@@ -42,12 +50,12 @@ yourself, the column mapping and the report's status.
 
 ## The interview
 
-Offer a similar report's value as the default ("the balanced fund profile runs on the third
+Offer a similar report's value as the default ("the monthly statement goes out on the third
 business day; the same here?"). The report ontology asks, in this order:
 
 1. **What the report is** (the analyst, Q1, Q17): title, kind, purpose, audience, owner, locales,
    layout.
-2. **What identifies a document** (operations, Q2): the parameters (fund, series, as-of, language)
+2. **What identifies a document** (operations, Q2): the parameters (the customer or account, the period, the language)
    and where each one's allowed values come from at run time (`UniverseQuery`).
 3. **Where the data comes from** (the data team, Q5, Q4): the data source and the one table that
    holds every column of this report; which column carries each parameter.
@@ -64,7 +72,7 @@ From the sample PDF, draft the `Section`s and `Field`s (Q7, Q3):
 - One section per visual box, with its purpose and its order; the macro that renders it when the
   template exists.
 - One field per piece of information shown. The field id is the snake_case form of the English
-  label (`total_fund_assets`). **Before naming a field, look it up in Q20's list**: if another report
+  label (`total_amount_due`). **Before naming a field, look it up in Q20's list**: if another report
   already shows the same information, use its id, type and meaning, so the two reports are
   recognised as sharing it. Invent a new id only for information the catalogue does not have.
 - A `FieldMeaning` per language the report is offered in: the label the report prints and what the
@@ -97,8 +105,8 @@ What the report ontology's check tends to say:
 - **gap**: `question Q4 unanswered: … 12 fields have no column`, a field with no French meaning,
   a report that names no owner.
 
-Apply after each group, `--by` the analyst, and report the gate as "the catalogue answers N of M
-about this report; open: …".
+Apply after each group, `--by` the analyst, and tell the analyst in plain words what is now settled
+about this report and what is still open.
 
 ## The report's status
 

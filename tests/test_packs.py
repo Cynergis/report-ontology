@@ -71,3 +71,16 @@ def test_the_pack_embeds_the_units_maintained_here_and_the_engines_bases(pack):
         assert source and (mine.exists() or ontologies.origin(unit) == ontologies.BUILTIN), \
             "%s embeds %s, which neither this repository nor the engine holds" % (pack, unit)
         assert _same(str(embedded / unit), source), "packs/%s embeds an outdated %s: oto pack refresh packs/%s" % (pack, unit, pack)
+
+
+def test_every_pack_skill_talks_in_plain_language():
+    """Technical details are the record's: no skill talks in codes, ids or engine output, none offers
+    them, and the examples are a generic report's."""
+    for pack in PACKS:
+        for skill in sorted((ROOT / "packs" / pack / "skills").glob("*/SKILL.md")):
+            text = skill.read_text(encoding="utf-8")
+            assert text.count("## Talking with the person") == 1 and "Never offer them" in text, skill
+            assert "engine's words" not in text and "N of M" not in text, skill
+    for skill in ("new-report", "ask-reports"):
+        text = (ROOT / "packs" / "report" / "skills" / skill / "SKILL.md").read_text(encoding="utf-8").lower()
+        assert "fund" not in text, skill
