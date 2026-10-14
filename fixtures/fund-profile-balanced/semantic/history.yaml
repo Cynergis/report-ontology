@@ -54,7 +54,7 @@ revisions:
     manifest.json → schedule.run_on: business_day:3
     manifest.json → schedule.timezone: America/Toronto
     manifest.json → source_sha256:
-    - cacc2f7888f341aabc3d3140a645dd1a46ca00611f7348db099ac4f1f6ea2002
+    - 4c3dde0d4aa53b1e76b9489b5f7351ce87f537b1d4d80061491eba932afb3b11
     manifest.json → template_id: fund-profile-balanced
     manifest.json → verify.fidelity_min: 1.0
     manifest.json → verify.golden_static_ssim_min: 0.98

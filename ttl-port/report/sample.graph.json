@@ -2210,7 +2210,7 @@
         "ontologyVersion": "2.1.0",
         "libraryVersion": "0.1.0",
         "sha256": [
-          "cacc2f7888f341aabc3d3140a645dd1a46ca00611f7348db099ac4f1f6ea2002"
+          "4c3dde0d4aa53b1e76b9489b5f7351ce87f537b1d4d80061491eba932afb3b11"
         ],
         "fileHash": [
           "{}"
@@ -2682,7 +2682,7 @@
         "startedAt": "2026-10-02 15:10:00-04:00",
         "result": "draft",
         "step": [
-          "[{\"step\": \"B01_inspect\", \"tool\": \"scripts/inspect_pdf.py\", \"outputs\": [\"work/report.json\", \"work/page_0_img_0.png\"]}, {\"step\": \"B04_layout\", \"tool\": \"scripts/sample_colors.py\", \"outputs\": [\"work/palette.json\"], \"notes\": \"colors sampled per element\"}, {\"step\": \"B05_decompose\", \"executor\": \"claude\", \"prompt\": \"decompose.md@1.0.0\", \"outputs\": [\"work/blueprint.json\"], \"note\": \"performed interactively in this first run; cached output to be regenerated through the engine\"}, {\"step\": \"B08_generate\", \"executor\": \"claude\", \"prompt\": \"generate.md@1.0.0\", \"outputs\": [\"template/\"]}, {\"step\": \"B09_render\", \"tool\": \"scripts/render.py\", \"outputs\": [\"out/bluewater_A_en.pdf\"]}, {\"step\": \"B10_verify\", \"tool\": \"scripts/diff.py\", \"outputs\": [\"out/comparison.png\"], \"metrics\": {\"layout_ssim\": 0.44, \"overflow\": 0}}]"
+          "[{\"step\": \"B01_inspect\", \"tool\": \"scripts/inspect_pdf.py\", \"outputs\": [\"work/report.json\", \"work/page_0_img_0.png\"]}, {\"step\": \"B04_layout\", \"tool\": \"scripts/sample_colors.py\", \"outputs\": [\"work/palette.json\"], \"notes\": \"colors sampled per element\"}, {\"step\": \"B05_decompose\", \"executor\": \"claude\", \"prompt\": \"decompose.md@1.0.0\", \"outputs\": [\"work/blueprint.json\"], \"note\": \"performed interactively in this first run; cached output to be regenerated through the engine\"}, {\"step\": \"B08_generate\", \"executor\": \"claude\", \"prompt\": \"generate.md@1.0.0\", \"outputs\": [\"template/\"]}, {\"step\": \"B09_render\", \"tool\": \"scripts/render.py\", \"outputs\": [\"out/sample_A_en.pdf\"]}, {\"step\": \"B10_verify\", \"tool\": \"scripts/diff.py\", \"outputs\": [\"out/comparison.png\"], \"metrics\": {\"layout_ssim\": 0.44, \"overflow\": 0}}]"
         ]
       },
       "tags": [
@@ -3017,13 +3017,13 @@
     {
       "id": "report.fund-profile-balanced.source.src-001",
       "type": "SourceDocument",
-      "label": "Mackenzie Bluewater Canadian Growth Balanced Fund — Series A — Fund Profile",
+      "label": "Sample Canadian Balanced Fund — Series A — Fund Profile",
       "aliases": [],
       "summary": "",
       "attributes": {
-        "repoUrl": "https://github.com/<org>/report-sources/blob/main/fund-profile/MP2-Fund_Profile-230926-194524.pdf",
+        "repoUrl": "https://github.com/<org>/report-sources/blob/main/fund-profile/SYNTHETIC-balanced.pdf",
         "sha256": [
-          "cacc2f7888f341aabc3d3140a645dd1a46ca00611f7348db099ac4f1f6ea2002"
+          "4c3dde0d4aa53b1e76b9489b5f7351ce87f537b1d4d80061491eba932afb3b11"
         ],
         "role": "primary",
         "receivedOn": "2026-10-02",
