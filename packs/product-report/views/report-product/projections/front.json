@@ -1,0 +1,42 @@
+{
+ "product": {
+  "$first": {
+   "$nodes": "Product",
+   "$map": {
+    "id": "$id",
+    "name": "$label",
+    "summary": "$summary",
+    "vision": "$attr.vision",
+    "stage": "$attr.stage"
+   }
+  }
+ },
+ "reports": {
+  "$nodes": "ReportType",
+  "$sort": "label",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "summary": "$summary",
+   "purpose": "$attr.purpose",
+   "cadence": "$attr.cadence",
+   "locales": "$attr.locale",
+   "status": "$attr.lifecycleStatus",
+   "audience": "$attr.audience"
+  }
+ },
+ "people": {
+  "$nodes": "Persona",
+  "$where": {
+   "attr.relationship": {
+    "$ne": "excluded"
+   }
+  },
+  "$sort": "label",
+  "$map": {
+   "id": "$id",
+   "name": "$label",
+   "need": "$attr.need"
+  }
+ }
+}
